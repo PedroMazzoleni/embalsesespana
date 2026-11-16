@@ -29,7 +29,7 @@ Objetivo: saber si los datos públicos sostienen el proyecto antes de escribir l
 
 Objetivo: identidad propia antes de construir componentes.
 
-- [ ] Brief de diseño: público, tono editorial, referencias (secciones de datos de periódicos) [editorial]
+- [x] Brief de diseño: público, tono editorial, referencias (secciones de datos de periódicos) [editorial]
 - [ ] Explorar 3 direcciones con huashu-design y elegir una → ADR [jefe de proyecto]
 - [ ] Definir `tokens.css`: tipografías, escala tipográfica, espaciado, colores [frontend]
 - [ ] Diseñar la escala de color del agua (de vacío a lleno) accesible y comprobada en daltonismo [dataviz]
