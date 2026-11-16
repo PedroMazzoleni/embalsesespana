@@ -18,7 +18,7 @@ Objetivo: saber si los datos públicos sostienen el proyecto antes de escribir l
 - [ ] Obtener el GeoJSON de demarcaciones hidrográficas y simplificarlo con mapshaper [mapas]
 - [ ] Cargar todo en kepler.gl: comprobar coordenadas y probar a ojo columnas 3D y animación temporal [mapas]
 - [x] Revisar condiciones de reutilización y texto de atribución [editorial]
-- [ ] Decidir cobertura: ¿solo península o también Baleares y Canarias? → ADR [jefe de proyecto]
+- [x] Decidir cobertura: ¿solo península o también Baleares y Canarias? → ADR [jefe de proyecto]
 - [ ] Montar el git-scraping semanal del Excel (solo guardar `data/raw`, sin procesar todavía) [datos]
 
 **Criterio de salida:** ≥ 95 % de embalses del Excel emparejados con coordenadas; estructura del Excel documentada; scraping semanal funcionando.
@@ -96,3 +96,4 @@ Objetivo: lo que nadie más tiene.
 ## Registro de cambios del roadmap
 
 - 2026-11-16 — Versión inicial.
+- 2026-11-17 — Cobertura: solo península (ADR 0001). Licencias: código MIT, datos CC BY 4.0 (ADR 0002).
