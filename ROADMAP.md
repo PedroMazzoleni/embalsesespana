@@ -74,6 +74,7 @@ Objetivo: lo que nadie más tiene.
 
 - [ ] Máquina del tiempo v1 en 2D: deslizador semana a semana desde 1988 [mapas + dataviz]
 - [ ] Máquina del tiempo v2 con deck.gl: columnas de agua 3D animadas (con alternativa 2D) [mapas]
+- [ ] Vista técnica 3D de cada embalse con deck.gl (presa, vaso y nivel del agua), cargada de forma diferida, con alternativa 2D [mapas]
 - [ ] Primer explicador con scrollama: "¿Es grave la situación?" [editorial + frontend]
 - [ ] Explicadores siguientes: sequías históricas, de dónde viene el agua de tu ciudad [editorial]
 - [ ] Comparador de años y cuencas con DuckDB-WASM [dataviz]
@@ -97,4 +98,5 @@ Objetivo: lo que nadie más tiene.
 
 - 2026-11-16 — Versión inicial.
 - 2026-11-17 — Cobertura: solo península (ADR 0001). Licencias: código MIT, datos CC BY 4.0 (ADR 0002).
+- 2026-11-17 — Fase 1: las direcciones visuales siguen el método huashu-design (github.com/alchaincyf/huashu-design, MIT). Se descarta Godot (export web de decenas de MB, fuera del stack); la vista técnica 3D del embalse irá con deck.gl en la Fase 3.
 - 2026-11-17 — Fase 0 cerrada: 368 de 375 embalses de la última semana emparejados con coordenadas (98,13 %, `data/master/maestra-stats.json`), histórico documentado, scraping semanal funcionando. ADR 0003 (lector Access) y 0004 (CSV por año). Pendientes para la Fase 2: 7 embalses sin pareja (`data/master/sin-emparejar.csv`), diferencia de capacidad total frente a la prensa, criterio de comparación con la media cuando cambia el conjunto de embalses, revisar emparejamientos de confianza media/baja.
