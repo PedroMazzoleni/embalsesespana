@@ -1,0 +1,334 @@
+{
+  "generado": "2026-11-16T23:24:17.395Z",
+  "ficheros": [
+    {
+      "fichero": "egis_embalse_geoetrs89/egis_embalse_geoetrs89sinTitular.cpg",
+      "bytes": 5,
+      "sha256": "3ad3031f5503a4404af825262ee8232cc04d4ea6683d42c5dd0a2f2a27ac9824"
+    },
+    {
+      "fichero": "egis_embalse_geoetrs89/egis_embalse_geoetrs89sinTitular.dbf",
+      "bytes": 2219578,
+      "sha256": "99ad7e024e6bc70a5c0e050189ca8aa4de2b290d1f8518fcb26327e9ac9f3fb4"
+    },
+    {
+      "fichero": "egis_embalse_geoetrs89/egis_embalse_geoetrs89sinTitular.prj",
+      "bytes": 404,
+      "sha256": "03329a8b83248ce6963187291d05a46dfd70b28854fccb01c3fcabd2a28fdcce"
+    },
+    {
+      "fichero": "egis_embalse_geoetrs89/egis_embalse_geoetrs89sinTitular.qmd",
+      "bytes": 651,
+      "sha256": "bec2f651ecd449e8f40fd2a4ffcee854685f145dc460909e57e5322b7d13cbd4"
+    },
+    {
+      "fichero": "egis_embalse_geoetrs89/egis_embalse_geoetrs89sinTitular.shp",
+      "bytes": 21694440,
+      "sha256": "bcb56766d8c947c4351e7ea59f576842b979b1eadec0c245a1e057dacff0d251"
+    },
+    {
+      "fichero": "egis_embalse_geoetrs89/egis_embalse_geoetrs89sinTitular.shx",
+      "bytes": 25460,
+      "sha256": "c7bb25f4aa7619494e0d9009ea933bc91587d2c96060d8686d43c08175466807"
+    },
+    {
+      "fichero": "egis_presa_geoetrs89/egis_presa_geoetrs89sinTitular.cpg",
+      "bytes": 5,
+      "sha256": "3ad3031f5503a4404af825262ee8232cc04d4ea6683d42c5dd0a2f2a27ac9824"
+    },
+    {
+      "fichero": "egis_presa_geoetrs89/egis_presa_geoetrs89sinTitular.dbf",
+      "bytes": 4347578,
+      "sha256": "3aa9b893a0a81a1d7a0dfb8dc438795348a049d79a92bd4f481c06da80a166be"
+    },
+    {
+      "fichero": "egis_presa_geoetrs89/egis_presa_geoetrs89sinTitular.prj",
+      "bytes": 404,
+      "sha256": "03329a8b83248ce6963187291d05a46dfd70b28854fccb01c3fcabd2a28fdcce"
+    },
+    {
+      "fichero": "egis_presa_geoetrs89/egis_presa_geoetrs89sinTitular.qmd",
+      "bytes": 651,
+      "sha256": "bec2f651ecd449e8f40fd2a4ffcee854685f145dc460909e57e5322b7d13cbd4"
+    },
+    {
+      "fichero": "egis_presa_geoetrs89/egis_presa_geoetrs89sinTitular.shp",
+      "bytes": 89924,
+      "sha256": "3f9a1f53643638ded5eb06e1fb6e2d250431e460ac4466237a3f0e66ede5b366"
+    },
+    {
+      "fichero": "egis_presa_geoetrs89/egis_presa_geoetrs89sinTitular.shx",
+      "bytes": 25764,
+      "sha256": "4def43a9382d70af8491085149cf17af2b9f0d7d928c2f7c3b56151121d41eeb"
+    }
+  ],
+  "capas": [
+    {
+      "capa": "egis_presa_geoetrs89 :: egis_presa_geoetrs89sinTitular",
+      "registros": 3208,
+      "crs": "UTM huso 30N, D_ETRS_1989 → WGS84",
+      "codificacion": "utf-8"
+    },
+    {
+      "capa": "egis_embalse_geoetrs89 :: egis_embalse_geoetrs89sinTitular",
+      "registros": 3170,
+      "crs": "UTM huso 30N, D_ETRS_1989 → WGS84",
+      "codificacion": "utf-8"
+    }
+  ],
+  "campos_presas": [
+    {
+      "capa": "egis_presa_geoetrs89 :: egis_presa_geoetrs89sinTitular",
+      "codigo_presa": "CODIGO",
+      "nombre_presa": "NOMBRE",
+      "nombre_embalse": null,
+      "tipo": "TIPO",
+      "rio": "CAUCE",
+      "demarcacion": "DEMARC",
+      "cuenca": null,
+      "provincia": "PROVINCIA",
+      "municipio": null,
+      "capacidad": "NMN_CAPAC",
+      "uso": "USO",
+      "titular": "USUARIOS",
+      "anio": null,
+      "foto": null,
+      "ficha": "INFORME",
+      "fase": "FASE",
+      "categoria": "CATEGORIA",
+      "ccaa": "CCAA"
+    }
+  ],
+  "enlace_embalses": [
+    {
+      "capa": "egis_embalse_geoetrs89 :: egis_embalse_geoetrs89sinTitular",
+      "campo_enlace": "espacial (distancia <= 300 m)",
+      "solape": 1,
+      "campos": {
+        "codigo_presa": null,
+        "codigo_embalse": "CODIGO",
+        "nombre_embalse": "NOMBRE",
+        "capacidad": "NMN_CAPAC",
+        "demarcacion": "DEMARC",
+        "provincia": "PROVINCIA",
+        "uso": "USO",
+        "tipo_embalse": "TIPO_EMBAL"
+      }
+    }
+  ],
+  "capacidad_factor_a_hm3": 1,
+  "totales": {
+    "filas_csv": 3373,
+    "presas": 3208,
+    "poligonos_embalse": 3170,
+    "presas_con_coordenadas": 3208,
+    "presas_con_coordenadas_de_presa": 3208,
+    "presas_con_capacidad": 2809,
+    "presas_con_capacidad_mayor_5hm3": 688,
+    "presas_con_foto": 0,
+    "presas_con_foto_url": 0,
+    "presas_con_ficha": 3208,
+    "presas_con_poligono": 3176,
+    "presas_con_poligono_propio": 3005,
+    "presas_con_nombre_embalse": 3005,
+    "presas_con_uso": 2641,
+    "presas_con_titular": 917,
+    "presas_con_anio": 0,
+    "presas_con_anio_no_interpretable": 0
+  },
+  "capacidad_hm3": {
+    "min": 0.001,
+    "mediana": 0.436,
+    "max": 3219
+  },
+  "por_territorio": {
+    "peninsula": 3046,
+    "canarias": 153,
+    "baleares": 6,
+    "ceuta": 2,
+    "melilla": 1
+  },
+  "por_territorio_capacidad_mayor_5hm3": {
+    "peninsula": 682,
+    "canarias": 4,
+    "baleares": 2
+  },
+  "por_tipo": {
+    "Presa de fábrica de gravedad (hormigón vibrado)": 975,
+    "Presa de materiales sueltos homogénea": 904,
+    "(vacío)": 277,
+    "Presa de materiales sueltos zonificada o de núcleo": 250,
+    "Presa de fábrica de mampostería": 202,
+    "Presa de materiales sueltos de pantalla de material sintético": 183,
+    "Presa de materiales sueltos de pantalla de hormigón": 83,
+    "Presa de fábrica de bóveda": 72,
+    "Presa de fábrica de gravedad (hormigón compactado)": 55,
+    "Presa de fábrica de arco-gravedad": 48,
+    "Presa de materiales sueltos de pantalla asfáltica": 48,
+    "Presa mixta": 43,
+    "Presa de fábrica de contrafuertes": 35,
+    "Presa de materiales sueltos de pantalla de mampostería": 19,
+    "Presa móvil o hinchable": 7,
+    "Presa de fábrica de bóvedas múltiples": 4,
+    "Presa de fábrica de gaviones": 3
+  },
+  "por_demarcacion": {
+    "EBRO": 535,
+    "GUADALQUIVIR": 495,
+    "TAJO": 432,
+    "GUADIANA": 341,
+    "DUERO": 290,
+    "JUCAR": 239,
+    "SEGURA": 118,
+    "CUENCAS MEDITERRANEAS ANDALUZAS": 111,
+    "MIÑO-SIL": 105,
+    "GUADALETE Y BARBATE": 86,
+    "CANTABRICO ORIENTAL": 77,
+    "GRAN CANARIA": 75,
+    "TINTO, ODIEL Y PIEDRAS": 73,
+    "CANTABRICO OCCIDENTAL": 64,
+    "TENERIFE": 42,
+    "GALICIA-COSTA": 41,
+    "CUENCAS INTERNAS DE CATALUÑA": 39,
+    "LA GOMERA": 23,
+    "LA PALMA": 9,
+    "ISLAS BALEARES": 6,
+    "CEUTA": 2,
+    "FUERTEVENTURA": 2,
+    "MELILLA": 1,
+    "LANZAROTE": 1,
+    "EL HIERRO": 1
+  },
+  "por_demarcacion_capacidad_mayor_5hm3": {
+    "EBRO": 130,
+    "DUERO": 89,
+    "TAJO": 89,
+    "GUADALQUIVIR": 89,
+    "GUADIANA": 70,
+    "MIÑO-SIL": 41,
+    "JUCAR": 33,
+    "SEGURA": 32,
+    "CUENCAS MEDITERRANEAS ANDALUZAS": 21,
+    "TINTO, ODIEL Y PIEDRAS": 17,
+    "CUENCAS INTERNAS DE CATALUÑA": 17,
+    "GALICIA-COSTA": 16,
+    "CANTABRICO OCCIDENTAL": 15,
+    "GUADALETE Y BARBATE": 14,
+    "CANTABRICO ORIENTAL": 9,
+    "ISLAS BALEARES": 2,
+    "GRAN CANARIA": 2,
+    "LA PALMA": 2
+  },
+  "por_fase": {
+    "Explotación": 1910,
+    "(vacío)": 646,
+    "Proyecto": 491,
+    "Puesta en carga": 39,
+    "Proyecto abandonado": 39,
+    "Fuera de servicio": 30,
+    "Construcción": 26,
+    "Inundada": 20,
+    "Recrecida (fuera de servicio)": 4,
+    "Aterrada": 3
+  },
+  "por_ccaa": {
+    "Andalucía": 819,
+    "Castilla y León": 401,
+    "Extremadura": 361,
+    "Castilla - La Mancha": 277,
+    "Aragón": 239,
+    "Comunitat Valenciana": 221,
+    "Cataluña": 177,
+    "Canarias": 153,
+    "Galicia": 117,
+    "País Vasco": 101,
+    "Región de Murcia": 85,
+    "Comunidad de Madrid": 70,
+    "Comunidad Foral de Navarra": 62,
+    "La Rioja": 53,
+    "Principado de Asturias": 37,
+    "Cantabria": 23,
+    "(vacío)": 9,
+    "Ceuta": 2,
+    "Melilla": 1
+  },
+  "puntos_de_embalse": {
+    "centroide": 2928,
+    "punto_interior": 413
+  },
+  "usos_top20": {
+    "Abastecimiento": 2079,
+    "(vacío)": 567,
+    "Abastecimiento | Defensa frente avenidas": 341,
+    "Abastecimiento | Ganadero | Defensa frente avenidas": 119,
+    "Abastecimiento | Hidroeléctrico | Ganadero | Defensa frente avenidas": 32,
+    "Hidroeléctrico": 24,
+    "Riego": 16,
+    "Abastecimiento | Minería | Industrial | Hidroeléctrico | Ganadero | Defensa frente avenidas": 5,
+    "Hidroeléctrico | Defensa frente avenidas": 5,
+    "Ganadero": 2,
+    "Adecuación ambiental": 2,
+    "Industrial": 2,
+    "Abastecimiento | Industrial | Hidroeléctrico | Ganadero | Defensa frente avenidas": 2,
+    "Hidroeléctrico | Ganadero | Defensa frente avenidas": 2,
+    "Abastecimiento | Defensa frente avenidas | Hidroeléctrico": 2,
+    "Abastecimiento | Hidroeléctrico": 1,
+    "Hidroeléctrico | Abastecimiento": 1,
+    "Defensa frente avenidas | Hidroeléctrico": 1,
+    "Abastecimiento | Hidroeléctrico | Riego | Defensa frente avenidas": 1,
+    "Abastecimiento | Riego | Defensa frente avenidas": 1
+  },
+  "rarezas": {
+    "capacidades_descartadas_por_absurdas": 19,
+    "capacidades_descartadas_ejemplos": [
+      "14150015 RIBEIRA, LA: 32800000000",
+      "1330018 SUARNA: 12933000000",
+      "9250077 CERTESCANS: 16370000000",
+      "9250079 CERTESCANS: 16370000000",
+      "9250006 TERRADETS: 33191000000",
+      "9500005 TRAPA, LA: 10230000000",
+      "8440006 ALCAMINES, LOS: 16350000000",
+      "12350020 HOYAS, LAS: 10130000000",
+      "9500036 MONEVA: 8029999999.999999",
+      "5140083 PATAMULO: 20950000000",
+      "7300029 PUERTO DEL GARRUCHAL: 41400000000",
+      "4130070 REZNOS, LOS: 32370000000",
+      "9260015 SOTO TERROBA: 8136000000",
+      "2370001 BAJO HUEBRA: 8300000000",
+      "1330020 TRASONA: 41000000000",
+      "12350032 CAIDERO DE LA NIÑA: 20299999999.999996",
+      "12350025 CHIRA: 40300000000",
+      "9220100 FITAS, LAS: 8085000000",
+      "1330012 ALFILORIOS, LOS: 8156000000"
+    ],
+    "codigos_presa_vacios": 0,
+    "codigos_presa_duplicados": 0,
+    "codigos_presa_duplicados_ejemplos": [],
+    "presas_sin_poligono_embalse": 203,
+    "presas_con_varios_poligonos": 0,
+    "presas_con_varios_poligonos_ejemplos": [],
+    "poligonos_embalse_sin_presa": 165,
+    "nombre_presa_distinto_de_embalse": 1210,
+    "nombres_presa_repetidos": 313,
+    "nombres_presa_repetidos_ejemplos": [
+      "estany gento: 3267, 9250065",
+      "aves canal: 3280, 3281",
+      "quebradas: 3285, 8030085",
+      "irabia: 3291, 9310034",
+      "losar vera: 3296, 3100121",
+      "valles navalmedio: 3299, 3317",
+      "rozuelas: 3301, 4140008",
+      "ramblilla: 3304, 5410253",
+      "garza: 3308, 4060006",
+      "buendia: 3314, 3190007",
+      "castillejo: 3322, 2370020",
+      "barcena: 1000001, 1240001, 1240003, 1240004, 1240011, 1240012, 1240024",
+      "lareo: 1200001, 1200009",
+      "santa elena: 1240005, 9220115",
+      "campanana: 1240009, 1240016, 1240018"
+    ],
+    "nombres_con_variantes_entre_parentesis_o_barra": 1175,
+    "coordenadas_fuera_de_espana": [],
+    "territorio_no_cuadra_con_provincia": []
+  }
+}

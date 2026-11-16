@@ -1,0 +1,173 @@
+{
+  "generado": "2026-11-16T23:32:31.291Z",
+  "fuente_historico": {
+    "filas": 724967,
+    "embalses_distintos": 402,
+    "ultima_fecha": "2026-11-10",
+    "embalses_en_ultima_fecha": 375
+  },
+  "inventario": {
+    "registros_leidos": 3373,
+    "peninsulares_usados": 3205,
+    "descartados_no_peninsulares": 168
+  },
+  "emparejados": {
+    "sobre_ultima_fecha": {
+      "total": 375,
+      "emparejados": 368,
+      "con_coordenadas": 368,
+      "pct_emparejados": 98.13,
+      "pct_con_coordenadas": 98.13
+    },
+    "sobre_historico": {
+      "total": 402,
+      "emparejados": 389,
+      "con_coordenadas": 389,
+      "pct_emparejados": 96.77,
+      "pct_con_coordenadas": 96.77
+    }
+  },
+  "por_metodo": {
+    "automático": 378,
+    "manual": 11
+  },
+  "por_metodo_detalle": {
+    "nombre_sin_articulos+demarcacion": 5,
+    "nombre_parcial+capacidad+demarcacion": 21,
+    "nombre_exacto+capacidad+demarcacion": 303,
+    "nombre_exacto+demarcacion": 17,
+    "nombre_sin_articulos+capacidad+demarcacion": 20,
+    "manual": 11,
+    "poligono:nombre_exacto+capacidad+demarcacion": 6,
+    "nombre_aproximado+capacidad+demarcacion": 5,
+    "nombre_parcial+demarcacion": 1
+  },
+  "por_confianza_ultima_fecha": {
+    "baja": 14,
+    "media": 40,
+    "alta": 314
+  },
+  "por_confianza_historico": {
+    "baja": 14,
+    "media": 46,
+    "alta": 329
+  },
+  "manuales_aplicados": 11,
+  "manuales_sin_pareja_documentados": 13,
+  "registros_inventario_usados_por_mas_de_un_embalse": [],
+  "validacion_geo": {
+    "ultima_fecha": {
+      "ok": 366,
+      "borde": 2
+    },
+    "historico": {
+      "ok": 387,
+      "borde": 2
+    },
+    "ok_o_borde_pct_ultima": 100
+  },
+  "capacidad": {
+    "ultima_fecha": {
+      "desconocida": 8,
+      "ok": 343,
+      "cercana": 16,
+      "distinta": 1
+    },
+    "historico": {
+      "desconocida": 8,
+      "ok": 362,
+      "cercana": 18,
+      "distinta": 1
+    }
+  },
+  "por_demarcacion_ultima_fecha": {
+    "Cantábrico Occidental": {
+      "embalses": 9,
+      "emparejados": 9
+    },
+    "Cantábrico Oriental": {
+      "embalses": 6,
+      "emparejados": 6
+    },
+    "Cuencas Internas de Cataluña": {
+      "embalses": 7,
+      "emparejados": 7
+    },
+    "Cuencas Mediterráneas Andaluzas": {
+      "embalses": 12,
+      "emparejados": 12
+    },
+    "Duero": {
+      "embalses": 35,
+      "emparejados": 35
+    },
+    "Ebro": {
+      "embalses": 76,
+      "emparejados": 69
+    },
+    "Galicia-Costa": {
+      "embalses": 11,
+      "emparejados": 11
+    },
+    "Guadalete y Barbate": {
+      "embalses": 8,
+      "emparejados": 8
+    },
+    "Guadalquivir": {
+      "embalses": 47,
+      "emparejados": 47
+    },
+    "Guadiana": {
+      "embalses": 39,
+      "emparejados": 39
+    },
+    "Júcar": {
+      "embalses": 23,
+      "emparejados": 23
+    },
+    "Miño-Sil": {
+      "embalses": 29,
+      "emparejados": 29
+    },
+    "Segura": {
+      "embalses": 15,
+      "emparejados": 15
+    },
+    "Tajo": {
+      "embalses": 51,
+      "emparejados": 51
+    },
+    "Tinto, Odiel y Piedras": {
+      "embalses": 7,
+      "emparejados": 7
+    }
+  },
+  "sin_emparejar": {
+    "ultima_fecha": [
+      "Santolea",
+      "Sistema Aguas Limpias",
+      "Sistema Alto Caldarés",
+      "Sistema Capdella",
+      "Sistema Escarra",
+      "Sistema Lagos Espot",
+      "Sistema Valle de Arán"
+    ],
+    "historico": [
+      "Somiedo (Lagos)",
+      "Bramatuero Alto",
+      "Saburo (Lago)",
+      "Santolea",
+      "Sistema Aguas Limpias",
+      "Sistema Alto Caldarés",
+      "Sistema Capdella",
+      "Sistema Escarra",
+      "Sistema Lagos Espot",
+      "Sistema Valle de Arán",
+      "Carpio, El",
+      "Hornachuelos",
+      "Marmolejo"
+    ]
+  },
+  "capacidad_total_miteco_ultima_hm3": 56049,
+  "capacidad_emparejada_ultima_hm3": 55921
+}

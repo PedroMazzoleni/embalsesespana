@@ -1,0 +1,25 @@
+nombre_miteco,codigo_inventario,motivo,confianza
+"Agavanzal, Nª Sª de",2490019,"Nuestra Señora del Agavanzal; rio Tera, Zamora, Duero; capacidad 36 vs 35.9",alta
+Ip,9220067,"Ibon de Ip; Ebro, Huesca, hidroelectrico; capacidad 5 vs 5",alta
+Riocobo,14270002,"Probable errata del MITECO por Rio Covo (Lugo, Galicia-Costa); capacidad 6 vs 5.68",media
+San. Estevo,1320029,"San Esteban (Sil, Ourense, Miño-Sil); capacidad 213 vs 213.2",alta
+Olivargas,4210017,"Presa de Sotiel en la rivera de Olivargas (Tinto-Odiel); capacidad 29 vs 28",media
+Sta Uxia,14150009,"Uxia es Eugenia en gallego: Santa Eugenia, rio Xallas, Galicia-Costa; capacidad 18 vs 13.6",media
+La Cabezuela,4130005,"La Cabezuela es Marisanchez (rio Jabalon, Valdepeñas); capacidad 43 vs 42.84; fuente iagua.es/data/infraestructuras/embalses/marisanchez-cabezuela",media
+Contreras,8460021,"Mismo nombre y rio Cabriel; el MITECO usa 361 hm3 y el inventario 852.4 (posible limitacion de explotacion, no verificado)",media
+Guadalhorce-Guadalteba,6290026,"Sistema de dos presas contiguas: Guadalteba 153 + Guadalhorce 126 = 279; se usa Guadalteba",media
+Caspe,9500023,"Caspe II; capacidad 82 vs 81.52",alta
+Terroba,9260015,"Soto Terroba, rio Leza (La Rioja); inventario sin capacidad y en fase Construccion",baja
+Sistema Aguas Limpias,,"Agregado pirenaico de varios lagos/embalses sin equivalente unico en el inventario (Fase 2)",
+Sistema Alto Caldarés,,"Agregado pirenaico sin equivalente unico en el inventario (Fase 2)",
+Sistema Capdella,,"Agregado pirenaico sin equivalente unico en el inventario (Fase 2)",
+Sistema Escarra,,"Agregado; candidato ESCARRA 9220061 (5.16 hm3) ya usado por la serie historica Escarra; decidir en Fase 2",
+Sistema Lagos Espot,,"Agregado pirenaico sin equivalente unico en el inventario (Fase 2)",
+Sistema Valle de Arán,,"Agregado pirenaico sin equivalente unico en el inventario (Fase 2)",
+Santolea,,"El MITECO parte Santolea en tres series (Santolea 5, Puente 18, Cañon 82); el inventario tiene 9440009/9440010 con 48 y 93.7 hm3; decidir en Fase 2",
+Somiedo (Lagos),,"Agregado de lagos (6 hm3 en MITECO vs 0.019 en inventario); serie terminada en 2017",
+Bramatuero Alto,,"Lago retirado en 2006; el inventario da 0.34 hm3 frente a 5 del MITECO; revisar en Fase 2",
+Saburo (Lago),,"Lago retirado en 2006; el inventario da 2.55 hm3 frente a 11; revisar en Fase 2",
+"Carpio, El",,"Serie terminada en 2012; mismo nombre pero capacidad 18 vs 7.5; revisar en Fase 2",
+Hornachuelos,,"Serie terminada en 2012; sin candidato con nombre parecido",
+Marmolejo,,"Serie terminada en 2012; mismo nombre pero capacidad 10 vs 4.08 (azud); revisar en Fase 2",
