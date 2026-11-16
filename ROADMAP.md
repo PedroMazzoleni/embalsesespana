@@ -19,7 +19,7 @@ Objetivo: saber si los datos públicos sostienen el proyecto antes de escribir l
 - [ ] Cargar todo en kepler.gl: comprobar coordenadas y probar a ojo columnas 3D y animación temporal [mapas]
 - [x] Revisar condiciones de reutilización y texto de atribución [editorial]
 - [x] Decidir cobertura: ¿solo península o también Baleares y Canarias? → ADR [jefe de proyecto]
-- [ ] Montar el git-scraping semanal del Excel (solo guardar `data/raw`, sin procesar todavía) [datos]
+- [x] Montar el git-scraping semanal del Excel (solo guardar `data/raw`, sin procesar todavía) [datos]
 
 **Criterio de salida:** ≥ 95 % de embalses del Excel emparejados con coordenadas; estructura del Excel documentada; scraping semanal funcionando.
 
