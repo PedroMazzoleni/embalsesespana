@@ -17,7 +17,7 @@ Objetivo: saber si los datos públicos sostienen el proyecto antes de escribir l
 - [ ] Construir la tabla maestra cruzando ambas fuentes; medir % de embalses emparejados [datos]
 - [ ] Obtener el GeoJSON de demarcaciones hidrográficas y simplificarlo con mapshaper [mapas]
 - [ ] Cargar todo en kepler.gl: comprobar coordenadas y probar a ojo columnas 3D y animación temporal [mapas]
-- [ ] Revisar condiciones de reutilización y texto de atribución [editorial]
+- [x] Revisar condiciones de reutilización y texto de atribución [editorial]
 - [ ] Decidir cobertura: ¿solo península o también Baleares y Canarias? → ADR [jefe de proyecto]
 - [ ] Montar el git-scraping semanal del Excel (solo guardar `data/raw`, sin procesar todavía) [datos]
 
