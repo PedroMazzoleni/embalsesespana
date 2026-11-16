@@ -15,7 +15,7 @@ Objetivo: saber si los datos públicos sostienen el proyecto antes de escribir l
 - [x] Confirmar qué día y a qué hora publica el MITECO el boletín semanal [datos]
 - [ ] Descargar el Inventario de Presas y Embalses y extraer coordenadas, capacidad, uso y fotos [datos]
 - [ ] Construir la tabla maestra cruzando ambas fuentes; medir % de embalses emparejados [datos]
-- [ ] Obtener el GeoJSON de demarcaciones hidrográficas y simplificarlo con mapshaper [mapas]
+- [x] Obtener el GeoJSON de demarcaciones hidrográficas y simplificarlo con mapshaper [mapas]
 - [ ] Cargar todo en kepler.gl: comprobar coordenadas y probar a ojo columnas 3D y animación temporal [mapas]
 - [x] Revisar condiciones de reutilización y texto de atribución [editorial]
 - [x] Decidir cobertura: ¿solo península o también Baleares y Canarias? → ADR [jefe de proyecto]

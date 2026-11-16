@@ -1,0 +1,10 @@
+{
+  "url": "https://gis.miteco.gob.es/geoserver/agua/wfs?service=WFS&version=1.0.0&request=GetFeature&typeName=agua:Demarcaciones_ET&outputFormat=SHAPE-ZIP",
+  "file": "demarcaciones_et_wfs-shape.zip",
+  "bytes": 26626135,
+  "sha256": "c52fe8a2c01180075e298b8613bb893ef80ddb0a9cab60d42ecf329b4d73deec",
+  "downloadedAt": "2026-11-16T22:55:00Z",
+  "metadata": "https://catalogo.datosabiertos.miteco.gob.es/csw?SERVICE=CSW&VERSION=2.0.2&REQUEST=GetRecordById&outputSchema=http://www.isotc211.org/2005/gmd&ElementSetName=full&ID=ea8ca652-1e55-4ac1-b4de-433d39c84304",
+  "license": "https://creativecommons.org/licenses/by/4.0/",
+  "version_id": null
+}

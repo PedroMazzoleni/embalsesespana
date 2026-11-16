@@ -1,0 +1,13 @@
+{
+  "url": "https://gis.miteco.gob.es/geoserver/agua/wfs?service=WFS&version=1.0.0&request=GetFeature&typeName=agua:demarhidro_2027&outputFormat=SHAPE-ZIP",
+  "file": "demarhidro_2027_wfs-shape.zip",
+  "bytes": 19572405,
+  "sha256": "4497b679790d9a7aff7390ab90754fd69bf9b2c6564cf11ac2e35422a84ed5ba",
+  "downloadedAt": "2026-11-16T22:55:00Z",
+  "metadata": "https://catalogo.datosabiertos.miteco.gob.es/csw?SERVICE=CSW&VERSION=2.0.2&REQUEST=GetRecordById&outputSchema=http://www.isotc211.org/2005/gmd&ElementSetName=full&ID=5a58c83b-345a-44c0-81fe-7459947620cb",
+  "license": "https://creativecommons.org/licenses/by/4.0/",
+  "version_id": [
+    "2023-02-07",
+    "2023-03-01"
+  ]
+}
