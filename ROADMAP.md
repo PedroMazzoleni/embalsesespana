@@ -1,0 +1,98 @@
+# Roadmap — Embalses de España
+
+Proyecto de una sola persona. Las duraciones son orientativas (dedicación a tiempo parcial) y se revisan al cerrar cada fase.
+Cada tarea indica el agente responsable entre corchetes.
+
+**Fase actual: 0**
+
+---
+
+## Fase 0 — ¿Aguantan los datos? (≈ 1–2 semanas)
+
+Objetivo: saber si los datos públicos sostienen el proyecto antes de escribir la web.
+
+- [ ] Descargar el Excel histórico de embalses del MITECO y documentar su estructura (hojas, columnas, unidades, rarezas) en `docs/contrato-datos.md` [datos]
+- [ ] Confirmar qué día y a qué hora publica el MITECO el boletín semanal [datos]
+- [ ] Descargar el Inventario de Presas y Embalses y extraer coordenadas, capacidad, uso y fotos [datos]
+- [ ] Construir la tabla maestra cruzando ambas fuentes; medir % de embalses emparejados [datos]
+- [ ] Obtener el GeoJSON de demarcaciones hidrográficas y simplificarlo con mapshaper [mapas]
+- [ ] Cargar todo en kepler.gl: comprobar coordenadas y probar a ojo columnas 3D y animación temporal [mapas]
+- [ ] Revisar condiciones de reutilización y texto de atribución [editorial]
+- [ ] Decidir cobertura: ¿solo península o también Baleares y Canarias? → ADR [jefe de proyecto]
+- [ ] Montar el git-scraping semanal del Excel (solo guardar `data/raw`, sin procesar todavía) [datos]
+
+**Criterio de salida:** ≥ 95 % de embalses del Excel emparejados con coordenadas; estructura del Excel documentada; scraping semanal funcionando.
+
+---
+
+## Fase 1 — Dirección visual (≈ 1–2 semanas)
+
+Objetivo: identidad propia antes de construir componentes.
+
+- [ ] Brief de diseño: público, tono editorial, referencias (secciones de datos de periódicos) [editorial]
+- [ ] Explorar 3 direcciones con huashu-design y elegir una → ADR [jefe de proyecto]
+- [ ] Definir `tokens.css`: tipografías, escala tipográfica, espaciado, colores [frontend]
+- [ ] Diseñar la escala de color del agua (de vacío a lleno) accesible y comprobada en daltonismo [dataviz]
+- [ ] Maquetas móvil y escritorio de: portada, mapa, ficha de embalse [frontend]
+- [ ] Revisión de contraste y legibilidad de las maquetas [qa]
+
+**Criterio de salida:** tokens cerrados y maquetas aprobadas de las 3 pantallas del MVP.
+
+---
+
+## Fase 2 — MVP publicado (≈ 3–5 semanas)
+
+Objetivo: primera versión en internet con datos reales que se actualizan solos.
+
+### Cimientos
+- [ ] Monorepo pnpm con `schema`, `pipeline`, `web` [datos]
+- [ ] Contrato Zod: `embalses`, `series`, `resumen`, `historico` [datos]
+- [ ] Pipeline completo: fetch → clean → validate → export, con tests sobre un Excel de muestra [datos]
+- [ ] Workflow semanal: si falla la validación, no despliega y abre una incidencia [datos]
+- [ ] Deploy en Cloudflare Pages + dominio [frontend]
+
+### Páginas
+- [ ] Layout base, tipografía, cabecera, pie con atribución [frontend]
+- [ ] Portada: % de reserva, variación semanal, comparación con media de 10 años, frase "¿es grave?" [frontend + editorial]
+- [ ] Mapa 2D: demarcaciones coloreadas + puntos de embalses; clic → cuenca → embalse [mapas]
+- [ ] Ficha de embalse (una página estática por embalse, con SEO): datos, foto, serie histórica [frontend + dataviz]
+- [ ] Gráfico de serie histórica con año actual vs. media vs. años secos [dataviz]
+- [ ] Página de cuenca [frontend]
+- [ ] Alternativas accesibles (tablas) para mapa y gráficos [frontend]
+
+### Calidad
+- [ ] Playwright: pruebas básicas de las páginas principales [qa]
+- [ ] Lighthouse CI en cada cambio con los presupuestos del CLAUDE.md [qa]
+
+**Criterio de salida:** web pública, actualizada automáticamente una semana tras otra sin intervención manual.
+
+---
+
+## Fase 3 — Diferenciación (≈ 4–6 semanas)
+
+Objetivo: lo que nadie más tiene.
+
+- [ ] Máquina del tiempo v1 en 2D: deslizador semana a semana desde 1988 [mapas + dataviz]
+- [ ] Máquina del tiempo v2 con deck.gl: columnas de agua 3D animadas (con alternativa 2D) [mapas]
+- [ ] Primer explicador con scrollama: "¿Es grave la situación?" [editorial + frontend]
+- [ ] Explicadores siguientes: sequías históricas, de dónde viene el agua de tu ciudad [editorial]
+- [ ] Comparador de años y cuencas con DuckDB-WASM [dataviz]
+- [ ] (Idea) Red de trasvases con react-force-graph — requiere buscar fuente de datos [datos]
+
+**Criterio de salida:** máquina del tiempo publicada y al menos 2 explicadores.
+
+---
+
+## Fase 4 — Lanzamiento y crecimiento (continuo)
+
+- [ ] Imágenes para compartir en redes generadas por embalse y por semana [frontend]
+- [ ] SEO: sitemap, datos estructurados, títulos por embalse [frontend]
+- [ ] Analítica respetuosa con la privacidad (Cloudflare Web Analytics) [frontend]
+- [ ] Difusión: periodistas de datos, comunidades de datos abiertos, datos.gob.es (catálogo de aplicaciones) [jefe de proyecto]
+- [ ] Ideas futuras: alertas por embalse, datos diarios de los SAIH, newsletter semanal
+
+---
+
+## Registro de cambios del roadmap
+
+- 2026-11-16 — Versión inicial.
