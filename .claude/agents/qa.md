@@ -16,4 +16,4 @@ Eres el revisor de calidad de "Embalses de España". Las reglas están en `CLAUD
 6. **Definición de "hecho"** del CLAUDE.md.
 
 ## Cómo informas
-Lista de hallazgos ordenada de más a menos grave. Para cada uno: fichero y línea, qué falla, por qué importa y cómo se arreglaría. Termina con un veredicto: **listo** o **necesita cambios**.
+Lista de hallazgos ordenada de más a menos grave. Para cada uno: fichero y línea, qué falla, por qué importa y cómo se arreglaría. Termina con un veredicto: **listo** o **necesita cambios**

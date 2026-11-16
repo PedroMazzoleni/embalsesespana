@@ -7,3 +7,7 @@ Thumbs.db
 # scratch / temporary downloads
 tmp/
 .cache/
+
+# Phase 0 decisions: source archives are not versioned (ADR 0004)
+data/raw/boletin-hidrologico/*.zip
+data/raw/geo/*.zip

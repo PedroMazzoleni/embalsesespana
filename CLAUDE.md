@@ -23,7 +23,7 @@ No competimos en cantidad de datos (embalses.es ya tiene 449 embalses en tiempo 
 | Web | Astro (estático) + islas React solo donde haya interactividad |
 | Estilos | CSS nativo + tokens en `packages/web/src/styles/tokens.css`. **Prohibido Tailwind** y librerías de componentes con estética propia |
 | Contrato de datos | Zod en `packages/schema`, compartido por pipeline y web |
-| Excel | SheetJS (instalado desde su CDN oficial) o ExcelJS |
+| Fuente MITECO (Access .mdb en ZIP) | mdb-reader + fflate (ADR 0003) |
 | Transformación | Arquero o funciones propias |
 | Parquet | DuckDB para Node |
 | Mapa | MapLibre GL + PMTiles; deck.gl solo en fase 3 |
@@ -48,7 +48,7 @@ embalses/
 │     ├─ src/styles/      tokens.css, base.css
 │     └─ public/data/     SALIDA DEL PIPELINE — nunca editar a mano
 ├─ data/
-│  ├─ raw/         Excel del MITECO tal cual (git-scraping, un commit por semana)
+│  ├─ raw/         tabla del MITECO en CSV por año (git-scraping semanal, ADR 0004)
 │  ├─ master/      tabla maestra de embalses (curada + Inventario de Presas)
 │  └─ geo/         demarcaciones simplificadas
 ├─ docs/
