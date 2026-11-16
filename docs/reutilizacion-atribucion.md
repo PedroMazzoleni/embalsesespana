@@ -76,7 +76,7 @@
 **R8 — Cobertura (informativo).**
 - El Excel cubre solo los embalses peninsulares por encima de un umbral de capacidad. Las capas del IDE incluyen islas, Ceuta y Melilla.
 - La atribución y la metodología deben decir qué cubre cada cosa. El umbral y el año de inicio se importan de los datos, no se escriben a mano.
-- Depende de la decisión sobre cobertura que está pendiente en el roadmap.
+- **Resuelto:** cobertura solo peninsular ([ADR 0001](adr/0001-cobertura-solo-peninsula.md)). Las presas insulares del Inventario y las demarcaciones de Baleares, Canarias, Ceuta y Melilla se descartan. Los textos web hablan de la **reserva peninsular**. Los detalles de cobertura (número de embalses, umbral, año de inicio) se importan de los datos.
 
 ---
 
@@ -86,7 +86,7 @@ Convención: lo que va entre llaves `{…}` **se importa de los datos** (`public
 
 ### 3.1 Pie de página (versión corta)
 
-> Origen de los datos: Ministerio para la Transición Ecológica y el Reto Demográfico (MITECO), Boletín Hidrológico semanal e Inventario de Presas y Embalses. Datos provisionales de la semana del {fecha_dato}, actualizados por el MITECO el {fecha_actualizacion_fuente}. Cálculos y gráficos propios. Este proyecto es independiente y no está vinculado al MITECO. [Fuentes y metodología](/fuentes)
+> Origen de los datos: Ministerio para la Transición Ecológica y el Reto Demográfico (MITECO), Boletín Hidrológico semanal e Inventario de Presas y Embalses. Reserva peninsular: {n_embalses} embalses. Datos provisionales de la semana del {fecha_dato}, actualizados por el MITECO el {fecha_actualizacion_fuente}. Cálculos y gráficos propios. Este proyecto es independiente y no está vinculado al MITECO. Código: MIT · Datos: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/deed.es). [Fuentes y metodología](/fuentes)
 
 En las páginas con mapa, el control de atribución de MapLibre añade además:
 
@@ -108,6 +108,8 @@ En las fichas de embalse con foto, al pie de la imagen (**condicional:** bloquea
 >
 > **Origen de los datos: Ministerio para la Transición Ecológica y el Reto Demográfico (MITECO).** Usamos el [Boletín Hidrológico semanal](https://www.miteco.gob.es/es/agua/temas/evaluacion-de-los-recursos-hidricos/boletin-hidrologico.html) y su fichero histórico, que recoge la capacidad y el agua almacenada en los embalses peninsulares de más de {umbral_capacidad_hm3} hm³ desde {primer_anio}.
 >
+> **Esta web cuenta la reserva peninsular:** {n_embalses} embalses de la Península. Los embalses de Baleares, Canarias, Ceuta y Melilla no están en el histórico del MITECO, así que no aparecen ni en los mapas ni en los totales.
+>
 > - Último dato: semana del {fecha_dato}.
 > - Actualizado por el MITECO: {fecha_actualizacion_fuente}.
 > - Descargado por nosotros: {fecha_descarga}.
@@ -120,7 +122,7 @@ En las fichas de embalse con foto, al pie de la imagen (**condicional:** bloquea
 >
 > ### Cuencas (demarcaciones hidrográficas)
 >
-> **Origen de los datos: MITECO,** [Demarcaciones hidrográficas](https://www.miteco.gob.es/es/agua/servicios/acceso-rapido-datos-agua.html), con licencia [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/deed.es). Versión del {fecha_demarcaciones}. **Hemos simplificado los límites** para que el mapa cargue rápido en el móvil, así que son aproximados. El propio MITECO advierte de que pueden no coincidir con los límites oficiales.
+> **Origen de los datos: MITECO,** [Demarcaciones hidrográficas](https://www.miteco.gob.es/es/agua/servicios/acceso-rapido-datos-agua.html), con licencia [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/deed.es). Versión del {fecha_demarcaciones}. Solo mostramos las demarcaciones peninsulares. **Hemos simplificado los límites** para que el mapa cargue rápido en el móvil, así que son aproximados. El propio MITECO advierte de que pueden no coincidir con los límites oficiales.
 >
 > ### Mapa de fondo
 >
@@ -163,21 +165,33 @@ En las fichas de embalse con foto, al pie de la imagen (**condicional:** bloquea
 >
 > ### Reutiliza nuestros datos
 >
-> {texto según la licencia que se elija; ver sección 4}
+> Puedes usar lo que publicamos, también con fines comerciales, con estas condiciones:
+>
+> - **El código** de la web y del programa que procesa los datos tiene licencia **MIT**. Puedes copiarlo y adaptarlo. Solo tienes que conservar el aviso de licencia.
+> - **Los datos que generamos** (series, resúmenes, tabla de embalses y límites de las cuencas) tienen licencia [**CC BY 4.0**](https://creativecommons.org/licenses/by/4.0/deed.es). Puedes copiarlos, transformarlos y redistribuirlos si citas este proyecto.
+> - **Hay que citar también al MITECO.** Los datos de origen son suyos. Indica "Origen de los datos: Ministerio para la Transición Ecológica y el Reto Demográfico" y la fecha de actualización que acompaña a cada fichero.
+> - **No cambies el sentido de los datos.** Tampoco des a entender que el MITECO o este proyecto respaldan tu trabajo.
+> - **Los límites de las cuencas están simplificados.** Sirven para hacer mapas a escala de país, no tienen valor oficial y no sirven para medir distancias ni superficies. Para eso, usa la [capa original del MITECO](https://www.miteco.gob.es/es/agua/servicios/acceso-rapido-datos-agua.html).
+> - **Son datos provisionales:** pueden cambiar cuando el MITECO revise semanas ya publicadas.
+> - **Las fotos** no están incluidas: cada una tiene su propia licencia, indicada junto a ella.
+>
+> Si los datos te sirven para algo, nos encantará saberlo.
 
 *Pendiente para editorial:* la nota sobre "más de {umbral_capacidad_hm3} hm³" necesitará traducir el hm³ a algo imaginable la primera vez que aparezca en la web. Lo resolveremos en el glosario o en el primer explicador.
 
 ---
 
-## 4. Decisión pendiente: licencia del proyecto
+## 4. Licencia del proyecto — Decidido (ADR 0002)
 
-**No se decide aquí.** Estas son las opciones para que decida el usuario (titular del proyecto); el jefe de proyecto recogerá la decisión en un ADR y añadirá una línea al pie ("Código: … · Datos: …").
+**Decisión del titular del proyecto, 2026-11-17:** código **MIT** y datos derivados **CC BY 4.0**, manteniendo en cascada la atribución al MITECO. Ver [ADR 0002](adr/0002-licencias-mit-y-cc-by.md) y `data/LICENSE.md`. Los datos de origen (`data/raw/`) conservan las condiciones de su fuente. El pie lleva "Código: MIT · Datos: CC BY 4.0" (sección 3.1).
+
+Las tablas siguientes se conservan como **antecedente** del análisis. Las opciones elegidas aparecen marcadas como "(elegida)".
 
 ### 4.1 Código
 
 | Opción | A favor | En contra | Compatibilidad con las fuentes |
 |---|---|---|---|
-| **MIT** | La más simple y conocida. Nadie duda de si puede reutilizar el código. Fomenta forks y que lo use la prensa. | No protege frente a que alguien cierre una versión mejorada y la explote sin compartir. No incluye cláusula de patentes. | No interfiere: las licencias de los datos van aparte del código. |
+| **MIT** (elegida) | La más simple y conocida. Nadie duda de si puede reutilizar el código. Fomenta forks y que lo use la prensa. | No protege frente a que alguien cierre una versión mejorada y la explote sin compartir. No incluye cláusula de patentes. | No interfiere: las licencias de los datos van aparte del código. |
 | **Apache-2.0** | Tan permisiva como MIT, pero con concesión explícita de patentes y aviso de cambios. Está bien vista en organizaciones. | Algo más verbosa: exige el fichero NOTICE y marcar los cambios. Es incompatible con GPLv2 (no nos afecta). | No interfiere. |
 | **AGPL-3.0** | Si alguien publica una web derivada, tiene que compartir su código. Protege la idea de "bien común". | Echa para atrás a medios y empresas, que podrían no reutilizarlo. Exige más cuidado con las dependencias. Puede frenar la difusión que se busca en la fase 4. | No interfiere con los datos. Las dependencias (Astro, MapLibre, Observable Plot…) son permisivas, así que es compatible. |
 | **EUPL-1.2** | Licencia de la Comisión Europea, con versión oficial en español y pensada para el sector público europeo. Es *copyleft* también en red, pero compatible con GPL, AGPL, MPL y otras. Encaja con un proyecto sobre datos públicos españoles. | Menos conocida fuera de las administraciones públicas. Tiene parte del mismo efecto disuasorio que la AGPL. | No interfiere. |
@@ -186,7 +200,7 @@ En las fichas de embalse con foto, al pie de la imagen (**condicional:** bloquea
 
 | Opción | A favor | En contra | Compatibilidad con las fuentes |
 |---|---|---|---|
-| **CC BY 4.0** | Es la misma licencia que usan las capas del IDE (Inventario y demarcaciones) y la recomendada para datos de alto valor en la UE. Muy conocida. Basta con atribuir. | No impide que alguien cierre una versión mejorada. Hay que dejar claro que la atribución al MITECO se mantiene "en cascada". | **Alta.** Hereda bien la atribución del CC BY 4.0. Para el Excel del boletín, las condiciones del RD 1495/2011 (citar, fechar, no desvirtuar) se cumplen si exigimos mantener la atribución y las fechas que ya viajan en los datos. |
+| **CC BY 4.0** (elegida) | Es la misma licencia que usan las capas del IDE (Inventario y demarcaciones) y la recomendada para datos de alto valor en la UE. Muy conocida. Basta con atribuir. | No impide que alguien cierre una versión mejorada. Hay que dejar claro que la atribución al MITECO se mantiene "en cascada". | **Alta.** Hereda bien la atribución del CC BY 4.0. Para el Excel del boletín, las condiciones del RD 1495/2011 (citar, fechar, no desvirtuar) se cumplen si exigimos mantener la atribución y las fechas que ya viajan en los datos. |
 | **ODbL 1.0** | *Share-alike* para bases de datos: quien mejore la tabla maestra tiene que compartirla. Es la licencia natural si algún día **incorporamos datos de OSM** (por ejemplo, coordenadas). | Más compleja, poco conocida fuera del mundo OSM y frena reutilizaciones sencillas, como la de un periodista. Hoy no la necesitamos, porque no mezclamos datos de OSM. | **Aceptable.** Las fuentes MITECO (CC BY 4.0 y condiciones generales) permiten la adaptación con atribución. Si se mezcla OSM, pasa a ser **obligatoria**. |
 | **"Mismas condiciones que la fuente"** (reproducir las condiciones generales del RD 1495/2011 o el aviso del MITECO) | Coherencia total con el origen: quien reutilice sabe exactamente lo mismo que si fuera al MITECO. | No es una licencia estándar ni legible por máquinas, lo que complica catalogarla en datos.gob.es. Mezcla un régimen pensado para administraciones con un proyecto privado. Y no permite elegir: las capas del IDE ya son CC BY 4.0. Las obligaciones que impone son prácticamente las mismas que las de CC BY 4.0, que además es estándar. | **Alta.** |
 | **CC0 / dominio público** | Máxima libertad para quien reutilice. | Puede dar a entender que quien reutilice no tiene que citar al MITECO, cuando sí debe hacerlo (art. 7 del RD 1495/2011 y CC BY 4.0). El proyecto no puede liberar a terceros de esa obligación, así que haría falta un aviso aparte que la recuerde. | **Baja.** Choca con la obligación de atribución de las fuentes. |
@@ -207,6 +221,7 @@ En las fichas de embalse con foto, al pie de la imagen (**condicional:** bloquea
 | `fecha_descarga` | Trazabilidad | Pipeline |
 | `primer_anio` | "desde {primer_anio}" | Excel (mínimo de las fechas) |
 | `umbral_capacidad_hm3` | "embalses de más de {umbral_capacidad_hm3} hm³" | Configuración del pipeline, documentada en `docs/contrato-datos.md` |
+| `n_embalses` | "Reserva peninsular: {n_embalses} embalses" | Pipeline (recuento en `embalses.json` / `resumen.json`) |
 | `anios_media_corta` | "medias de los últimos {anios_media_corta} años" | Contrato (`resumen.json`, medias) / configuración del pipeline |
 | `anios_media_larga` | "medias de los últimos {anios_media_larga} años" | Contrato (`resumen.json`, medias) / configuración del pipeline |
 | `fecha_inventario` | Versión del Inventario de Presas | Metadatos del shapefile o de la ficha IDE |
