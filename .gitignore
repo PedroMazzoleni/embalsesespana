@@ -11,3 +11,6 @@ tmp/
 # Phase 0 decisions: source archives are not versioned (ADR 0004)
 data/raw/boletin-hidrologico/*.zip
 data/raw/geo/*.zip
+
+# Phase 0: unzipped MITECO inventory shapefiles are not versioned (ADR 0004); data/raw/inventario/PROCEDENCIA.json is
+data/raw/inventario/egis_*/

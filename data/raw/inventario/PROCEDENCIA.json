@@ -1,0 +1,82 @@
+{
+  "descripcion": "Procedencia de los shapefiles del Inventario de Presas y Embalses (MITECO/SNCZI). Ficheros descargados a mano por el usuario (la descarga tiene captcha ALTCHA) y descomprimidos; no se versionan los originales (ver .gitignore, coherente con ADR 0004). Los datos se tratan como no confiables: se leen sin ejecutar nada y se validan en construir.mjs.",
+  "pagina_descarga": "https://www.miteco.gob.es/es/cartografia-y-sig/ide/descargas/agua/inventario-presas-embalses.html",
+  "urls_zip_origen": {
+    "presas": "https://gis.miteco.gob.es/descargas/app/DescargaFichero?f=egis_presa_geoetrs89.zip",
+    "embalses": "https://gis.miteco.gob.es/descargas/app/DescargaFichero?f=egis_embalse_geoetrs89.zip"
+  },
+  "fecha_descarga": "2026-11-17",
+  "descargado_por": "usuario (manual, por captcha)",
+  "fecha_actualizacion_declarada": {
+    "embalses": "2021-12-31",
+    "presas": "2021-12-30"
+  },
+  "licencia": "Fuente: © Ministerio para la Transición Ecológica y el Reto Demográfico (CC-BY-4.0 en el catálogo de datos abiertos)",
+  "crs": "ETRS89 / UTM huso 30N (EPSG:25830) en todos los ficheros, también para Canarias (x negativos)",
+  "carpetas": {
+    "egis_embalse_geoetrs89": [
+      {
+        "fichero": "egis_embalse_geoetrs89sinTitular.cpg",
+        "bytes": 5,
+        "sha256": "3ad3031f5503a4404af825262ee8232cc04d4ea6683d42c5dd0a2f2a27ac9824"
+      },
+      {
+        "fichero": "egis_embalse_geoetrs89sinTitular.dbf",
+        "bytes": 2219578,
+        "sha256": "99ad7e024e6bc70a5c0e050189ca8aa4de2b290d1f8518fcb26327e9ac9f3fb4"
+      },
+      {
+        "fichero": "egis_embalse_geoetrs89sinTitular.prj",
+        "bytes": 404,
+        "sha256": "03329a8b83248ce6963187291d05a46dfd70b28854fccb01c3fcabd2a28fdcce"
+      },
+      {
+        "fichero": "egis_embalse_geoetrs89sinTitular.qmd",
+        "bytes": 651,
+        "sha256": "bec2f651ecd449e8f40fd2a4ffcee854685f145dc460909e57e5322b7d13cbd4"
+      },
+      {
+        "fichero": "egis_embalse_geoetrs89sinTitular.shp",
+        "bytes": 21694440,
+        "sha256": "bcb56766d8c947c4351e7ea59f576842b979b1eadec0c245a1e057dacff0d251"
+      },
+      {
+        "fichero": "egis_embalse_geoetrs89sinTitular.shx",
+        "bytes": 25460,
+        "sha256": "c7bb25f4aa7619494e0d9009ea933bc91587d2c96060d8686d43c08175466807"
+      }
+    ],
+    "egis_presa_geoetrs89": [
+      {
+        "fichero": "egis_presa_geoetrs89sinTitular.cpg",
+        "bytes": 5,
+        "sha256": "3ad3031f5503a4404af825262ee8232cc04d4ea6683d42c5dd0a2f2a27ac9824"
+      },
+      {
+        "fichero": "egis_presa_geoetrs89sinTitular.dbf",
+        "bytes": 4347578,
+        "sha256": "3aa9b893a0a81a1d7a0dfb8dc438795348a049d79a92bd4f481c06da80a166be"
+      },
+      {
+        "fichero": "egis_presa_geoetrs89sinTitular.prj",
+        "bytes": 404,
+        "sha256": "03329a8b83248ce6963187291d05a46dfd70b28854fccb01c3fcabd2a28fdcce"
+      },
+      {
+        "fichero": "egis_presa_geoetrs89sinTitular.qmd",
+        "bytes": 651,
+        "sha256": "bec2f651ecd449e8f40fd2a4ffcee854685f145dc460909e57e5322b7d13cbd4"
+      },
+      {
+        "fichero": "egis_presa_geoetrs89sinTitular.shp",
+        "bytes": 89924,
+        "sha256": "3f9a1f53643638ded5eb06e1fb6e2d250431e460ac4466237a3f0e66ede5b366"
+      },
+      {
+        "fichero": "egis_presa_geoetrs89sinTitular.shx",
+        "bytes": 25764,
+        "sha256": "4def43a9382d70af8491085149cf17af2b9f0d7d928c2f7c3b56151121d41eeb"
+      }
+    ]
+  }
+}

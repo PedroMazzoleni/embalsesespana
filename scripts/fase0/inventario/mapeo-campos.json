@@ -1,0 +1,166 @@
+{
+  "_comentario": "Candidatos de nombre de campo DBF para cada columna de salida, por orden de prioridad. Gana el primero que exista en la capa (comparación sin mayúsculas, tildes ni separadores). Revisar con inspeccionar.mjs y fijar aquí el campo real si el elegido no es el correcto. Revisado el 2026-11-17 con inspeccionar.mjs sobre los shapefiles oficiales (campos reales: presas CODIGO, NOMBRE, CAUCE, DEMARC, PROVINCIA, CCAA, FASE, CATEGORIA, TIPO, USUARIOS, USO, NMN_CAPAC [hm3], INFORME [URL de ficha SNCZI]; embalses NOMBRE, NMN_CAPAC, DEMARC, PROVINCIA, USO, TIPO_EMBAL, CODIGO). No hay campo de foto ni de año de construcción.",
+  "presas": {
+    "codigo_presa": [
+      "CODIGO",
+      "COD_PRESA",
+      "CODPRESA",
+      "CD_PRESA",
+      "ID_PRESA",
+      "COD_INFRA",
+      "CODINFRA",
+      "CODIGO_PRE",
+      "COD"
+    ],
+    "nombre_presa": [
+      "NOMBRE_PRE",
+      "NOM_PRESA",
+      "NOMPRESA",
+      "NOMBRE",
+      "DENOMINACI",
+      "PRESA"
+    ],
+    "nombre_embalse": [
+      "NOMBRE_EMB",
+      "NOM_EMBALS",
+      "NOMEMBALSE",
+      "EMBALSE"
+    ],
+    "tipo": [
+      "TIPO_INFRA",
+      "TIPOINFRA",
+      "TIPO",
+      "CLASE"
+    ],
+    "rio": [
+      "RIO",
+      "CAUCE",
+      "NOM_CAUCE",
+      "NOMBRE_CAU",
+      "RIO_CAUCE"
+    ],
+    "demarcacion": [
+      "DEMARC",
+      "DEMARCACIO",
+      "DEMARCACION",
+      "NOM_DEMAR",
+      "DEMAR",
+      "DH"
+    ],
+    "cuenca": [
+      "CUENCA",
+      "NOM_CUENCA",
+      "CUENCA_HID"
+    ],
+    "provincia": [
+      "PROVINCIA",
+      "NOM_PROV",
+      "PROV"
+    ],
+    "municipio": [
+      "MUNICIPIO",
+      "NOM_MUNI",
+      "TERMINO",
+      "TERM_MUNIC",
+      "MUNIC"
+    ],
+    "capacidad": [
+      "NMN_CAPAC",
+      "CAPACIDAD",
+      "CAP_EMBALS",
+      "CAPAC_HM3",
+      "CAP_HM3",
+      "VOL_EMBALS",
+      "VOLUMEN",
+      "CAP_NMN",
+      "VOL_NMN"
+    ],
+    "uso": [
+      "USOS",
+      "USO",
+      "USO_PRINC",
+      "USOS_PRESA"
+    ],
+    "titular": [
+      "TITULAR",
+      "PROPIETARI",
+      "TITULARIDA",
+      "USUARIOS"
+    ],
+    "anio": [
+      "ANIO",
+      "ANO",
+      "ANYO",
+      "ANO_CONSTR",
+      "FIN_CONSTR",
+      "FECHA_FIN",
+      "FECHA_CONS",
+      "FECHA"
+    ],
+    "foto": [
+      "FOTO",
+      "FOTOGRAFI",
+      "URL_FOTO",
+      "IMAGEN"
+    ],
+    "ficha": [
+      "INFORME",
+      "FICHA",
+      "URL_FICHA",
+      "URL",
+      "LINK",
+      "HIPERVINCU",
+      "ENLACE"
+    ],
+    "fase": [
+      "FASE"
+    ],
+    "categoria": [
+      "CATEGORIA"
+    ],
+    "ccaa": [
+      "CCAA"
+    ]
+  },
+  "embalses": {
+    "codigo_presa": [],
+    "codigo_embalse": [
+      "COD_EMBALS",
+      "CODEMBALSE",
+      "CODIGO_EMB",
+      "CODIGO",
+      "COD"
+    ],
+    "nombre_embalse": [
+      "NOMBRE_EMB",
+      "NOM_EMBALS",
+      "NOMEMBALSE",
+      "NOMBRE",
+      "EMBALSE"
+    ],
+    "capacidad": [
+      "NMN_CAPAC",
+      "CAPACIDAD",
+      "CAP_EMBALS",
+      "CAPAC_HM3",
+      "CAP_HM3",
+      "VOL_EMBALS",
+      "VOLUMEN",
+      "CAP_NMN",
+      "VOL_NMN"
+    ],
+    "demarcacion": [
+      "DEMARC"
+    ],
+    "provincia": [
+      "PROVINCIA"
+    ],
+    "uso": [
+      "USO"
+    ],
+    "tipo_embalse": [
+      "TIPO_EMBAL"
+    ]
+  },
+  "capacidad_factor_a_hm3": null
+}
