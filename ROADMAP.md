@@ -16,7 +16,7 @@ Objetivo: saber si los datos públicos sostienen el proyecto antes de escribir l
 - [x] Descargar el Inventario de Presas y Embalses y extraer coordenadas, capacidad, uso y fotos [datos]
 - [x] Construir la tabla maestra cruzando ambas fuentes; medir % de embalses emparejados [datos]
 - [x] Obtener el GeoJSON de demarcaciones hidrográficas y simplificarlo con mapshaper [mapas]
-- [ ] Cargar todo en kepler.gl: comprobar coordenadas y probar a ojo columnas 3D y animación temporal [mapas]
+- [x] Cargar todo en kepler.gl: comprobar coordenadas y probar a ojo columnas 3D y animación temporal [mapas]
 - [x] Revisar condiciones de reutilización y texto de atribución [editorial]
 - [x] Decidir cobertura: ¿solo península o también Baleares y Canarias? → ADR [jefe de proyecto]
 - [x] Montar el git-scraping semanal del Excel (solo guardar `data/raw`, sin procesar todavía) [datos]

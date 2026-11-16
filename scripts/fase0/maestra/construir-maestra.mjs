@@ -421,7 +421,7 @@ const muestra = [];
 for (const f of grandes) {
   for (const s of series.get(`${f.ambito_miteco}|${f.nombre_miteco}`).sort((a, b) => a.fecha.localeCompare(b.fecha))) {
     if (s.fecha < desde) continue;
-    muestra.push({ id: f.id, nombre: f.nombre_miteco, lat: f.lat, lon: f.lon, fecha: s.fecha, volumen_hm3: s.actual ?? '', capacidad_hm3: s.total ?? '', pct: s.total && s.actual != null ? Number(((100 * s.actual) / s.total).toFixed(1)) : '' });
+    muestra.push({ id: f.id, nombre: f.nombre_miteco, lat: f.lat, lon: f.lon, fecha: `${s.fecha} 00:00:00` /* kepler.gl only animates timestamp fields, not plain dates */, volumen_hm3: s.actual ?? '', capacidad_hm3: s.total ?? '', pct: s.total && s.actual != null ? Number(((100 * s.actual) / s.total).toFixed(1)) : '' });
   }
 }
 writeFileSync(join(P.kepler, 'serie-muestra.csv'), toCsv(['id', 'nombre', 'lat', 'lon', 'fecha', 'volumen_hm3', 'capacidad_hm3', 'pct'], muestra), 'utf8');
