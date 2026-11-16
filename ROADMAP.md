@@ -3,7 +3,7 @@
 Proyecto de una sola persona. Las duraciones son orientativas (dedicación a tiempo parcial) y se revisan al cerrar cada fase.
 Cada tarea indica el agente responsable entre corchetes.
 
-**Fase actual: 0**
+**Fase actual: 1**
 
 ---
 
@@ -97,3 +97,4 @@ Objetivo: lo que nadie más tiene.
 
 - 2026-11-16 — Versión inicial.
 - 2026-11-17 — Cobertura: solo península (ADR 0001). Licencias: código MIT, datos CC BY 4.0 (ADR 0002).
+- 2026-11-17 — Fase 0 cerrada: 368 de 375 embalses de la última semana emparejados con coordenadas (98,13 %, `data/master/maestra-stats.json`), histórico documentado, scraping semanal funcionando. ADR 0003 (lector Access) y 0004 (CSV por año). Pendientes para la Fase 2: 7 embalses sin pareja (`data/master/sin-emparejar.csv`), diferencia de capacidad total frente a la prensa, criterio de comparación con la media cuando cambia el conjunto de embalses, revisar emparejamientos de confianza media/baja.
