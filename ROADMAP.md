@@ -11,7 +11,7 @@ Cada tarea indica el agente responsable entre corchetes.
 
 Objetivo: saber si los datos públicos sostienen el proyecto antes de escribir la web.
 
-- [ ] Descargar el Excel histórico de embalses del MITECO y documentar su estructura (hojas, columnas, unidades, rarezas) en `docs/contrato-datos.md` [datos]
+- [x] Descargar el Excel histórico de embalses del MITECO y documentar su estructura (hojas, columnas, unidades, rarezas) en `docs/contrato-datos.md` [datos]
 - [x] Confirmar qué día y a qué hora publica el MITECO el boletín semanal [datos]
 - [ ] Descargar el Inventario de Presas y Embalses y extraer coordenadas, capacidad, uso y fotos [datos]
 - [ ] Construir la tabla maestra cruzando ambas fuentes; medir % de embalses emparejados [datos]
