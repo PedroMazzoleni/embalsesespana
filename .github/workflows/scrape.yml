@@ -1,0 +1,60 @@
+name: Scrape MITECO reservoirs
+
+on:
+  schedule:
+    - cron: "37 17 * * 2" # Tuesday 17:37 UTC
+    - cron: "37 15 * * 3" # Wednesday 15:37 UTC
+    - cron: "37 15 * * 4" # Thursday 15:37 UTC: last attempt, fails if the week is missing
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: scrape
+  cancel-in-progress: false
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 12 # lockfile v9 generated with pnpm 12.21; keep in sync with local
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Scrape
+        id: scrape
+        run: node scripts/scrape/scrape-embalses.mjs
+
+      - name: Commit and push
+        if: steps.scrape.outputs.changed == 'true'
+        env:
+          LATEST: ${{ steps.scrape.outputs.latest_date }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/raw/boletin-hidrologico
+          git commit -m "data: MITECO reservoirs update (latest ${LATEST})"
+          git pull --rebase origin main
+          git push origin HEAD:main
+
+      - name: Thursday check (new week must be published)
+        if: github.event_name == 'schedule' && github.event.schedule == '37 15 * * 4'
+        env:
+          LATEST: ${{ steps.scrape.outputs.latest_date }}
+        run: |
+          expected=$(date -u -d "2 days ago" +%F)
+          if [ "$LATEST" != "$expected" ]; then
+            echo "::error::MITECO has not published the bulletin of $expected yet (latest date in data: $LATEST). Check the source."
+            exit 1
+          fi

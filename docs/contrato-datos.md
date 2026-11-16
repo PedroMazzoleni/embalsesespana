@@ -166,3 +166,18 @@ A favor: dentro de este fichero el nombre es único (402 nombres = 402 pares ám
 6. Embalse = nombre + ámbito → ID propio en `data/master/`. Las sucesiones (La Breña → La Breña II, lagos → sistemas, Santolea) se documentan en la tabla maestra con su motivo.
 7. Los totales agregados deben indicar con cuántos embalses se calcularon, porque el conjunto cambia con los años.
 8. Los datos son **provisionales** («Sin Validación»): el fichero se reescribe entero cada semana y puede corregir semanas anteriores; el export se regenera completo. Los datos validados están en el Anuario de Aforos (según el PDF del MITECO).
+
+## 2. Git-scraping semanal
+
+Decisiones: ADR 0003 (leer el `.mdb` con `mdb-reader`) y ADR 0004 (CSV por año, el ZIP no se versiona). Script: `scripts/scrape/scrape-embalses.mjs`. Workflow: `.github/workflows/scrape.yml` (martes 17:37 UTC, miércoles y jueves 15:37 UTC, más ejecución manual).
+
+**CSV.** `data/raw/boletin-hidrologico/embalses-AAAA.csv`, uno por año de `FECHA`. UTF-8, cabecera con las 6 columnas de la tabla (`AMBITO_NOMBRE,EMBALSE_NOMBRE,FECHA,AGUA_TOTAL,AGUA_ACTUAL,ELECTRICO_FLAG`), orden por fecha, nombre y ámbito. Los valores van **tal cual** (coma decimal, capacidades 0, nulos como celda vacía); solo `FECHA` pasa a `AAAA-MM-DD`. Quedan entrecomillados los textos con coma o comillas. Limpiar es tarea del pipeline, no del extractor.
+
+**`BD-Embalses.meta.json`.** URL, fecha de descarga, tamaño y sha256 del ZIP, nombre de la tabla, columnas, nº de filas, última fecha y sha256 de cada CSV.
+
+**Cuándo hay commit.** Cuando cambia el contenido de algún CSV, aunque la última fecha sea la misma (revisiones de semanas pasadas). Si no cambia ninguno, el script no toca ningún fichero (ni el meta) y el workflow no hace commit. El mensaje es `data: MITECO reservoirs update (latest AAAA-MM-DD)`.
+
+**Si falla.**
+- El script sale con código ≠ 0 y no escribe nada si la descarga no es un ZIP, si falta la tabla `T_Datos Embalses*` o si las columnas no son exactamente las esperadas. Hay que revisar la fuente y, si el cambio es legítimo, actualizar `COLUMNS` en el script y el contrato.
+- El jueves, si la última fecha no es el martes de esa semana, el workflow falla a propósito para que GitHub avise. Si el MITECO publica más tarde, la ejecución del martes siguiente recupera todo (el ZIP es acumulativo).
+- Para reintentar a mano: Actions → «Scrape MITECO reservoirs» → Run workflow.
