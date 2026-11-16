@@ -98,7 +98,14 @@ El hilo principal actúa como **jefe de proyecto**: lee el roadmap, reparte tare
 | `editorial` | Explicadores MDX, microcopy, tono, verificación de cifras en textos |
 | `qa` | Revisión: tests, rendimiento, accesibilidad, cumplimiento de estas reglas. No edita código |
 
-Regla: cada agente trabaja solo en su zona. Si una tarea cruza zonas (p. ej. un campo nuevo en el contrato), primero `datos`, luego el resto. `qa` revisa antes de dar una tarea por terminada.
+Regla: cada agente trabaja solo en su zona. Si una tarea cruza zonas (p. ej. un campo nuevo en el contrato), primero `datos`, luego el resto.
+
+### Ahorro de tokens
+- Todos los agentes usan **Sonnet**. Opus solo en el hilo principal y solo para planificar o decisiones difíciles (`/model`).
+- Delega con encargos concretos y acotados (qué ficheros, qué resultado); los agentes no exploran el repo entero.
+- Máximo 2 agentes en paralelo.
+- Las tareas pequeñas (renombrar, un ajuste de CSS, marcar una casilla) las hace el hilo principal directamente, sin delegar.
+- `qa` revisa **al cerrar cada bloque de tareas**, no tarea a tarea.
 
 ## Definición de "hecho"
 
@@ -106,5 +113,5 @@ Regla: cada agente trabaja solo en su zona. Si una tarea cruza zonas (p. ej. un 
 - [ ] Tests pasan (`pnpm test`)
 - [ ] Sin cifras escritas a mano
 - [ ] Alternativa accesible para mapas y gráficos
-- [ ] `qa` lo ha revisado
+- [ ] `qa` lo ha revisado (al cierre del bloque)
 - [ ] `ROADMAP.md` actualizado (casilla marcada)
