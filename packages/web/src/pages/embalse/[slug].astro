@@ -1,0 +1,182 @@
+---
+import Base from '../../layouts/Base.astro';
+import Leyenda from '../../components/Leyenda.astro';
+import { embalses, estadoDe, ultimas52, f, fechaDatos, fechaCorta, fechaLarga, NA, NOMBRES, clase } from '../../lib/datos';
+
+export function getStaticPaths() {
+  return embalses.map((e) => ({ params: { slug: e.slug }, props: { e } }));
+}
+const { e } = Astro.props;
+const { actual, previa, media10, nMedia } = estadoDe(e);
+// "Ribeira, A" -> "A Ribeira"
+const nombre = e.nombre.replace(/^(.*), (A|O|As|Os|El|La|Los|Las)$/, (_m, n, art) => `${art} ${n}`);
+const hayDato = actual != null;
+const pct = actual?.pct ?? 0;
+const k = clase(pct);
+const un = e.capacidad_hm3 / 100;
+const dif = media10 == null ? 0 : pct - media10;
+const loc = [e.provincia, e.demarcacion].filter(Boolean).join(' · ');
+const serie = ultimas52(e.id);
+const ultimo = serie[serie.length - 1];
+
+// Rejilla de 100 (el 100 % llena todas; por encima se recorta)
+const tope = Math.min(pct, 100), llenas = Math.floor(tope), resto = tope - llenas;
+const celdas = [] as { cls: string; r?: number }[];
+for (let r = 9; r >= 0; r--) for (let c = 0; c < 10; c++) {
+  const i = r * 10 + c, parcial = i === llenas && resto > 0.05;
+  celdas.push({ cls: i < llenas ? `l c${k}` : parcial ? `p c${k}` : '', r: parcial ? resto * 100 : undefined });
+}
+
+// Gráfico provisional: SVG de las últimas 52 semanas
+const W = 600, H = 220, ML = 44, MR = 8, MT = 8, MB = 24;
+const tiempo = (iso: string) => new Date(iso + 'T00:00:00').getTime();
+const t0 = tiempo(serie[0].fecha), t1 = tiempo(ultimo.fecha);
+const maxY = Math.max(100, ...serie.map((p) => p.pct));
+const X = (iso: string) => ML + (t1 === t0 ? 0 : (tiempo(iso) - t0) / (t1 - t0)) * (W - ML - MR);
+const Y = (v: number) => MT + (1 - v / maxY) * (H - MT - MB);
+const linea = serie.map((p, i) => `${i ? 'L' : 'M'}${X(p.fecha).toFixed(1)} ${Y(p.pct).toFixed(1)}`).join('');
+const pMin = serie.reduce((a, b) => (b.pct < a.pct ? b : a)), pMax = serie.reduce((a, b) => (b.pct > a.pct ? b : a));
+const varSem = actual && previa ? actual.pct - previa.pct : null;
+const semana = !hayDato ? 'Sin dato en la última semana.' : varSem == null ? 'No tenemos la semana anterior para compararla.' : Math.abs(varSem) < 0.05 ? 'Sin cambios esta semana.' : `${varSem > 0 ? 'Sube' : 'Baja'} ${f(Math.abs(varSem))} puntos frente a la semana anterior (${f(previa!.pct)} %).`;
+const normal = media10 == null ? 'No podemos decirlo: no hay serie suficiente de años anteriores.' : Math.abs(dif) <= 1 ? 'Sí, está en su media.' : dif > 0 ? 'Más lleno de lo habitual.' : 'Más vacío de lo habitual.';
+const alt = hayDato ? `El embalse está al ${f(pct)} % (nivel ${NOMBRES[k].toLowerCase()})${media10 != null ? `; su media de ${nMedia} años es ${f(media10)} %` : ''}.` : 'Sin dato reciente.';
+const filas: [string, string, boolean?][] = [
+  ['Capacidad', `${f(e.capacidad_hm3, 0)} hm³`, true],
+  ...(hayDato ? [['Volumen ahora', `${f(actual!.volumen_hm3, 0)} hm³`, true] as [string, string, boolean]] : []),
+  ['Provincia', e.provincia ?? 'sin dato'],
+  ['Demarcación', e.demarcacion],
+  ['Usos', e.uso ? e.uso.split(' | ').join(', ') : 'sin dato'],
+  ['Serie desde', fechaCorta(e.primera_fecha)],
+];
+---
+<Base title={`Embalse de ${nombre}${e.provincia ? ` (${e.provincia})` : ''}: ¿cómo está?`} description={hayDato ? `El embalse de ${nombre} está al ${f(pct)} % de su capacidad de ${f(e.capacidad_hm3, 0)} hm³ (boletín del ${fechaDatos}). ${e.demarcacion}.` : `Embalse de ${nombre} (${e.demarcacion}): capacidad de ${f(e.capacidad_hm3, 0)} hm³. Última medición del ${fechaLarga(e.ultima_fecha)}.`} pag="embalse">
+<main class="col ancha" id="main">
+  <p class="fecha">Boletín del {fechaDatos}. Datos provisionales.</p>
+
+  <section class="qa" aria-labelledby="q1">
+    <h1 class="q" id="q1"><span>{loc}</span><span class="vh">. </span>¿cómo está <b>{nombre}</b>?</h1>
+    {hayDato ? <>
+    <div class="a">
+      <p class="si">Nivel {NOMBRES[k].toLowerCase()}.</p>
+      <p class="gigante" aria-hidden="true"><mark><span>{f(pct)}</span><small>%</small></mark></p>
+      <p>Guarda {f(actual!.volumen_hm3, 0)} hm³ de los {f(e.capacidad_hm3, 0)} hm³ que caben.</p>
+    </div>
+    <div class="nivel-w">
+      <figure style="margin:0">
+        <div class="rej-w">
+          <ol class="rejilla" role="img" aria-label={`Cuadrícula de 100 unidades: ${f(pct)} llenas.${media10 != null ? ` La línea marca la media de ${nMedia} años, ${f(media10)} %.` : ''}`}>
+            {celdas.map((c) => <li class={c.cls} style={c.r != null ? `--r:${c.r}%` : undefined}></li>)}
+          </ol>
+          {media10 != null && <div class="rej-media" style={`bottom:calc(${Math.min(media10, 100)}% - 1px)`}><span>media: {f(media10)} %</span></div>}
+        </div>
+        <figcaption class="unidad">Cada cuadrado = 1 % de la capacidad = {f(un, 1)} hm³.</figcaption>
+      </figure>
+      <div>
+        <Leyenda />
+        <p class="peq">{alt}</p>
+      </div>
+    </div>
+    </> : <div class="a">
+      <p class="si">Sin dato reciente.</p>
+      <p>Este embalse no aparece en el boletín del {fechaDatos}. Su última medición es del {fechaLarga(e.ultima_fecha)}. Capacidad: {f(e.capacidad_hm3, 0)} hm³.</p>
+    </div>}
+  </section>
+
+  {hayDato && <section class="qa" aria-labelledby="q2">
+    <h2 class="q h2" id="q2">¿es normal para esta época?</h2>
+    <div class="a">
+      <p class="si">{normal}</p>
+      {media10 != null && <div class="mini" role="img" aria-label={`De 0 a 100 %: ahora ${f(pct)} %, media ${f(media10)} %`}><i style={`width:${Math.min(pct, 100)}%`}></i><u style={`left:${Math.min(media10, 100)}%`}></u></div>}
+      <p class="peq">{media10 != null
+        ? `Ahora ${f(pct)} %; su media de ${nMedia} años en esta semana, ${f(media10)} % (raya de la media): ${f(Math.abs(dif))} puntos ${dif >= 0 ? 'por encima' : 'por debajo'}. Calculada con la serie de este embalse en la misma semana de los ${NA} años anteriores, cuando hay medición.`
+        : `Para esta semana este embalse no tiene al menos 5 años de medición comparables, así que no calculamos media.`}</p>
+    </div>
+  </section>}
+
+  <section class="qa" aria-labelledby="q3">
+    <h2 class="q h2" id="q3">¿cómo ha ido este año?</h2>
+    <div class="a">
+      <p class="si">{semana}</p>
+      <figure class="serie">
+        <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-label={`Porcentaje de llenado semana a semana, del ${fechaCorta(serie[0].fecha)} al ${fechaCorta(ultimo.fecha)}. Mínimo ${f(pMin.pct)} % (${fechaCorta(pMin.fecha)}), máximo ${f(pMax.pct)} % (${fechaCorta(pMax.fecha)}), último ${f(ultimo.pct)} %. La tabla de debajo tiene todas las semanas.`}>
+          {[0, 50, 100].filter((v) => v <= maxY).map((v) => <g><line class="rej" x1={ML} x2={W - MR} y1={Y(v)} y2={Y(v)} /><text x={ML - 6} y={Y(v) + 4} text-anchor="end">{v} %</text></g>)}
+          <path class="lin" d={linea} />
+          <circle class="fin" cx={X(ultimo.fecha)} cy={Y(ultimo.pct)} r="4" />
+          <text x={ML} y={H - 6}>{fechaCorta(serie[0].fecha)}</text>
+          <text x={W - MR} y={H - 6} text-anchor="end">{fechaCorta(ultimo.fecha)}</text>
+        </svg>
+        <figcaption class="unidad">Porcentaje de llenado, últimas {serie.length} semanas con medición. Gráfico provisional.</figcaption>
+      </figure>
+      <details>
+        <summary>Ver las semanas en tabla</summary>
+        <div class="tabla-w"><table>
+          <caption>Volumen y porcentaje de llenado de {nombre}, semana a semana.</caption>
+          <thead><tr><th scope="col">Semana</th><th scope="col">Volumen (hm³)</th><th scope="col">Llenado</th></tr></thead>
+          <tbody>{serie.slice().reverse().map((p) => <tr><th scope="row">{fechaCorta(p.fecha)}</th><td>{f(p.volumen_hm3, 0)}</td><td>{f(p.pct)} %</td></tr>)}</tbody>
+        </table></div>
+      </details>
+    </div>
+  </section>
+
+  <section class="qa" aria-labelledby="q4">
+    <h2 class="q h2" id="q4">datos técnicos</h2>
+    <div class="doble">
+    <div class="a">
+      <dl class="ficha">{filas.map(([t, v, c]) => <div><dt>{t}</dt><dd class={c ? 'cifra' : undefined}>{v}</dd></div>)}</dl>
+    </div>
+    <div class="a">
+      <figure class="foto">
+        <div class="hueco" role="img" aria-label="Espacio reservado para la foto del embalse"><p>Foto del embalse (Inventario de Presas, SNCZI)</p></div>
+        <figcaption>Foto: pendiente de autor y licencia. La atribución es obligatoria.</figcaption>
+      </figure>
+    </div>
+    </div>
+  </section>
+</main>
+<style is:global>
+
+.sub { color: var(--tinta-2); font-size: var(--t-1); margin: 0 0 var(--s-2); }
+.nivel-w { display: grid; gap: var(--s-4); margin: var(--s-4) 0; }
+.rej-w { position: relative; width: 100%; max-width: calc(var(--s-24) * 3); }
+.rejilla { display: grid; grid-template-columns: repeat(10, 1fr); gap: var(--s-1); margin: 0; padding: 0; list-style: none; }
+.rejilla li { aspect-ratio: 1; border: var(--filete-fino) solid var(--tinta-2); background: transparent; }
+.rejilla li.l { background: var(--c); border-color: var(--c); }
+.rejilla li.l.c0 { border-color: var(--agua-borde); }
+.rejilla li.p { background: linear-gradient(to top, var(--c) var(--r), transparent var(--r)); }
+.rej-media { position: absolute; left: calc(-1 * var(--s-2)); right: calc(-1 * var(--s-2)); height: 0; border-top: var(--filete-grueso) solid var(--alerta); box-shadow: 0 calc(-1 * var(--filete)) 0 var(--fondo), 0 var(--filete) 0 var(--fondo); pointer-events: none; }
+/* Raya sobre celdas: halo --fondo de 2 px. --alerta vs halo 6,1:1 claro / 8,7:1 oscuro; halo vs relleno del agua >= 3:1 en todas las clases salvo agua-0 (1,2:1 claro, 1,6:1 oscuro), donde --alerta sobre agua-0 da 5,0:1 / 5,4:1. */
+.rej-w { margin-top: var(--s-8); }
+.rej-media span { position: absolute; right: 0; bottom: var(--s-3); background: var(--fondo); color: var(--alerta); font: 600 var(--t-0)/1 var(--f-cifras); padding: 0 var(--s-1); }
+.unidad { font-size: var(--t-0); color: var(--tinta-2); margin: 0; }
+.hueco { border: var(--filete) dashed var(--tinta-2); display: grid; place-items: center; text-align: center; padding: var(--s-6); color: var(--tinta-2); min-height: calc(var(--s-12) * 4); max-width: var(--medida); }
+.hueco p { margin: 0; max-width: 26rem; }
+figure.foto { margin: 0; max-width: var(--medida); }
+figure.foto .hueco { aspect-ratio: 4 / 3; min-height: 0; }
+figure.foto figcaption { font-size: var(--t-0); color: var(--tinta-2); margin-top: var(--s-2); }
+.ficha { margin: 0; display: grid; border-top: var(--filete) solid var(--tinta); max-width: var(--medida); }
+.ficha div { display: grid; grid-template-columns: 9rem 1fr; gap: var(--s-3); padding: var(--s-3) 0; border-bottom: var(--filete-fino) solid var(--linea); align-items: baseline; }
+.ficha dt { color: var(--tinta-2); font-size: var(--t-0); }
+.ficha dd { margin: 0; }
+.q b { text-transform: none; }
+@media (min-width: 48rem) {
+  .nivel-w { grid-template-columns: auto 1fr; align-items: start; gap: var(--s-8); }
+  .ficha div { grid-template-columns: 11rem 1fr; }
+}
+@media (min-width: 72rem) {
+  .doble { display: grid; grid-template-columns: var(--medida) var(--medida); gap: var(--s-12); }
+}
+.doble { display: grid; gap: var(--s-8); margin-top: var(--s-8); }
+@media (min-width: 64rem) {
+  .doble { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: start; margin-top: 0; }
+  .doble .ficha, .doble figure.foto { max-width: none; }
+  .nivel-w { grid-template-columns: auto minmax(0, 1fr); }
+  .rej-w { max-width: calc(var(--s-24) * 3.6); }
+}
+.serie { margin: var(--s-4) 0; max-width: var(--medida-ancha); }
+.serie svg { display: block; width: 100%; height: auto; }
+.serie text { font: 500 12px var(--f-cifras); fill: var(--tinta-2); }
+.serie .rej { stroke: var(--linea); stroke-width: 1; }
+.serie .lin { fill: none; stroke: var(--tinta); stroke-width: 2.5; stroke-linejoin: round; }
+.serie .fin { fill: var(--marca); stroke: var(--tinta); stroke-width: 2; }
+</style>
+</Base>

@@ -1,0 +1,6 @@
+---
+import { NOMBRES, RANGOS } from '../lib/datos';
+---
+<ul class="leyenda" aria-label="Leyenda: porcentaje de llenado">
+  {NOMBRES.map((n, i) => <li><i class={`c${i}`}></i>{n} ({RANGOS[i]})</li>)}
+</ul>

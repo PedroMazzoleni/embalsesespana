@@ -1,0 +1,61 @@
+---
+import Base from '../layouts/Base.astro';
+import { embalses, demarcaciones, nacional, f, fechaDatos } from '../lib/datos';
+
+const grupos = demarcaciones.map((d) => ({
+  d,
+  lista: embalses.filter((e) => e.demarcacion_codigo === d.codigo).sort((a, b) => a.nombre.localeCompare(b.nombre, 'es')),
+})).filter((g) => g.lista.length).sort((a, b) => a.d.nombre.localeCompare(b.d.nombre, 'es'));
+const arreglar = (n: string) => n.replace(/^(.*), (A|O|As|Os|El|La|Los|Las)$/, (_m, x, art) => `${art} ${x}`);
+---
+<Base title="Todos los embalses de España: busca el tuyo" description={`Los ${embalses.length} embalses peninsulares del boletín hidrológico, agrupados por demarcación hidrográfica, con su capacidad y enlace a su ficha.`} pag="embalses">
+<main class="col ancha" id="main">
+  <p class="fecha">Boletín del {fechaDatos}. Datos provisionales.</p>
+  <section class="qa" aria-labelledby="q1">
+    <h1 class="q" id="q1">¿cuál es tu embalse?</h1>
+    <div class="a">
+      <p>{embalses.length} embalses peninsulares, agrupados por demarcación hidrográfica. De ellos, {nacional.n_embalses} tienen dato en el último boletín.</p>
+      <div class="busca" hidden id="busca">
+        <label for="q">Buscar por nombre</label>
+        <input id="q" type="search" autocomplete="off" aria-controls="listado" aria-describedby="estado">
+        <p class="peq" id="estado" role="status"></p>
+      </div>
+    </div>
+    <div id="listado">
+      {grupos.map((g) => (
+        <section class="grupo" aria-labelledby={`g-${g.d.codigo}`}>
+          <h2 id={`g-${g.d.codigo}`}>{g.d.nombre} <span class="n">{g.lista.length}</span></h2>
+          <ul>
+            {g.lista.map((e) => <li data-n={arreglar(e.nombre).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')}><a href={`/embalse/${e.slug}`}>{arreglar(e.nombre)}</a>{e.provincia && <span class="peq"> · {e.provincia}</span>} <span class="cifra peq">{f(e.capacidad_hm3, 0)} hm³</span></li>)}
+          </ul>
+        </section>
+      ))}
+    </div>
+  </section>
+</main>
+<script is:inline>
+(function () {
+  var w = document.getElementById('busca'), q = document.getElementById('q'), est = document.getElementById('estado');
+  var items = Array.prototype.slice.call(document.querySelectorAll('#listado li')), grupos = Array.prototype.slice.call(document.querySelectorAll('.grupo'));
+  w.hidden = false;
+  function norm(s) { return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim(); }
+  q.addEventListener('input', function () {
+    var t = norm(q.value), n = 0;
+    items.forEach(function (li) { var ok = !t || li.getAttribute('data-n').indexOf(t) >= 0; li.hidden = !ok; if (ok) n++; });
+    grupos.forEach(function (g) { g.hidden = !g.querySelector('li:not([hidden])'); });
+    est.textContent = t ? (n === 0 ? 'Ningún embalse coincide.' : n + (n === 1 ? ' embalse coincide.' : ' embalses coinciden.')) : '';
+  });
+})();
+</script>
+<style is:global>
+.busca { margin: var(--s-4) 0 0; max-width: var(--medida); }
+.busca label { display: block; font-weight: var(--peso-negrita); margin-bottom: var(--s-2); }
+.busca input { width: 100%; font: inherit; padding: var(--s-3); border: var(--filete-grueso) solid var(--tinta); background: var(--fondo); color: var(--tinta); border-radius: 0; }
+.grupo { margin-top: var(--s-8); border-top: var(--filete) solid var(--tinta); }
+.grupo h2 { font: var(--peso-titulo) var(--t-3)/var(--lh-titulo) var(--f-titulos); letter-spacing: -.02em; margin: var(--s-3) 0; }
+.grupo h2 .n { font: 600 var(--t-0)/1 var(--f-cifras); color: var(--tinta-2); }
+.grupo ul { list-style: none; margin: 0; padding: 0; columns: 16rem; column-gap: var(--s-6); }
+.grupo li { break-inside: avoid; padding: var(--s-1) 0; }
+.grupo [hidden], [hidden].grupo { display: none; }
+</style>
+</Base>

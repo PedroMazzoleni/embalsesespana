@@ -4,9 +4,6 @@ import '../styles/agua.css';
 import '../styles/base.css';
 import Cabecera from '../components/Cabecera.astro';
 import Pie from '../components/Pie.astro';
-import datos from '../data-muestra/datos-muestra.js?raw';
-import util from '../data-muestra/util.js?raw';
-import cliente from '../scripts/comun-cliente.js?raw';
 const { title, description, pag = '', ancha = false } = Astro.props;
 ---
 <!doctype html>
@@ -24,9 +21,6 @@ const { title, description, pag = '', ancha = false } = Astro.props;
 <Cabecera actual={pag} />
 <slot />
 <Pie />
-<script is:inline set:html={datos}></script>
-<script is:inline set:html={util}></script>
-<script is:inline set:html={cliente}></script>
 <slot name="script" />
 </body>
 </html>
