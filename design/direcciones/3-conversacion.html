@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Embalses de España · Dirección 3, Conversación</title>
+<meta name="description" content="Maqueta de portada, dirección 3: la portada como conversación.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --fondo: #fbfaf5;
+  --tinta: #181818;        /* 17:1 */
+  --tinta-2: #4a4a46;      /* 8,6:1 */
+  --marca: #ffe14d;        /* resaltador; tinta encima: 14:1 */
+  --rio: #1c4e80;          /* 8,3:1 */
+  --alerta: #a2400b;       /* 6,2:1 */
+  --linea: #d8d5c8;
+  --titulos: "Bricolage Grotesque", "Helvetica Neue", Arial, sans-serif;
+  --texto: "Atkinson Hyperlegible", Verdana, sans-serif;
+  --pad: 1.25rem;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--fondo); color: var(--tinta); font: 400 1.1875rem/1.55 var(--texto); }
+a { color: var(--rio); text-underline-offset: .2em; }
+a:focus-visible, summary:focus-visible { outline: 3px solid var(--tinta); outline-offset: 3px; }
+mark { background: var(--marca); color: var(--tinta); padding: 0 .15em; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+
+.col { max-width: 38rem; margin: 0 auto; padding: 0 var(--pad); }
+header.cab { padding: 1.1rem 0 .5rem; }
+header.cab .col { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; flex-wrap: wrap; }
+.marca { font: 800 1.125rem/1 var(--titulos); letter-spacing: -.01em; margin: 0; }
+.cab nav { display: flex; gap: 1.1rem; }
+.cab nav a { font-size: .9375rem; color: var(--tinta); padding: .5rem 0; }
+.fecha { font-size: .9375rem; color: var(--tinta-2); margin: 1.75rem 0 0; }
+
+/* Pregunta y respuesta */
+.qa { padding: 2.25rem 0 1.5rem; }
+.q { font: 800 clamp(1.875rem, 8.5vw, 3rem)/1.05 var(--titulos); letter-spacing: -.025em; margin: 0 0 1rem; text-transform: lowercase; text-wrap: balance; }
+.q::first-letter { text-transform: none; }
+.q span { display: block; font: 400 .9375rem/1.3 var(--texto); letter-spacing: 0; text-transform: none; color: var(--tinta-2); margin-bottom: .5rem; }
+.a { border-left: 4px solid var(--tinta); padding-left: 1rem; }
+.a p { margin: 0 0 .9rem; max-width: 34rem; }
+.a .si { font: 800 1.5rem/1.2 var(--titulos); letter-spacing: -.01em; }
+.gigante { font: 800 clamp(5rem, 28vw, 9rem)/.9 var(--titulos); letter-spacing: -.05em; margin: 0 0 .5rem; font-variant-numeric: lining-nums; }
+.gigante mark { padding: 0 .08em; }
+.gigante small { font-size: .45em; letter-spacing: 0; }
+.peq { font-size: .9375rem; color: var(--tinta-2); }
+
+/* Tira de 10 años */
+.anios { margin: 1.25rem 0 .5rem; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(11, 1fr); gap: .35rem; align-items: end; height: 11rem; border-bottom: 2px solid var(--tinta); }
+.anios li { display: flex; flex-direction: column; justify-content: flex-end; align-items: center; height: 100%; font-size: .75rem; }
+.anios .b { width: 100%; background: var(--linea); border-top: 3px solid var(--tinta-2); min-height: 2px; }
+.anios .v { font-weight: 700; font-size: .75rem; line-height: 1.1; margin-bottom: .2rem; font-variant-numeric: tabular-nums; }
+.anios li.hoy .b { background: var(--marca); border-top-color: var(--tinta); border: 2px solid var(--tinta); }
+.anios li.hoy .v { font-size: .8125rem; }
+.anios-et { list-style: none; margin: 0 0 1rem; padding: 0; display: grid; grid-template-columns: repeat(11, 1fr); gap: .35rem; font-size: .6875rem; text-align: center; color: var(--tinta-2); }
+.anios-et li { overflow: hidden; }
+.anios-et li:nth-child(even):not(:last-child) { visibility: hidden; }
+.anios-et li:last-child { font-weight: 700; color: var(--tinta); }
+
+/* Mapa */
+.mapa { margin: 1.25rem 0 0; }
+.mapa svg { display: block; width: 100%; height: auto; max-height: 68vh; }
+.mapa path { stroke: var(--fondo); stroke-width: 2; stroke-linejoin: round; }
+.dos { display: grid; gap: 1rem; margin: 0 0 .5rem; }
+.dos p { margin: 0; }
+.dos b { display: block; font: 800 1.125rem/1.2 var(--titulos); }
+.dos .mas b { color: var(--rio); }
+.dos .menos b { color: var(--alerta); }
+.leyenda { display: flex; flex-wrap: wrap; gap: .35rem 1rem; list-style: none; margin: .6rem 0 0; padding: 0; font-size: .8125rem; color: var(--tinta-2); }
+.leyenda li { display: flex; align-items: center; gap: .4rem; }
+.leyenda i { width: 1.1rem; height: .8rem; border: 1px solid var(--tinta); }
+details { margin-top: 1rem; border-top: 1px solid var(--tinta); }
+summary { cursor: pointer; padding: .7rem 0; font-weight: 700; font-size: .9375rem; }
+table { width: 100%; border-collapse: collapse; font-size: .9375rem; font-variant-numeric: tabular-nums lining-nums; }
+caption { text-align: left; color: var(--tinta-2); padding-bottom: .4rem; }
+th, td { text-align: right; padding: .35rem .3rem; border-bottom: 1px solid var(--linea); }
+th:first-child, td:first-child { text-align: left; padding-left: 0; font-weight: 400; }
+thead th { font-weight: 700; font-size: .8125rem; border-bottom: 2px solid var(--tinta); }
+
+/* Embalses */
+.ej { list-style: none; margin: 0; padding: 0; display: grid; gap: 1.25rem; }
+.ej li { padding-top: .75rem; border-top: 1px solid var(--tinta); }
+.ej h3 { font: 800 1.5rem/1.1 var(--titulos); letter-spacing: -.015em; margin: 0 0 .25rem; }
+.ej h3 a { color: var(--tinta); }
+.ej p { margin: 0 0 .4rem; }
+.ej .frase { font-size: 1.0625rem; }
+.mini { position: relative; height: .6rem; background: var(--linea); margin: .6rem 0 .3rem; }
+.mini i { position: absolute; inset: 0 auto 0 0; background: var(--tinta); }
+.mini u { position: absolute; top: -.3rem; bottom: -.3rem; width: 3px; margin-left: -1.5px; background: var(--alerta); }
+
+footer { margin-top: 2rem; border-top: 1px solid var(--tinta); padding: 1.25rem 0 3rem; font-size: .9375rem; color: var(--tinta-2); }
+footer p { margin: 0 0 .5rem; }
+footer .fuente { color: var(--tinta); font-weight: 700; }
+
+@media (min-width: 48rem) {
+  :root { --pad: 2rem; }
+  body { font-size: 1.25rem; }
+  .qa { padding: 3.5rem 0 2rem; }
+  .dos { grid-template-columns: 1fr 1fr; }
+  .anios { height: 13rem; }
+}
+/* En pantalla ancha el mapa y los embalses salen de la columna estrecha */
+@media (min-width: 72rem) {
+  .qa.ancha .a { max-width: 38rem; }
+  .qa.ancha .mapa { margin-inline: -9rem; }
+  .qa.ancha .dos, .qa.ancha details { margin-inline: 0; }
+}
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+</style>
+</head>
+<body>
+<header class="cab">
+  <div class="col">
+    <p class="marca">Embalses de España</p>
+    <nav aria-label="Principal"><a href="#mapa-q">Mapa</a><a href="#ej-q">Embalses</a><a href="#">Explicadores</a></nav>
+  </div>
+</header>
+
+<main class="col">
+  <p class="fecha" id="fecha"></p>
+
+  <section class="qa" aria-labelledby="q1">
+    <h1 class="q" id="q1">¿hay agua?</h1>
+    <div class="a">
+      <p class="si" id="si"></p>
+      <p class="gigante" aria-hidden="true"><mark><span id="pct"></span><small>%</small></mark></p>
+      <p id="r1"></p>
+      <p class="peq" id="r1b"></p>
+    </div>
+  </section>
+
+  <section class="qa" aria-labelledby="q2">
+    <h2 class="q" id="q2">¿es grave?</h2>
+    <div class="a">
+      <p class="si" id="grave"></p>
+      <p id="r2"></p>
+      <ol class="anios" id="anios" aria-label="Reserva peninsular en la misma semana de cada uno de los últimos 10 años y ahora"></ol>
+      <ol class="anios-et" id="anios-et" aria-hidden="true"></ol>
+      <p class="peq" id="r2b"></p>
+    </div>
+  </section>
+
+  <section class="qa" aria-labelledby="q3">
+    <h2 class="q" id="q3">¿sube o baja?</h2>
+    <div class="a">
+      <p class="si" id="sube"></p>
+      <p class="peq" id="r3"></p>
+    </div>
+  </section>
+
+  <section class="qa ancha" aria-labelledby="mapa-q">
+    <h2 class="q" id="mapa-q">¿dónde hay más y dónde menos?</h2>
+    <div class="a">
+      <div class="dos">
+        <p class="mas"><b id="mas-n"></b><span id="mas-t"></span></p>
+        <p class="menos"><b id="menos-n"></b><span id="menos-t"></span></p>
+      </div>
+    </div>
+    <figure class="mapa">
+      <svg id="mapa" viewBox="0 0 1000 804" role="img" aria-labelledby="mapa-q mapa-d">
+        <desc id="mapa-d">Mapa de la España peninsular por demarcación hidrográfica, con tono más oscuro cuanto más llena está. Los valores exactos están en la tabla de debajo.</desc>
+      </svg>
+      <ul class="leyenda" id="leyenda"></ul>
+    </figure>
+    <div class="a" style="margin-top:1rem">
+      <details>
+        <summary>Ver los datos en tabla</summary>
+        <table id="tabla">
+          <caption>Reserva de cada demarcación frente a la media de 10 años.</caption>
+          <thead><tr><th scope="col">Demarcación</th><th scope="col">Ahora</th><th scope="col">Media 10 años</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </details>
+    </div>
+  </section>
+
+  <section class="qa" aria-labelledby="ej-q">
+    <h2 class="q" id="ej-q">¿y mi embalse?</h2>
+    <div class="a">
+      <p>El boletín recoge <span id="n-emb"></span> embalses peninsulares. Tres para empezar:</p>
+      <ol class="ej" id="lista"></ol>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="col">
+    <p class="fuente" id="fuente"></p>
+    <p id="atrib"></p>
+    <p>Código: MIT · Datos: CC BY 4.0</p>
+  </div>
+</footer>
+
+<script src="datos-muestra.js"></script>
+<script src="util.js"></script>
+<script>
+(function () {
+  var U = window.U, M = U.M, N = U.N, f = U.f, set = U.set;
+  set('fecha', 'Boletín del ' + U.fecha + '. Datos provisionales.');
+
+  // 1
+  set('si', U.veredicto());
+  set('pct', f(N.pct));
+  set('r1', 'Los embalses peninsulares guardan ' + f(N.hm3, 0) + ' hm³ de los ' + f(N.capacidad, 0) + ' hm³ que caben. Es el ' + f(N.pct) + ' % de su capacidad.');
+  set('r1b', 'La media de la misma semana en los 10 años anteriores es ' + f(N.media10) + ' %: hoy estamos ' + f(U.abs(N.dif_media_pts)) + ' puntos ' + U.rel + ' ella. ' + U.provisional);
+
+  // 2
+  set('grave', U.esGrave().split(':')[0] + '.');
+  set('r2', 'Esta semana, en ' + (M.anios.length - U.aniosPeores) + ' de los últimos ' + M.anios.length + ' años había más agua que ahora; en ' + U.aniosPeores + ', menos. El mínimo fue ' + f(U.anioMin) + ' % y el máximo ' + f(U.anioMax) + ' %.');
+  var tope = Math.max(U.anioMax, N.pct);
+  var barras = M.anios.map(function (a) { return { et: U.anioDe(a), v: a.pct, hoy: false }; });
+  barras.push({ et: 'hoy', v: N.pct, hoy: true });
+  document.getElementById('anios').innerHTML = barras.map(function (b) {
+    return '<li class="' + (b.hoy ? 'hoy' : '') + '" aria-label="' + b.et + ': ' + f(b.v) + ' %"><span class="v">' + f(b.v, 0) + '</span><span class="b" style="height:' + (b.v / tope * 80) + '%"></span></li>';
+  }).join('');
+  document.getElementById('anios-et').innerHTML = barras.map(function (b) { return '<li>' + (b.hoy ? 'hoy' : b.et.slice(2)) + '</li>'; }).join('');
+  set('r2b', 'Una barra por año, mismas semanas de noviembre (' + M.anios.map(U.anioDe).join(', ') + '). La resaltada es esta semana. Cifras en %.');
+
+  // 3
+  set('sube', N.var_pts === 0 ? 'Sin cambios.' : (N.var_pts > 0 ? 'Sube.' : 'Baja.') + ' ' + U.semana());
+  set('r3', 'Variación semanal de la reserva peninsular, en puntos de porcentaje, entre el ' + new Date(M.fecha_previa + 'T00:00:00').toLocaleDateString('es-ES', { day: 'numeric', month: 'long' }) + ' y el ' + U.fecha + '.');
+
+  // 4 mapa
+  var cortes = [30, 45, 60, 75];
+  var col = ['#e9eef3', '#b8cbdc', '#7ba0c1', '#3b6e9c', '#14395e'];
+  var t = ['Menos del ' + cortes[0] + ' %', cortes[0] + ' a ' + cortes[1] + ' %', cortes[1] + ' a ' + cortes[2] + ' %', cortes[2] + ' a ' + cortes[3] + ' %', 'Más del ' + cortes[3] + ' %'];
+  document.getElementById('mapa').insertAdjacentHTML('beforeend', U.paths({ fill: function (d) { return col[U.clase(d.pct, cortes)]; }, attrs: ' stroke="#14395e" stroke-width="1.5"' }));
+  document.getElementById('leyenda').innerHTML = col.map(function (c, i) { return '<li><i style="background:' + c + '"></i>' + t[i] + '</li>'; }).join('');
+  var fl = U.filas(), top = fl[0], bot = fl[fl.length - 1];
+  set('mas-n', 'Más: ' + top.nombre + ', ' + f(top.pct) + ' %');
+  set('mas-t', f(top.hm3, 0) + ' hm³ de ' + f(top.capacidad, 0) + ' hm³; su media es ' + f(top.media10) + ' %.');
+  set('menos-n', 'Menos: ' + bot.nombre + ', ' + f(bot.pct) + ' %');
+  set('menos-t', f(bot.hm3, 0) + ' hm³ de ' + f(bot.capacidad, 0) + ' hm³; su media es ' + f(bot.media10) + ' %.');
+  document.getElementById('tabla').tBodies[0].innerHTML = fl.map(function (d) {
+    return '<tr><th scope="row">' + d.nombre + '</th><td>' + f(d.pct) + ' %</td><td>' + f(d.media10) + ' %</td></tr>';
+  }).join('');
+
+  // 5 embalses
+  set('n-emb', f(N.n_embalses, 0));
+  document.getElementById('lista').innerHTML = ['casi lleno', 'muy bajo', 'el más grande'].map(function (r) {
+    var e = U.ej(r), d = e.pct - e.media10;
+    var frase = d > 1 ? 'Más lleno de lo habitual: ' + f(U.abs(d)) + ' puntos por encima de su media.' : d < -1 ? 'Más vacío de lo habitual: ' + f(U.abs(d)) + ' puntos por debajo de su media.' : 'En su media.';
+    return '<li><h3><a href="#">' + e.nombre + '</a></h3><p class="peq">' + e.provincia + ' · ' + e.demarcacion + ' · ' + r + '</p>' +
+      '<p class="frase"><mark>' + f(e.pct) + ' %</mark> de ' + f(e.capacidad, 0) + ' hm³. ' + frase + '</p>' +
+      '<div class="mini" role="img" aria-label="De 0 a 100 %: ahora ' + f(e.pct) + ' %, media ' + f(e.media10) + ' %"><i style="width:' + e.pct + '%"></i><u style="left:' + e.media10 + '%"></u></div>' +
+      '<p class="peq">Raya roja: su media de 10 años, ' + f(e.media10) + ' %.</p></li>';
+  }).join('');
+
+  set('fuente', 'Fuente: MITECO, Boletín Hidrológico');
+  set('atrib', U.atrib());
+})();
+</script>
+</body>
+</html>

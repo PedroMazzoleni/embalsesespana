@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Embalses de España · Dirección A, Periódico</title>
+<meta name="description" content="Maqueta de portada, dirección A (periódico).">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --papel: #f4efe4;
+  --papel-2: #ebe4d3;
+  --tinta: #1b1a17;
+  --tinta-2: #4d4840;
+  --azul: #1d3a5f;
+  --ocre: #7a4e0e;
+  --filete: #1b1a17;
+  --serif: "Newsreader", Georgia, "Times New Roman", serif;
+  --sans: "Montserrat", "Helvetica Neue", Arial, sans-serif;
+  --pad: 1.25rem;
+  --medida: 62rem;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; background: var(--papel); color: var(--tinta);
+  font: 400 1.125rem/1.5 var(--serif);
+}
+a { color: var(--azul); text-underline-offset: .18em; text-decoration-thickness: 1px; }
+a:focus-visible, summary:focus-visible { outline: 3px solid var(--azul); outline-offset: 3px; }
+.wrap { max-width: var(--medida); margin: 0 auto; padding: 0 var(--pad); }
+.etq { font: 600 .6875rem/1.3 var(--sans); letter-spacing: .12em; text-transform: uppercase; color: var(--tinta-2); margin: 0; }
+
+/* Cabecera */
+.mast { border-bottom: 3px double var(--filete); padding: .75rem 0 .5rem; }
+.mast__linea { display: flex; justify-content: space-between; gap: 1rem; border-bottom: 1px solid var(--filete); padding-bottom: .4rem; margin-bottom: .5rem; }
+.mast__nombre { font: 700 clamp(2rem, 9.5vw, 4.25rem)/1 var(--serif); letter-spacing: -.01em; margin: .15em 0 .1em; text-align: center; }
+.mast__nombre span { font-style: italic; font-weight: 400; }
+.mast nav { display: flex; flex-wrap: wrap; justify-content: center; gap: .25rem 1.25rem; border-top: 1px solid var(--filete); padding-top: .5rem; margin-top: .5rem; }
+.mast nav a { font: 600 .6875rem/2 var(--sans); letter-spacing: .12em; text-transform: uppercase; color: var(--tinta); text-decoration: none; padding: .25rem 0; }
+.mast nav a:hover { color: var(--azul); text-decoration: underline; }
+
+/* Apertura */
+.apertura { padding: 1.5rem 0 1rem; display: grid; gap: 1.75rem; }
+.cifra { font: 700 clamp(5.5rem, 31vw, 11rem)/.85 var(--serif); letter-spacing: -.04em; margin: .1em 0 .05em; color: var(--azul); font-variant-numeric: lining-nums; }
+.cifra small { font-size: .45em; font-weight: 400; letter-spacing: 0; margin-left: .08em; }
+.titular { font: 700 clamp(1.5rem, 6.4vw, 2.25rem)/1.12 var(--serif); margin: .25rem 0 .6rem; text-wrap: balance; }
+.deck { font-size: 1.1875rem; margin: 0 0 1rem; color: var(--tinta); max-width: 38ch; }
+.contexto { display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid var(--filete); border-bottom: 1px solid var(--filete); }
+.contexto > div { padding: .7rem .8rem .7rem 0; }
+.contexto > div + div { border-left: 1px solid var(--filete); padding-left: .8rem; }
+.contexto b { display: block; font: 700 1.75rem/1.1 var(--serif); }
+.contexto .seco { color: var(--ocre); }
+.contexto span { display: block; font-size: .9375rem; line-height: 1.3; color: var(--tinta-2); }
+.nota { font-size: .875rem; font-style: italic; color: var(--tinta-2); margin: .6rem 0 0; }
+
+/* Mapa */
+.mapa { margin: 0; }
+.mapa figcaption { border-top: 1px solid var(--filete); padding-top: .5rem; }
+.mapa svg { width: 100%; height: auto; display: block; max-height: 70vh; }
+.mapa path { stroke: var(--tinta); stroke-width: 1.6; stroke-linejoin: round; }
+.leyenda { display: flex; flex-wrap: wrap; gap: .4rem 1rem; padding: 0; margin: .6rem 0 0; list-style: none; font: 600 .6875rem/1.2 var(--sans); letter-spacing: .04em; color: var(--tinta-2); }
+.leyenda li { display: flex; align-items: center; gap: .4rem; }
+.leyenda svg { width: 1.5rem; height: 1rem; border: 1px solid var(--tinta); flex: none; }
+.mapa-t { font: 700 1.25rem/1.2 var(--serif); margin: .15rem 0 .5rem; }
+
+/* Tabla alternativa */
+details { margin-top: .8rem; border-top: 1px solid var(--filete); }
+summary { cursor: pointer; padding: .7rem 0; font: 600 .6875rem/1.3 var(--sans); letter-spacing: .12em; text-transform: uppercase; }
+table { width: 100%; border-collapse: collapse; font-size: 1rem; font-variant-numeric: tabular-nums lining-nums; }
+caption { text-align: left; font-style: italic; color: var(--tinta-2); padding-bottom: .4rem; }
+th, td { text-align: right; padding: .35rem .4rem; border-bottom: 1px solid color-mix(in srgb, var(--tinta) 25%, transparent); }
+th:first-child, td:first-child { text-align: left; padding-left: 0; }
+thead th { font: 600 .625rem/1.3 var(--sans); letter-spacing: .1em; text-transform: uppercase; border-bottom: 1px solid var(--filete); }
+
+/* Tres embalses */
+.hoy { border-top: 3px double var(--filete); margin-top: 2rem; padding-top: .75rem; }
+.hoy h2 { font: 700 1.625rem/1.15 var(--serif); margin: .2rem 0 .4rem; }
+.lista { list-style: none; margin: 0; padding: 0; }
+.lista li { display: grid; grid-template-columns: 1fr auto; column-gap: 1rem; padding: 1rem 0; border-bottom: 1px solid var(--filete); }
+.lista h3 { font: 700 1.5rem/1.15 var(--serif); margin: .2rem 0 .1rem; }
+.lista h3 a { color: var(--tinta); }
+.lista .lugar { font-size: .9375rem; color: var(--tinta-2); margin: 0; }
+.lista .pct { font: 700 2.5rem/1 var(--serif); letter-spacing: -.02em; text-align: right; color: var(--azul); }
+.lista .pct small { font-size: .5em; font-weight: 400; }
+.lista .pct.seco { color: var(--ocre); }
+.escala { grid-column: 1 / -1; position: relative; height: .5rem; margin: .8rem 0 .3rem; background: var(--papel-2); border: 1px solid var(--tinta); }
+.escala i { position: absolute; inset: 0 auto 0 0; background: var(--tinta); }
+.escala u { position: absolute; top: -.35rem; bottom: -.35rem; width: 2px; background: var(--ocre); }
+.lista .pie { grid-column: 1 / -1; font-size: .9375rem; margin: 0; }
+
+/* Pie */
+.pie-web { margin-top: 2.5rem; border-top: 3px double var(--filete); padding: 1rem 0 2.5rem; font-size: .9375rem; color: var(--tinta-2); }
+.pie-web p { margin: 0 0 .5rem; max-width: 60ch; }
+
+@media (min-width: 52rem) {
+  :root { --pad: 2rem; }
+  .apertura { grid-template-columns: 1.1fr .9fr; gap: 3rem; align-items: start; padding-top: 2.25rem; }
+  .titular { font-size: 2.5rem; }
+  .lista { display: grid; grid-template-columns: repeat(3, 1fr); column-gap: 2rem; }
+  .lista li { border-bottom: 0; border-top: 1px solid var(--filete); align-content: start; }
+}
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="mast">
+  <p class="mast__linea etq"><span>Edición del <time id="fecha-cab">…</time></span><span>Reserva peninsular</span></p>
+  <p class="mast__nombre">Embalses <span>de</span> España</p>
+  <nav aria-label="Principal"><a href="#">Hoy</a><a href="#">Mapa</a><a href="#">Embalses</a><a href="#">Cuencas</a><a href="#">Explicadores</a></nav>
+</header>
+
+<main>
+<section class="apertura" aria-labelledby="titular">
+  <div>
+    <p class="etq">¿Hay agua?</p>
+    <p class="cifra" aria-hidden="true"><span id="pct">–</span><small>%</small></p>
+    <h1 class="titular" id="titular">Cargando los datos del último boletín…</h1>
+    <p class="deck" id="deck"></p>
+    <div class="contexto">
+      <div><b id="v-semana">–</b><span id="t-semana"></span></div>
+      <div><b id="v-media" class="seco">–</b><span id="t-media"></span></div>
+    </div>
+    <p class="nota" id="nota-prov"></p>
+  </div>
+
+  <figure class="mapa" aria-labelledby="mapa-t">
+    <figcaption>
+      <p class="etq">Por demarcación hidrográfica</p>
+      <p class="mapa-t" id="mapa-t">Dónde hay más y dónde menos</p>
+    </figcaption>
+    <svg id="mapa" viewBox="0 0 1000 804" role="img" aria-labelledby="mapa-t mapa-d">
+      <desc id="mapa-d">Mapa de la España peninsular dividido en demarcaciones. Cada una lleva una trama según su porcentaje de reserva. Los valores exactos están en la tabla de debajo.</desc>
+      <defs id="defs"></defs>
+    </svg>
+    <ul class="leyenda" id="leyenda"></ul>
+    <details>
+      <summary>Ver los datos en tabla</summary>
+      <table id="tabla">
+        <caption>Reserva por demarcación frente a la media de los 10 años anteriores.</caption>
+        <thead><tr><th scope="col">Demarcación</th><th scope="col">Ahora</th><th scope="col">Media 10 años</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </details>
+  </figure>
+</section>
+
+<section class="hoy" aria-labelledby="hoy-t">
+  <p class="etq">Tres embalses</p>
+  <h2 id="hoy-t">Tres historias de la semana</h2>
+  <ol class="lista" id="lista"></ol>
+</section>
+</main>
+
+<footer class="pie-web">
+  <p id="atrib"></p>
+  <p>Código: MIT · Datos: CC BY 4.0</p>
+</footer>
+</div>
+
+<noscript><p class="wrap">Esta maqueta pinta sus cifras desde datos-muestra.js.</p></noscript>
+<script src="datos-muestra.js"></script>
+<script>
+(function () {
+  var M = window.MUESTRA, N = M.nacional;
+  var $ = function (i) { return document.getElementById(i); };
+  var f = function (n, d) { d = d == null ? 1 : d; return n.toLocaleString('es-ES', { minimumFractionDigits: d, maximumFractionDigits: d, useGrouping: 'always' }); };
+  var fecha = new Date(M.fecha + 'T00:00:00').toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' });
+  var abs = Math.abs;
+  var rel = N.dif_media_pts > 1 ? 'por encima de' : N.dif_media_pts < -1 ? 'por debajo de' : 'en línea con';
+  $('fecha-cab').textContent = fecha; $('fecha-cab').setAttribute('datetime', M.fecha);
+  $('pct').textContent = f(N.pct);
+  $('titular').textContent = 'Los embalses están al ' + f(N.pct) + ' %: ' + (N.dif_media_pts > 1 ? 'más llenos' : N.dif_media_pts < -1 ? 'más vacíos' : 'como') + ' que la media de los últimos 10 años';
+  var piscinas = N.hm3 * 1e6 / 2500;
+  $('deck').textContent = '¿Es grave? ' + (N.dif_media_pts < -1 ? 'Sí, la reserva está por debajo de lo habitual.' : N.dif_media_pts > 1 ? 'Por ahora, no: la reserva está por encima de lo habitual.' : 'No más de lo habitual.') + ' Hay ' + f(N.hm3, 0) + ' hm³ guardados, unos ' + f(piscinas / 1e6, 1) + ' millones de piscinas olímpicas.';
+  $('v-semana').textContent = (N.var_pts > 0 ? '+' : N.var_pts < 0 ? '−' : '') + f(abs(N.var_pts)) + ' puntos';
+  $('t-semana').textContent = 'frente a la semana anterior (' + f(N.pct_previa) + ' %)';
+  $('v-media').textContent = f(N.media10) + ' %';
+  $('t-media').textContent = 'media de la misma semana en los 10 años anteriores; ahora, ' + f(abs(N.dif_media_pts)) + ' puntos ' + rel + ' ella';
+  $('nota-prov').textContent = 'Datos provisionales del MITECO a ' + fecha + '. Media de 10 años: cálculo provisional de maqueta.';
+  $('atrib').innerHTML = 'Datos: Ministerio para la Transición Ecológica y el Reto Demográfico (MITECO), Boletín Hidrológico, ' + fecha + '. ' + M.nacional.n_embalses + ' embalses peninsulares. Provisionales.';
+
+  // Clases de reserva: trama y color de línea
+  var C = [
+    { max: 30, t: 'Menos del 30 %', col: '#7a4e0e', gap: 4, dir: 'x' },
+    { max: 45, t: '30 a 45 %', col: '#7a4e0e', gap: 8, dir: 'a' },
+    { max: 60, t: '45 a 60 %', col: '#1b1a17', gap: 6, dir: 'p' },
+    { max: 75, t: '60 a 75 %', col: '#1d3a5f', gap: 8, dir: 'b' },
+    { max: 101, t: 'Más del 75 %', col: '#1d3a5f', gap: 4, dir: 'x' }
+  ];
+  var cls = function (p) { for (var i = 0; i < C.length; i++) if (p < C[i].max) return i; return 4; };
+  function pat(i, big) {
+    var c = C[i], g = c.gap * (big ? 1 : 1), s = '';
+    if (c.dir === 'x') s = '<path d="M0 ' + g + 'L' + g + ' 0M0 0L' + g + ' ' + g + '" stroke="' + c.col + '" stroke-width="1.4"/>';
+    else if (c.dir === 'a') s = '<path d="M0 ' + g + 'L' + g + ' 0" stroke="' + c.col + '" stroke-width="1.4"/>';
+    else if (c.dir === 'b') s = '<path d="M0 0L' + g + ' ' + g + '" stroke="' + c.col + '" stroke-width="1.4"/>';
+    else s = '<circle cx="' + g / 2 + '" cy="' + g / 2 + '" r="1.5" fill="' + c.col + '"/>';
+    return '<pattern id="h' + i + '" width="' + g + '" height="' + g + '" patternUnits="userSpaceOnUse"><rect width="' + g + '" height="' + g + '" fill="#f4efe4"/>' + s + '</pattern>';
+  }
+  var defs = '';
+  C.forEach(function (c, i) { defs += pat(i); });
+  $('defs').innerHTML = defs;
+  var paths = '';
+  M.demarcaciones.forEach(function (d) {
+    paths += '<path d="' + d.d + '" fill="' + (d.pct == null ? '#f4efe4' : 'url(#h' + cls(d.pct) + ')') + '"><title>' + d.nombre + ': ' + (d.pct == null ? 'sin dato' : f(d.pct) + ' %') + '</title></path>';
+  });
+  $('mapa').insertAdjacentHTML('beforeend', paths);
+  $('leyenda').innerHTML = C.map(function (c, i) {
+    return '<li><svg viewBox="0 0 24 16" aria-hidden="true"><defs>' + pat(i).replace('id="h' + i, 'id="l' + i) + '</defs><rect width="24" height="16" fill="url(#l' + i + ')"/></svg>' + c.t + '</li>';
+  }).join('');
+  $('tabla').tBodies[0].innerHTML = M.demarcaciones.slice().sort(function (a, b) { return b.pct - a.pct; }).map(function (d) {
+    return '<tr><th scope="row" style="font-weight:400">' + d.nombre + '</th><td>' + f(d.pct) + ' %</td><td>' + f(d.media10) + ' %</td></tr>';
+  }).join('');
+
+  // Teasers
+  var orden = ['casi lleno', 'muy bajo', 'el más grande'];
+  $('lista').innerHTML = orden.map(function (r) {
+    var e = M.ejemplos.filter(function (x) { return x.rol === r; })[0];
+    var seco = e.pct < e.media10;
+    return '<li><div><p class="etq">' + r + '</p><h3><a href="#">' + e.nombre + '</a></h3><p class="lugar">' + e.provincia + ' · ' + e.demarcacion + ' · ' + f(e.capacidad, 0) + ' hm³</p></div>' +
+      '<p class="pct' + (seco ? ' seco' : '') + '">' + f(e.pct) + '<small> %</small></p>' +
+      '<div class="escala" role="img" aria-label="Escala de 0 a 100 %: ahora ' + f(e.pct) + ' %, media ' + f(e.media10) + ' %"><i style="width:' + e.pct + '%"></i><u style="left:' + e.media10 + '%"></u></div>' +
+      '<p class="pie">En esta época suele estar al ' + f(e.media10) + ' %.</p></li>';
+  }).join('');
+})();
+</script>
+</body>
+</html>

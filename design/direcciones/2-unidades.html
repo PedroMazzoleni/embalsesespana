@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Embalses de España · Dirección 2, Unidades</title>
+<meta name="description" content="Maqueta de portada, dirección 2: unidades contables.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --fondo: #eef2f5;
+  --panel: #ffffff;
+  --tinta: #14202b;       /* sobre fondo: 14:1 */
+  --tinta-2: #46535f;     /* sobre fondo: 6,9:1 */
+  --agua: #1b5e8c;        /* unidad llena; sobre fondo: 5,9:1 */
+  --vacia: #c9d3dc;
+  --media: #b3470a;       /* línea de media; sobre fondo: 4,6:1 */
+  --filete: #14202b;
+  --sans: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+  --pad: 1rem;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--fondo); color: var(--tinta); font: 400 1rem/1.5 var(--sans); }
+a { color: var(--agua); text-underline-offset: .18em; }
+a:focus-visible, summary:focus-visible { outline: 3px solid var(--tinta); outline-offset: 3px; }
+.wrap { max-width: 76rem; margin: 0 auto; padding: 0 var(--pad); }
+.etq { font: 600 .75rem/1.3 var(--mono); letter-spacing: .04em; text-transform: uppercase; color: var(--tinta-2); margin: 0; }
+
+header.cab { border-bottom: 2px solid var(--filete); padding: .8rem 0; }
+header.cab .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .5rem 1.5rem; align-items: baseline; }
+.marca { font: 700 1.125rem/1.2 var(--sans); margin: 0; }
+.cab nav { display: flex; flex-wrap: wrap; gap: .25rem 1.25rem; }
+.cab nav a { font: 600 .8125rem/2.2 var(--mono); color: var(--tinta); text-decoration: none; }
+.cab nav a:hover { text-decoration: underline; }
+
+/* Módulos */
+.modulos { display: grid; gap: 1.5rem; padding: 1.5rem 0; }
+.mod { background: var(--panel); border: 2px solid var(--filete); padding: 1rem; }
+.mod h2 { font: 700 1.125rem/1.25 var(--sans); margin: .25rem 0 .75rem; }
+
+/* Cuadrícula de 100 unidades */
+.nivel { display: grid; grid-template-columns: auto 1fr; column-gap: .75rem; }
+.eje { display: flex; flex-direction: column; justify-content: space-between; font: 400 .75rem/1 var(--mono); color: var(--tinta-2); padding: 0; text-align: right; }
+.rejilla-w { position: relative; max-width: 26rem; }
+.rejilla { display: grid; grid-template-columns: repeat(10, 1fr); gap: 3px; margin: 0; padding: 0; list-style: none; }
+.rejilla li { aspect-ratio: 1; background: var(--vacia); }
+.rejilla li.l { background: var(--agua); }
+.rejilla li.p { background: linear-gradient(to top, var(--agua) var(--r), var(--vacia) var(--r)); }
+.linea-media { position: absolute; left: -.5rem; right: -.5rem; border-top: 3px solid var(--media); pointer-events: none; }
+.linea-media span { position: absolute; right: 0; bottom: 3px; background: var(--panel); color: var(--media); font: 600 .75rem/1.2 var(--mono); padding: .1rem .35rem; border: 1px solid var(--media); }
+.unidad { font: 400 .8125rem/1.4 var(--mono); color: var(--tinta-2); margin: .9rem 0 0; display: flex; gap: .5rem; align-items: center; }
+.unidad i { display: inline-block; width: .9rem; height: .9rem; background: var(--agua); flex: none; }
+
+/* Texto */
+.texto .cifra { font: 600 clamp(4rem, 20vw, 7rem)/.9 var(--mono); letter-spacing: -.04em; margin: .25rem 0 .25rem; color: var(--agua); }
+.texto .cifra small { font-size: .4em; letter-spacing: 0; }
+.texto h1 { font: 700 clamp(1.5rem, 5.5vw, 2.125rem)/1.15 var(--sans); margin: 0 0 1rem; text-wrap: balance; }
+.hechos { margin: 0; display: grid; border-top: 2px solid var(--filete); }
+.hechos div { display: grid; grid-template-columns: 8.5rem 1fr; gap: .75rem; padding: .7rem 0; border-bottom: 1px solid var(--vacia); align-items: baseline; }
+.hechos dt { font: 600 1.375rem/1.1 var(--mono); }
+.hechos dd { margin: 0; font-size: .9375rem; line-height: 1.35; color: var(--tinta-2); }
+.hechos .alto dt { color: var(--media); }
+.nota { font-size: .8125rem; color: var(--tinta-2); margin: .8rem 0 0; }
+
+/* Tabla de tiras */
+table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums lining-nums; }
+caption { text-align: left; font-size: .9375rem; color: var(--tinta-2); padding-bottom: .6rem; }
+th, td { padding: .45rem .5rem .45rem 0; border-bottom: 1px solid var(--vacia); vertical-align: middle; text-align: left; }
+thead th { font: 600 .6875rem/1.3 var(--mono); letter-spacing: .04em; text-transform: uppercase; color: var(--tinta-2); border-bottom: 2px solid var(--filete); }
+tbody th { font-weight: 600; font-size: .9375rem; line-height: 1.25; }
+td.n { font: 600 .9375rem/1 var(--mono); text-align: right; white-space: nowrap; }
+td.m { display: none; font: 400 .875rem/1 var(--mono); text-align: right; color: var(--tinta-2); white-space: nowrap; }
+.tira { position: relative; display: grid; grid-template-columns: repeat(20, 1fr); gap: 2px; min-width: 8rem; }
+.tira i { height: .8rem; background: var(--vacia); }
+.tira i.l { background: var(--agua); }
+.tira i.p { background: linear-gradient(to right, var(--agua) var(--r), var(--vacia) var(--r)); }
+.tira u { position: absolute; top: -.25rem; bottom: -.25rem; width: 3px; margin-left: -1.5px; background: var(--media); }
+.tira.grande i { height: 1.1rem; }
+
+/* Tres embalses */
+.tres { display: grid; gap: 1rem; list-style: none; margin: 0; padding: 0; }
+.tres li { border-top: 2px solid var(--filete); padding-top: .75rem; }
+.tres h3 { font: 700 1.25rem/1.2 var(--sans); margin: .2rem 0; }
+.tres h3 a { color: var(--tinta); }
+.tres .lugar { margin: 0 0 .7rem; font-size: .875rem; color: var(--tinta-2); }
+.tres .cuenta { font: 400 .8125rem/1.4 var(--mono); margin: .5rem 0 0; color: var(--tinta-2); }
+.tres .cuenta b { font-weight: 600; color: var(--tinta); }
+
+footer { border-top: 2px solid var(--filete); padding: 1.25rem 0 2.5rem; font-size: .875rem; color: var(--tinta-2); }
+footer p { margin: 0 0 .5rem; max-width: 64ch; }
+footer .fuente { font: 600 .875rem/1.4 var(--mono); color: var(--tinta); }
+details { margin-top: .75rem; }
+summary { cursor: pointer; font: 600 .75rem/1.3 var(--mono); padding: .6rem 0; text-transform: uppercase; }
+
+@media (min-width: 40rem) { td.m { display: table-cell; } .hechos div { grid-template-columns: 10rem 1fr; } }
+@media (min-width: 56rem) {
+  :root { --pad: 2rem; }
+  .modulos { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 2rem; padding: 2rem 0; }
+  .mod.nivel-m { grid-column: 1; }
+  .mod.texto { grid-column: 2; }
+  .mod.tiras { grid-column: 1 / -1; }
+  .mod.ejem { grid-column: 1 / -1; }
+  .mod { padding: 1.5rem; }
+  .tres { grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+  .tira { min-width: 16rem; }
+  .tira i { height: 1rem; }
+}
+@media (min-width: 80rem) {
+  .modulos { grid-template-columns: 26rem minmax(0, 1fr) minmax(0, 1.1fr); }
+  .mod.nivel-m { grid-column: 1; grid-row: 1 / span 2; }
+  .mod.texto { grid-column: 2 / -1; grid-row: 1; }
+  .mod.tiras { grid-column: 2 / -1; grid-row: 2; }
+  .mod.ejem { grid-column: 1 / -1; grid-row: 3; }
+}
+</style>
+</head>
+<body>
+<header class="cab">
+  <div class="wrap">
+    <p class="marca">Embalses de España</p>
+    <nav aria-label="Principal"><a href="#">Hoy</a><a href="#tiras-t">Por cuenca</a><a href="#">Embalses</a><a href="#">Explicadores</a></nav>
+  </div>
+</header>
+
+<main class="wrap">
+<div class="modulos">
+
+  <section class="mod nivel-m" aria-labelledby="nivel-t">
+    <p class="etq" id="etq-fecha"></p>
+    <h2 id="nivel-t">Nivel de la reserva peninsular</h2>
+    <div class="nivel">
+      <div class="eje" aria-hidden="true"><span>100 %</span><span>50 %</span><span>0 %</span></div>
+      <div class="rejilla-w">
+        <ol class="rejilla" id="rejilla" role="img" aria-label=""></ol>
+        <div class="linea-media" id="linea"><span id="linea-t"></span></div>
+      </div>
+    </div>
+    <p class="unidad"><i></i><span id="unidad"></span></p>
+  </section>
+
+  <section class="mod texto" aria-labelledby="titular">
+    <p class="etq">¿Hay agua?</p>
+    <p class="cifra" aria-hidden="true"><span id="pct"></span><small>%</small></p>
+    <h1 id="titular"></h1>
+    <dl class="hechos">
+      <div class="alto"><dt id="v-media"></dt><dd id="t-media"></dd></div>
+      <div><dt id="v-semana"></dt><dd id="t-semana"></dd></div>
+      <div><dt id="v-hm3"></dt><dd id="t-hm3"></dd></div>
+    </dl>
+    <p class="nota" id="nota"></p>
+  </section>
+
+  <section class="mod tiras" aria-labelledby="tiras-t">
+    <p class="etq">Dónde hay más y dónde menos</p>
+    <h2 id="tiras-t">Cada cuenca, ordenada de más llena a más vacía</h2>
+    <table id="tabla">
+      <caption id="cap"></caption>
+      <thead><tr><th scope="col">Demarcación</th><th scope="col">Nivel</th><th scope="col" style="text-align:right">Ahora</th><th scope="col" style="text-align:right" class="m">Media 10 años</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </section>
+
+  <section class="mod ejem" aria-labelledby="ejem-t">
+    <p class="etq">Tres embalses</p>
+    <h2 id="ejem-t">Tres embalses con el mismo método</h2>
+    <ol class="tres" id="lista"></ol>
+  </section>
+</div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p class="fuente" id="fuente"></p>
+    <p id="atrib"></p>
+    <p>Código: MIT · Datos: CC BY 4.0</p>
+  </div>
+</footer>
+
+<script src="datos-muestra.js"></script>
+<script src="util.js"></script>
+<script>
+(function () {
+  var U = window.U, M = U.M, N = U.N, f = U.f, set = U.set;
+  var UN = N.capacidad / 100; // hm3 por unidad
+
+  // Unidades: cuántas llenas, parcial y vacías. Orden: de abajo arriba, fila a fila.
+  function tira(pct, n, media) {
+    var u = pct / (100 / n), llenas = Math.floor(u), resto = u - llenas, s = '';
+    for (var i = 0; i < n; i++) s += '<i class="' + (i < llenas ? 'l' : i === llenas && resto > 0.05 ? 'p' : '') + '"' + (i === llenas && resto > 0.05 ? ' style="--r:' + (resto * 100) + '%"' : '') + '></i>';
+    return s + (media != null ? '<u style="left:' + media + '%"></u>' : '');
+  }
+
+  set('etq-fecha', 'Boletín del ' + U.fecha);
+  var celdas = '', llenas = Math.floor(N.pct), resto = N.pct - llenas;
+  for (var r = 9; r >= 0; r--) for (var c = 0; c < 10; c++) {
+    var idx = r * 10 + c;
+    celdas += '<li class="' + (idx < llenas ? 'l' : idx === llenas && resto > 0.05 ? 'p' : '') + '"' + (idx === llenas && resto > 0.05 ? ' style="--r:' + (resto * 100) + '%"' : '') + '></li>';
+  }
+  var rej = document.getElementById('rejilla');
+  rej.innerHTML = celdas;
+  rej.setAttribute('aria-label', 'Cuadrícula de 100 unidades; ' + f(N.pct) + ' llenas. La línea marca la media de 10 años, ' + f(N.media10) + ' %.');
+  var ln = document.getElementById('linea'); ln.style.bottom = 'calc(' + N.media10 + '% - 1.5px)';
+  set('linea-t', 'media 10 años: ' + f(N.media10) + ' %');
+  set('unidad', 'Cada cuadrado = 1 % de la capacidad = ' + f(UN, 0) + ' hm³. Capacidad total: ' + f(N.capacidad, 0) + ' hm³.');
+
+  set('pct', f(N.pct));
+  set('titular', 'Los embalses están al ' + f(N.pct) + ' %: ' + U.masMenos + ' que la media de los últimos 10 años');
+  set('v-media', U.signo(N.dif_media_pts) + f(U.abs(N.dif_media_pts)) + ' pts');
+  set('t-media', U.rel.charAt(0).toUpperCase() + U.rel.slice(1) + ' la media de 10 años (' + f(N.media10) + ' %), la misma semana.');
+  set('v-semana', U.signo(N.var_pts) + f(U.abs(N.var_pts)) + ' pts');
+  set('t-semana', U.semana());
+  set('v-hm3', f(N.hm3, 0));
+  set('t-hm3', 'hm³ guardados de ' + f(N.capacidad, 0) + ' hm³ de capacidad, en ' + N.n_embalses + ' embalses peninsulares.');
+  set('nota', 'Datos provisionales. ' + U.provisional);
+
+  // Tabla de tiras
+  set('cap', 'Cada tira son 20 unidades de 5 % de la capacidad de la cuenca. La marca naranja es la media de 10 años.');
+  document.getElementById('tabla').tBodies[0].innerHTML = U.filas().map(function (d) {
+    return '<tr><th scope="row">' + d.nombre + '</th><td><div class="tira" role="img" aria-label="' + f(d.pct) + ' % ahora; media ' + f(d.media10) + ' %">' + tira(d.pct, 20, d.media10) + '</div></td><td class="n">' + f(d.pct) + ' %</td><td class="m">' + f(d.media10) + ' %</td></tr>';
+  }).join('');
+
+  document.getElementById('lista').innerHTML = ['casi lleno', 'muy bajo', 'el más grande'].map(function (r) {
+    var e = U.ej(r), u = e.capacidad / 20;
+    return '<li><p class="etq">' + r + '</p><h3><a href="#">' + e.nombre + '</a></h3><p class="lugar">' + e.provincia + ' · ' + e.demarcacion + '</p>' +
+      '<div class="tira grande" role="img" aria-label="' + f(e.pct) + ' % ahora; media ' + f(e.media10) + ' %">' + tira(e.pct, 20, e.media10) + '</div>' +
+      '<p class="cuenta"><b>' + f(e.pct) + ' %</b> ahora · media ' + f(e.media10) + ' %<br>' + f(e.hm3, 0) + ' de ' + f(e.capacidad, 0) + ' hm³ (1 unidad = ' + f(u, 1) + ' hm³)</p></li>';
+  }).join('');
+
+  set('fuente', 'Fuente: MITECO, Boletín Hidrológico');
+  set('atrib', U.atrib());
+})();
+</script>
+</body>
+</html>

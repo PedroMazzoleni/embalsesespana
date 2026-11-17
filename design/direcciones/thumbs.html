@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Embalses de España · Seis direcciones</title>
+<meta name="description" content="Seis direcciones visuales para la portada, en miniatura.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;800;900&family=IBM+Plex+Mono:wght@600&family=Bricolage+Grotesque:opsz,wght@12..96,800&family=Newsreader:wght@700&family=Archivo+Narrow:wght@700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root { --fondo: #f1efe9; --tinta: #181818; --tinta-2: #4a4a46; --sans: "Inter", Arial, sans-serif; }
+*, *::before, *::after { box-sizing: border-box; }
+body { margin: 0; background: var(--fondo); color: var(--tinta); font: 400 1rem/1.5 var(--sans); }
+a { color: inherit; }
+a:focus-visible { outline: 3px solid var(--tinta); outline-offset: 3px; }
+.wrap { max-width: 80rem; margin: 0 auto; padding: 1.5rem 1rem 3rem; }
+h1 { font: 600 1.5rem/1.2 var(--sans); margin: 0 0 .25rem; }
+.sub { margin: 0 0 1.5rem; color: var(--tinta-2); max-width: 60ch; }
+.grid { list-style: none; margin: 0; padding: 0; display: grid; gap: 1.5rem 1.25rem; grid-template-columns: repeat(auto-fill, minmax(min(100%, 22rem), 1fr)); }
+.t { display: grid; grid-template-rows: auto 1fr; border-top: 3px solid var(--tinta); padding-top: .6rem; }
+.t h2 { font: 600 1.0625rem/1.25 var(--sans); margin: 0; }
+.t h2 span { color: var(--tinta-2); font-weight: 400; margin-right: .35rem; }
+.t p { margin: .2rem 0 .75rem; font-size: .9375rem; color: var(--tinta-2); }
+.t .ver { font-size: .875rem; font-weight: 600; margin: .75rem 0 0; }
+.t .ver.no { font-weight: 400; color: var(--tinta-2); }
+.s { position: relative; overflow: hidden; height: 17rem; border: 1px solid var(--tinta); container-type: inline-size; }
+
+/* 1 Cartel */
+.s1 { background: #0b3bd6; color: #fff; padding: .8rem; font-family: "Montserrat", sans-serif; }
+.s1 b { display: block; font-weight: 900; font-size: 34cqi; line-height: .8; letter-spacing: -.06em; }
+.s1 small { font-size: .4em; color: #ffd400; }
+.s1 span { display: block; margin-top: .8rem; font-weight: 800; font-size: 1.125rem; line-height: 1.1; max-width: 14ch; }
+.s1 i { position: absolute; left: 0; right: 0; bottom: 0; height: 3.5rem; background: #fff; }
+.s1 i::before, .s1 i::after { content: ""; position: absolute; top: .5rem; height: 2.5rem; }
+.s1 i::before { left: .8rem; width: 38%; background: #ffc400; }
+.s1 i::after { left: calc(.8rem + 38%); width: 30%; background: #6c8cf0; }
+
+/* 2 Unidades */
+.s2 { background: #eef2f5; padding: .8rem; display: grid; grid-template-columns: 8rem 1fr; gap: .8rem; font-family: "IBM Plex Mono", monospace; }
+.s2 .g { display: grid; grid-template-columns: repeat(10, 1fr); gap: 2px; align-content: end; height: 8rem; }
+.s2 .g i { background: #c9d3dc; aspect-ratio: 1; }
+.s2 .g i.l { background: #1b5e8c; }
+.s2 b { font-size: 3.2rem; font-weight: 600; line-height: .9; color: #1b5e8c; letter-spacing: -.04em; }
+.s2 .tiras { grid-column: 1 / -1; display: grid; gap: .3rem; align-self: end; }
+.s2 .tiras i { display: block; height: .5rem; background: #c9d3dc; }
+.s2 .tiras i::after { content: ""; display: block; height: 100%; background: #1b5e8c; width: var(--w); }
+
+/* 3 Conversación */
+.s3 { background: #fbfaf5; padding: 1rem; font-family: "Bricolage Grotesque", sans-serif; }
+.s3 h3 { margin: 0 0 .5rem; font-size: 1.75rem; line-height: 1; font-weight: 800; letter-spacing: -.025em; }
+.s3 div { border-left: 4px solid #181818; padding-left: .7rem; }
+.s3 b { font-size: 4.6rem; line-height: .95; font-weight: 800; letter-spacing: -.05em; background: #ffe14d; padding: 0 .08em; }
+.s3 p { font: 400 .9375rem/1.3 "Inter", sans-serif; margin: .6rem 0 0; color: #181818; }
+
+/* 4 Apertura de diario */
+.s4 { background: #f4efe4; padding: .8rem; font-family: "Newsreader", Georgia, serif; display: grid; grid-template-columns: 1.3fr 1fr; gap: .8rem; }
+.s4 h3 { margin: 0; font-size: 1.25rem; line-height: 1.1; font-weight: 700; border-top: 3px double #1b1a17; padding-top: .4rem; }
+.s4 b { display: block; font-size: 3.5rem; line-height: .9; font-weight: 700; color: #1d3a5f; margin-top: .4rem; }
+.s4 .barras { grid-column: 1 / -1; display: flex; align-items: end; gap: 3px; height: 4.5rem; border-bottom: 1px solid #1b1a17; align-self: end; }
+.s4 .barras i { flex: 1; background: #b9b2a0; height: var(--h); }
+.s4 .barras i:last-child { background: #1d3a5f; }
+
+/* 5 Rejilla brutalista */
+.s5 { background: #fff; display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: auto 1fr 1fr; font-family: "Archivo Narrow", "Arial Narrow", sans-serif; }
+.s5 > * { border: 1px solid #000; margin: -.5px; padding: .4rem .5rem; }
+.s5 h3 { grid-column: 1 / -1; margin: 0; font-size: 3.6rem; line-height: .85; font-weight: 700; text-transform: uppercase; letter-spacing: -.02em; }
+.s5 h3 em { font-style: normal; color: #d94a00; }
+.s5 p { font: 400 .8125rem/1.25 "Inter", sans-serif; }
+.s5 .n { font-size: 1.75rem; font-weight: 700; line-height: 1; }
+
+/* 6 Libro lento */
+.s6 { background: #f6f3ee; display: grid; grid-template-columns: 1fr 2.2fr 1fr; padding: 1rem .6rem; font-family: "Newsreader", Georgia, serif; }
+.s6 .nota { font: 400 .6875rem/1.3 "Inter", sans-serif; color: #4a4a46; align-self: end; padding-right: .5rem; border-right: 1px solid #b8b2a5; }
+.s6 b { grid-column: 2; font-size: 5rem; line-height: .9; font-weight: 700; color: #8b1d1d; letter-spacing: -.03em; padding-left: .8rem; }
+.s6 p { grid-column: 2; margin: .8rem 0 0 .8rem; font-size: .9375rem; line-height: 1.35; max-width: 14rem; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Seis direcciones para la portada</h1>
+  <p class="sub" id="sub"></p>
+  <ol class="grid">
+
+    <li class="t"><div><h2><span>1</span>Cartel tipográfico</h2><p>La cifra como imagen: casi todo el ancho, sobre azul plano, y un mapa hecho de nombres de cuenca.</p></div>
+      <div><div class="s s1" role="img" aria-label="Boceto de la dirección 1: cifra gigante sobre azul con una placa blanca de mapa debajo"><b><span class="pct"></span><small>%</small></b><span class="frase1"></span><i></i></div>
+      <p class="ver"><a href="1-cartel.html">Ver portada completa</a></p></div></li>
+
+    <li class="t"><div><h2><span>2</span>Unidades</h2><p>Contar en vez de medir: 100 cuadrados, cada uno el 1 % de la capacidad, y la media como línea.</p></div>
+      <div><div class="s s2" role="img" aria-label="Boceto de la dirección 2: cuadrícula de 100 unidades y tiras de 20 por cuenca"><div class="g" id="g2"></div><div><b><span class="pct"></span></b></div><div class="tiras" id="t2"></div></div>
+      <p class="ver"><a href="2-unidades.html">Ver portada completa</a></p></div></li>
+
+    <li class="t"><div><h2><span>3</span>Conversación</h2><p>La portada es lo que el lector se pregunta: una columna de pregunta y respuesta, con resaltador.</p></div>
+      <div><div class="s s3" role="img" aria-label="Boceto de la dirección 3: pregunta en minúsculas y respuesta con la cifra resaltada"><h3>¿hay agua?</h3><div><b><span class="pct"></span> %</b><p class="frase3"></p></div></div>
+      <p class="ver"><a href="3-conversacion.html">Ver portada completa</a></p></div></li>
+
+    <li class="t"><div><h2><span>4</span>Apertura de diario</h2><p>Titular serif y la tira de los 10 años: el año actual es la barra más alta.</p></div>
+      <div><div class="s s4" role="img" aria-label="Boceto de la dirección 4: titular serif, cifra y tira de barras por año"><h3 class="frase4"></h3><div><b><span class="pct"></span> %</b></div><div class="barras" id="b4"></div></div>
+      <p class="ver no">Solo miniatura (no desarrollada)</p></div></li>
+
+    <li class="t"><div><h2><span>5</span>Rejilla brutalista</h2><p>Densidad de parte semanal: titular comprimido que pisa módulos separados por filetes.</p></div>
+      <div><div class="s s5" role="img" aria-label="Boceto de la dirección 5: titular comprimido sobre celdas con filetes"><h3><em><span class="pct"></span> %</em> de reserva</h3><div><span class="n var5"></span><p>frente a la semana anterior</p></div><div><span class="n med5"></span><p>media de 10 años</p></div></div>
+      <p class="ver no">Solo miniatura (no desarrollada)</p></div></li>
+
+    <li class="t"><div><h2><span>6</span>Libro de lectura lenta</h2><p>Mancha de texto desplazada, notas al margen y un solo acento: lectura de archivo.</p></div>
+      <div><div class="s s6" role="img" aria-label="Boceto de la dirección 6: cifra grande con notas al margen y mucho blanco"><span class="nota nota6"></span><b><span class="pct"></span> %</b><p class="frase6"></p></div>
+      <p class="ver no">Solo miniatura (no desarrollada; es el aspecto por defecto)</p></div></li>
+  </ol>
+</div>
+
+<script src="datos-muestra.js"></script>
+<script src="util.js"></script>
+<script>
+(function () {
+  var U = window.U, M = U.M, N = U.N, f = U.f;
+  var all = function (c, fn) { [].forEach.call(document.querySelectorAll(c), fn); };
+  all('.pct', function (e) { e.textContent = f(N.pct); });
+  document.getElementById('sub').textContent = 'Boletín del ' + U.fecha + ': reserva peninsular al ' + f(N.pct) + ' %. Las tres primeras tienen portada completa; las otras tres quedan como alternativa. Fuente: MITECO, Boletín Hidrológico.';
+  all('.frase1', function (e) { e.textContent = U.masMenos + ' que hace 10 años'; });
+  all('.frase3', function (e) { e.textContent = U.veredicto(); });
+  all('.frase4', function (e) { e.textContent = 'Los embalses, ' + U.masMenos + ' que la década'; });
+  all('.var5', function (e) { e.textContent = U.signo(N.var_pts) + f(U.abs(N.var_pts)) + ' pts'; });
+  all('.med5', function (e) { e.textContent = f(N.media10) + ' %'; });
+  all('.nota6', function (e) { e.textContent = 'Media 10 años: ' + f(N.media10) + ' %.'; });
+  all('.frase6', function (e) { e.textContent = 'De ' + f(N.capacidad, 0) + ' hm³ de capacidad, hay ' + f(N.hm3, 0) + ' hm³.'; });
+
+  var g = '', llenas = Math.floor(N.pct);
+  for (var r = 9; r >= 0; r--) for (var c = 0; c < 10; c++) g += '<i class="' + (r * 10 + c < llenas ? 'l' : '') + '"></i>';
+  document.getElementById('g2').innerHTML = g;
+  document.getElementById('t2').innerHTML = U.filas().slice(0, 4).map(function (d) { return '<i style="--w:' + d.pct + '%"></i>'; }).join('');
+  var tope = Math.max(U.anioMax, N.pct), b = M.anios.map(function (a) { return a.pct; }).concat([N.pct]);
+  document.getElementById('b4').innerHTML = b.map(function (v) { return '<i style="--h:' + (v / tope * 100) + '%"></i>'; }).join('');
+})();
+</script>
+</body>
+</html>
