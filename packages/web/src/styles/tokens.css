@@ -1,0 +1,93 @@
+/* Tokens de diseño — dirección "Conversación" (ADR 0005).
+   Única fuente de valores: ningún componente escribe colores o tamaños sueltos. */
+
+:root {
+  color-scheme: light dark;
+
+  /* ---------- Tipografía ---------- */
+  --f-titulos: "Bricolage Grotesque", "Helvetica Neue", Arial, sans-serif;
+  --f-texto: "Atkinson Hyperlegible", Verdana, sans-serif;
+  /* Cifras: Montserrat. Atkinson Hyperlegible lleva el cero con barra (pensado para
+     distinguirlo de la O), que en datos meteorológicos/hídricos se lee como "símbolo de
+     vacío" y distrae. Montserrat tiene cero ovalado liso (glifo conocido, no verificable
+     desde la ficha de Google Fonts), cifras tabulares (font-variant-numeric: tabular-nums)
+     para alinear columnas, y encaja con el gusto del titular. Se carga solo el subconjunto
+     latin con pesos 500-700 para no pesar. Uso: .cifra, tablas, números grandes. */
+  --f-cifras: "Montserrat", "Helvetica Neue", Arial, sans-serif;
+
+  /* Escala fluida (móvil 360px → escritorio 1200px), ratio ~1.25 */
+  --t-0: clamp(0.8125rem, 0.79rem + 0.1vw, 0.875rem);   /* nota, pie */
+  --t-1: clamp(1rem, 0.96rem + 0.2vw, 1.125rem);        /* texto base */
+  --t-2: clamp(1.25rem, 1.15rem + 0.5vw, 1.5rem);       /* entradilla, h3 */
+  --t-3: clamp(1.5rem, 1.3rem + 1vw, 2rem);             /* h2 pregunta */
+  --t-4: clamp(2rem, 1.6rem + 2vw, 3rem);               /* h1 */
+  --t-5: clamp(3rem, 2.2rem + 4vw, 5rem);               /* cifra clave */
+  --t-6: clamp(4.5rem, 3rem + 7.5vw, 8rem);             /* cifra gigante portada */
+
+  --lh-apretado: 1.05;   /* cifras y titulares */
+  --lh-titulo: 1.15;
+  --lh-texto: 1.55;
+  --lh-largo: 1.7;       /* explicadores */
+
+  --peso-texto: 400;
+  --peso-negrita: 700;
+  --peso-titulo: 800;
+
+  /* ---------- Espaciado (base 4) ---------- */
+  --s-1: 0.25rem;
+  --s-2: 0.5rem;
+  --s-3: 0.75rem;
+  --s-4: 1rem;
+  --s-5: 1.25rem;
+  --s-6: 1.5rem;
+  --s-8: 2rem;
+  --s-10: 2.5rem;
+  --s-12: 3rem;
+  --s-16: 4rem;
+  --s-24: 6rem;
+
+  --pad: var(--s-5);               /* margen lateral; 2rem en escritorio */
+  --medida: 38rem;                 /* columna de lectura */
+  --medida-ancha: 64rem;           /* ficha, mapa, comparador */
+
+  /* ---------- Forma ---------- */
+  --radio: 0;
+  --filete-fino: 1px;
+  --filete: 2px;
+  --filete-grueso: 4px;
+  --foco-anchura: 3px;
+  --foco-offset: 2px;
+
+  /* ---------- Color (claro) ----------
+     Ratios WCAG 2.x calculados con script sobre --fondo (#fbfaf5). */
+  --fondo: #fbfaf5;
+  --tinta: #181818;      /* 17,0:1 */
+  --tinta-2: #4a4a46;    /* 8,5:1 */
+  --linea: #d8d5c8;      /* 1,4:1 — decorativa, nunca para texto ni info esencial */
+  --marca: #ffe14d;      /* resaltador (fondo); --tinta-marca encima: 13,6:1 */
+  --tinta-marca: #181818;
+  --rio: #1c4e80;        /* datos / enlaces: 8,2:1 */
+  --alerta: #a2400b;     /* 6,1:1 */
+  --foco: var(--rio);
+
+  /* Reservado para `dataviz`: escala de color del agua --agua-0 … --agua-N
+     (se define en su propio fichero/bloque; no añadir aquí). */
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Ratios sobre --fondo oscuro (#14130f) */
+    --fondo: #14130f;
+    --tinta: #f2efe4;    /* 16,1:1 */
+    --tinta-2: #b8b5a8;  /* 9,0:1 */
+    --linea: #3a382f;    /* 1,6:1 — decorativa */
+    --marca: #ffe14d;    /* se mantiene; --tinta-marca encima: 13,6:1 */
+    --tinta-marca: #181818;
+    --rio: #86b6e8;      /* 8,7:1 */
+    --alerta: #f2a373;   /* 9,1:1 */
+  }
+}
+
+@media (min-width: 48rem) {
+  :root { --pad: var(--s-8); }
+}

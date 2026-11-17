@@ -31,8 +31,8 @@ Objetivo: identidad propia antes de construir componentes.
 
 - [x] Brief de diseño: público, tono editorial, referencias (secciones de datos de periódicos) [editorial]
 - [x] Explorar 3 direcciones con huashu-design y elegir una → ADR [jefe de proyecto] (elegida: 3 Conversación, ADR 0005)
-- [ ] Definir `tokens.css`: tipografías, escala tipográfica, espaciado, colores [frontend]
-- [ ] Diseñar la escala de color del agua (de vacío a lleno) accesible y comprobada en daltonismo [dataviz]
+- [x] Definir `tokens.css`: tipografías, escala tipográfica, espaciado, colores [frontend]
+- [x] Diseñar la escala de color del agua (de vacío a lleno) accesible y comprobada en daltonismo [dataviz]
 - [ ] Maquetas móvil y escritorio de: portada, mapa, ficha de embalse [frontend]
 - [ ] Revisión de contraste y legibilidad de las maquetas [qa]
 

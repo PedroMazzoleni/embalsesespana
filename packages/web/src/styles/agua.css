@@ -1,0 +1,57 @@
+/*
+  Escala del agua: % de llenado, de seco (tierra) a lleno (azul). 6 clases.
+  Verificación: node design/escala-agua/verificar.mjs  (muestra: design/escala-agua/muestra.html)
+
+  Cortes (en % de llenado, límite inferior incluido):
+    0  Casi seco         0 – 20   crítico: por debajo de esto hay restricciones graves
+    1  Muy bajo         20 – 35   situación de alerta / sequía en la mayoría de cuencas
+    2  Bajo             35 – 50   menos de la mitad
+    3  Medio            50 – 65   en torno a lo habitual
+    4  Alto             65 – 80   holgado
+    5  Muy alto         80 – 100  casi lleno
+  Uso: clase = índice del primer corte que el valor no alcanza; 100 % cae en la clase 5.
+
+  Diseño: tierra clara -> ocre -> verde azulado -> azul -> azul noche. Lo bajo es ocre/arena
+  (se lee como suelo, no como agua); no se usa rojo ni verde puro. El verde azulado de la
+  clase 2 es el puente de tono; se distingue del ocre vecino por luminosidad y tono a la vez.
+  Luminosidad monótona (CIELAB L* y OKLCH L) en ambos modos.
+  Modo claro: más lleno = más oscuro. Modo oscuro: más lleno = más claro.
+
+  Contraste de la clase frente al fondo (WCAG 1.4.11, >= 3:1):
+    claro  (#fbfaf5): clase 0 = 1,22 (EXCEPCION, lleva borde); clases 1 a 5 = 3,15 / 4,33 / 6,34 / 10,43 / 16,52
+    oscuro (#141413): clase 0 = 1,74 (EXCEPCION, lleva borde); clases 1 a 5 = 3,23 / 4,71 / 6,37 / 9,15 / 13,47
+  La clase 0 lleva SIEMPRE borde de 1 px con --agua-borde cuando se pintan como relleno.
+  --agua-texto-N: color de texto con >= 4,5:1 sobre --agua-N (ratios exactos: el script).
+*/
+:root {
+  --agua-0: #f7e2ae;  /* arena; borde obligatorio, 1,22:1 con el fondo */
+  --agua-1: #c57e26;  /* ocre */
+  --agua-2: #15838a;  /* verde azulado */
+  --agua-3: #165ea4;  /* azul */
+  --agua-4: #173c72;  /* azul profundo */
+  --agua-5: #021747;  /* azul noche */
+  --agua-texto-0: #181818;  /* 13,9:1 */
+  --agua-texto-1: #181818;  /*  5,4:1 */
+  --agua-texto-2: #ffffff;  /*  4,5:1 */
+  --agua-texto-3: #ffffff;
+  --agua-texto-4: #ffffff;
+  --agua-texto-5: #ffffff;
+  --agua-borde: #181818;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --agua-0: #4f3c0c;  /* tierra oscura; borde obligatorio, 1,74:1 con el fondo */
+    --agua-1: #875e35;  /* ocre */
+    --agua-2: #508a8e;  /* verde azulado */
+    --agua-3: #829ab7;  /* azul acero */
+    --agua-4: #7dbcf8;  /* azul claro */
+    --agua-5: #c4dfff;  /* azul hielo */
+    --agua-texto-0: #ffffff;
+    --agua-texto-1: #ffffff;
+    --agua-texto-2: #141413;
+    --agua-texto-3: #141413;
+    --agua-texto-4: #141413;
+    --agua-texto-5: #141413;
+    --agua-borde: #f2f0e8;
+  }
+}
