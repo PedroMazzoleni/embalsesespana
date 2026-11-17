@@ -1,0 +1,14 @@
+---
+const { actual = '' } = Astro.props;
+---
+<a class="salto" href="#main">Saltar al contenido</a>
+<header class="cab">
+  <div class="col ancha">
+    <p class="marca"><a href="/">Embalses de España</a></p>
+    <nav aria-label="Principal">
+      <a href="/mapa" aria-current={actual === 'mapa' ? 'page' : undefined}>Mapa</a>
+      <a href="/embalse/saucelle" aria-current={actual === 'embalse' ? 'page' : undefined}>Embalses</a>
+      <span class="prox">Explicadores (próximamente)</span>
+    </nav>
+  </div>
+</header>

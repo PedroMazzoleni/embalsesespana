@@ -1,0 +1,13 @@
+---
+import raw from '../data-muestra/datos-muestra.js?raw';
+const M = JSON.parse(raw.slice(raw.indexOf('{'), raw.lastIndexOf('}') + 1));
+const fecha = new Date(M.fecha + 'T00:00:00').toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' });
+const n = M.nacional?.n_embalses ?? M.n_embalses;
+---
+<footer>
+  <div class="col ancha">
+    <p class="fuente">Fuente: MITECO, Boletín Hidrológico</p>
+    <p>Datos: Ministerio para la Transición Ecológica y el Reto Demográfico (MITECO), Boletín Hidrológico, {fecha}. {n} embalses peninsulares. Datos provisionales; pueden cambiar la semana que viene.</p>
+    <p>Código: MIT · Datos: CC BY 4.0</p>
+  </div>
+</footer>

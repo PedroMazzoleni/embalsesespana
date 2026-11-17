@@ -1,0 +1,32 @@
+---
+import '../styles/tokens.css';
+import '../styles/agua.css';
+import '../styles/base.css';
+import Cabecera from '../components/Cabecera.astro';
+import Pie from '../components/Pie.astro';
+import datos from '../data-muestra/datos-muestra.js?raw';
+import util from '../data-muestra/util.js?raw';
+import cliente from '../scripts/comun-cliente.js?raw';
+const { title, description, pag = '', ancha = false } = Astro.props;
+---
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Montserrat:wght@500;600;700&display=swap" rel="stylesheet">
+<title>{title}</title>
+<meta name="description" content={description}>
+</head>
+<body data-pag={pag} data-ancha={ancha ? '' : undefined}>
+<Cabecera actual={pag} />
+<slot />
+<Pie />
+<script is:inline set:html={datos}></script>
+<script is:inline set:html={util}></script>
+<script is:inline set:html={cliente}></script>
+<slot name="script" />
+</body>
+</html>

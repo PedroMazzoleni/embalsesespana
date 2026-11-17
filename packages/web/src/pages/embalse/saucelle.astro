@@ -1,0 +1,65 @@
+---
+import Base from '../../layouts/Base.astro';
+---
+<Base title="Embalse de Saucelle: ¿cómo está?" description="Estado actual del embalse, comparación con su media y datos técnicos." pag="embalse">
+<main class="col ancha">
+  <p class="fecha" id="fecha"></p>
+
+  <section class="qa" aria-labelledby="q1">
+    <h1 class="q" id="q1"><span id="loc"></span><span class="vh">. </span>¿cómo está <b id="nom"></b>?</h1>
+    <div class="a">
+      <p class="si" id="si"></p>
+      <p class="gigante" aria-hidden="true"><mark><span id="pct"></span><small>%</small></mark></p>
+      <p id="r1"></p>
+    </div>
+    <div class="nivel-w">
+      <figure style="margin:0">
+        <div class="rej-w">
+          <ol class="rejilla" id="rejilla" role="img"></ol>
+          <div class="rej-media" id="linea"><span id="linea-t"></span></div>
+        </div>
+        <figcaption class="unidad" id="unidad"></figcaption>
+      </figure>
+      <div>
+        <ul class="leyenda" id="leyenda" aria-label="Leyenda: porcentaje de llenado"></ul>
+        <p class="peq" id="alt"></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="qa" aria-labelledby="q2">
+    <h2 class="q h2" id="q2">¿es normal para esta época?</h2>
+    <div class="a">
+      <p class="si" id="normal"></p>
+      <div class="mini" role="img" id="mini"></div>
+      <p class="peq" id="r2"></p>
+    </div>
+  </section>
+
+  <section class="qa" aria-labelledby="q3">
+    <h2 class="q h2" id="q3">¿cómo ha ido este año?</h2>
+    <div class="a">
+      <p class="si" id="semana"></p>
+      <div class="hueco" role="img" aria-label="Espacio reservado para el gráfico de la serie del último año"><p>Gráfico de serie: lo hace dataviz en Fase 2. Línea del último año con banda de la media de <span class="na"></span> años.</p></div>
+      <p class="peq">Alternativa en texto: la muestra de datos no trae la serie de este embalse, solo el valor de esta semana, el cambio semanal y la media. Aquí irá, bajo el gráfico, una tabla con las semanas.</p>
+    </div>
+  </section>
+
+  <section class="qa" aria-labelledby="q4">
+    <h2 class="q h2" id="q4">datos técnicos</h2>
+    <div class="doble">
+    <div class="a">
+      <dl class="ficha" id="ficha"></dl>
+    </div>
+    <div class="a">
+      <figure class="foto">
+        <div class="hueco" role="img" aria-label="Espacio reservado para la foto del embalse"><p>Foto del embalse (Inventario de Presas, SNCZI)</p></div>
+        <figcaption>Foto: pendiente de autor y licencia. La atribución es obligatoria.</figcaption>
+      </figure>
+    </div>
+    </div>
+  </section>
+</main>
+<script is:inline slot="script" set:html={"(function () {\n  var U = window.U, M = U.M, f = U.f, set = U.set, e = U.ej('casi lleno');\n  var k = U.agua(e.pct), dif = e.pct - e.media10, un = e.capacidad / 100;\n  document.title = 'Embalse de ' + e.nombre + ': ¿cómo está?';\n  set('fecha', 'Boletín del ' + U.fecha + '. Datos provisionales.');\n  set('loc', e.provincia + ' · ' + e.demarcacion);\n  set('nom', e.nombre);\n  set('si', 'Nivel ' + U.nombres[k].toLowerCase() + '.');\n  set('pct', f(e.pct));\n  set('r1', 'Guarda ' + f(e.hm3, 0) + ' hm³ de los ' + f(e.capacidad, 0) + ' hm³ que caben.');\n\n  var llenas = Math.floor(e.pct), resto = e.pct - llenas, celdas = '';\n  for (var r = 9; r >= 0; r--) for (var c = 0; c < 10; c++) {\n    var i = r * 10 + c, parcial = i === llenas && resto > 0.05;\n    celdas += '<li class=\"' + (i < llenas ? 'l c' + k : parcial ? 'p c' + k : '') + '\"' + (parcial ? ' style=\"--r:' + (resto * 100) + '%\"' : '') + '></li>';\n  }\n  var rej = document.getElementById('rejilla');\n  rej.innerHTML = celdas;\n  rej.setAttribute('aria-label', 'Cuadrícula de 100 unidades: ' + f(e.pct) + ' llenas. La línea marca la media de ' + U.NA + ' años, ' + f(e.media10) + ' %.');\n  document.getElementById('linea').style.bottom = 'calc(' + e.media10 + '% - 1px)';\n  set('linea-t', 'media: ' + f(e.media10) + ' %');\n  set('unidad', 'Cada cuadrado = 1 % de la capacidad = ' + f(un, 1) + ' hm³.');\n  document.getElementById('leyenda').innerHTML = U.leyendaHTML();\n  set('alt', 'Texto alternativo: el embalse está al ' + f(e.pct) + ' % (nivel ' + U.nombres[k].toLowerCase() + '); su media de ' + U.NA + ' años es ' + f(e.media10) + ' %.');\n\n  set('normal', Math.abs(dif) <= 1 ? 'Sí, está en su media.' : dif > 0 ? 'Más lleno de lo habitual.' : 'Más vacío de lo habitual.');\n  var m = document.getElementById('mini');\n  m.setAttribute('aria-label', 'De 0 a 100 %: ahora ' + f(e.pct) + ' %, media ' + f(e.media10) + ' %');\n  m.innerHTML = '<i style=\"width:' + e.pct + '%\"></i><u style=\"left:' + e.media10 + '%\"></u>';\n  set('r2', 'Ahora ' + f(e.pct) + ' %; su media de ' + U.NA + ' años en esta semana, ' + f(e.media10) + ' % (raya de la media): ' + f(U.abs(dif)) + ' puntos ' + (dif >= 0 ? 'por encima' : 'por debajo') + '. ' + U.provisional);\n\n  var v = e.var_pts;\n  set('semana', v === 0 ? 'Sin cambios esta semana.' : (v > 0 ? 'Sube ' : 'Baja ') + f(U.abs(v)) + ' puntos frente a la semana anterior (' + f(e.pct - v) + ' %).');\n\n  var filas = [['Capacidad', f(e.capacidad, 0) + ' hm³'], ['Volumen ahora', f(e.hm3, 0) + ' hm³'], ['Provincia', e.provincia], ['Demarcación', e.demarcacion], ['Río', e.rio.charAt(0) + e.rio.slice(1).toLowerCase()], ['Usos', e.uso.split(' | ').join(', ')]];\n  document.getElementById('ficha').innerHTML = filas.map(function (x, i) { return '<div><dt>' + x[0] + '</dt><dd' + (i < 2 ? ' class=\"cifra\"' : '') + '>' + x[1] + '</dd></div>'; }).join('');\n})();\n"}></script>
+<style is:global set:html={"\n.sub { color: var(--tinta-2); font-size: var(--t-1); margin: 0 0 var(--s-2); }\n.nivel-w { display: grid; gap: var(--s-4); margin: var(--s-4) 0; }\n.rej-w { position: relative; width: 100%; max-width: calc(var(--s-24) * 3); }\n.rejilla { display: grid; grid-template-columns: repeat(10, 1fr); gap: var(--s-1); margin: 0; padding: 0; list-style: none; }\n.rejilla li { aspect-ratio: 1; border: var(--filete-fino) solid var(--tinta-2); background: transparent; }\n.rejilla li.l { background: var(--c); border-color: var(--c); }\n.rejilla li.l.c0 { border-color: var(--agua-borde); }\n.rejilla li.p { background: linear-gradient(to top, var(--c) var(--r), transparent var(--r)); }\n.rej-media { position: absolute; left: calc(-1 * var(--s-2)); right: calc(-1 * var(--s-2)); height: 0; border-top: var(--filete-grueso) solid var(--alerta); box-shadow: 0 calc(-1 * var(--filete)) 0 var(--fondo), 0 var(--filete) 0 var(--fondo); pointer-events: none; }\n/* Raya sobre celdas: halo --fondo de 2 px. --alerta vs halo 6,1:1 claro / 8,7:1 oscuro; halo vs relleno del agua >= 3:1 en todas las clases salvo agua-0 (1,2:1 claro, 1,6:1 oscuro), donde --alerta sobre agua-0 da 5,0:1 / 5,4:1. */\n.rej-w { margin-top: var(--s-8); }\n.rej-media span { position: absolute; right: 0; bottom: var(--s-3); background: var(--fondo); color: var(--alerta); font: 600 var(--t-0)/1 var(--f-cifras); padding: 0 var(--s-1); }\n.unidad { font-size: var(--t-0); color: var(--tinta-2); margin: 0; }\n.hueco { border: var(--filete) dashed var(--tinta-2); display: grid; place-items: center; text-align: center; padding: var(--s-6); color: var(--tinta-2); min-height: calc(var(--s-12) * 4); max-width: var(--medida); }\n.hueco p { margin: 0; max-width: 26rem; }\nfigure.foto { margin: 0; max-width: var(--medida); }\nfigure.foto .hueco { aspect-ratio: 4 / 3; min-height: 0; }\nfigure.foto figcaption { font-size: var(--t-0); color: var(--tinta-2); margin-top: var(--s-2); }\n.ficha { margin: 0; display: grid; border-top: var(--filete) solid var(--tinta); max-width: var(--medida); }\n.ficha div { display: grid; grid-template-columns: 9rem 1fr; gap: var(--s-3); padding: var(--s-3) 0; border-bottom: var(--filete-fino) solid var(--linea); align-items: baseline; }\n.ficha dt { color: var(--tinta-2); font-size: var(--t-0); }\n.ficha dd { margin: 0; }\n.q b { text-transform: none; }\n@media (min-width: 48rem) {\n  .nivel-w { grid-template-columns: auto 1fr; align-items: start; gap: var(--s-8); }\n  .ficha div { grid-template-columns: 11rem 1fr; }\n}\n@media (min-width: 72rem) {\n  .doble { display: grid; grid-template-columns: var(--medida) var(--medida); gap: var(--s-12); }\n}\n.doble { display: grid; gap: var(--s-8); margin-top: var(--s-8); }\n@media (min-width: 64rem) {\n  .doble { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: start; margin-top: 0; }\n  .doble .ficha, .doble figure.foto { max-width: none; }\n  .nivel-w { grid-template-columns: auto minmax(0, 1fr); }\n  .rej-w { max-width: calc(var(--s-24) * 3.6); }\n}\n"}></style>
+</Base>
