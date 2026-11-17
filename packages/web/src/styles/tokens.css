@@ -63,7 +63,7 @@
 
   --pad: var(--s-5);               /* margen lateral; 2rem en escritorio */
   --medida: 38rem;                 /* columna de lectura */
-  --medida-ancha: 64rem;           /* ficha, mapa, comparador */
+  --medida-ancha: 74rem;           /* contenedor de escritorio: cabecera, pie, preguntas */
 
   /* ---------- Forma ---------- */
   --radio: 0;
@@ -91,15 +91,15 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    /* Ratios sobre --fondo oscuro (#14130f) */
-    --fondo: #14130f;
-    --tinta: #f2efe4;    /* 16,1:1 */
-    --tinta-2: #b8b5a8;  /* 9,0:1 */
-    --linea: #3a382f;    /* 1,6:1 — decorativa */
-    --marca: #ffe14d;    /* se mantiene; --tinta-marca encima: 13,6:1 */
+    /* Azul de mar profundo. Ratios WCAG 2.x sobre --fondo oscuro (#0b1e30) */
+    --fondo: #0b1e30;
+    --tinta: #eef2f4;    /* 15,0:1 */
+    --tinta-2: #aebfcc;  /* 9,0:1 */
+    --linea: #2a4156;    /* 1,6:1 — decorativa; con tinta-2 encima 5,6:1 */
+    --marca: #ffe14d;    /* se mantiene; --tinta-marca encima: 13,6:1; frente al fondo 13,0:1 */
     --tinta-marca: #181818;
-    --rio: #86b6e8;      /* 8,7:1 */
-    --alerta: #f2a373;   /* 9,1:1 */
+    --rio: #8cc0f0;      /* 8,8:1 */
+    --alerta: #f4a97c;   /* 8,7:1 */
   }
 }
 

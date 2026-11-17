@@ -20,8 +20,10 @@
 .rejilla li.l { background: var(--c); border-color: var(--c); }
 .rejilla li.l.c0 { border-color: var(--agua-borde); }
 .rejilla li.p { background: linear-gradient(to top, var(--c) var(--r), transparent var(--r)); }
-.rej-media { position: absolute; left: calc(-1 * var(--s-2)); right: calc(-1 * var(--s-2)); border-top: var(--filete) solid var(--alerta); pointer-events: none; }
-.rej-media span { position: absolute; right: 0; bottom: var(--s-1); background: var(--fondo); color: var(--alerta); font: 600 var(--t-0)/1 var(--f-cifras); padding: 0 var(--s-1); }
+.rej-media { position: absolute; left: calc(-1 * var(--s-2)); right: calc(-1 * var(--s-2)); height: 0; border-top: var(--filete-grueso) solid var(--alerta); box-shadow: 0 calc(-1 * var(--filete)) 0 var(--fondo), 0 var(--filete) 0 var(--fondo); pointer-events: none; }
+/* Raya sobre celdas: halo --fondo de 2 px. --alerta vs halo 6,1:1 claro / 8,7:1 oscuro; halo vs relleno del agua >= 3:1 en todas las clases salvo agua-0 (1,2:1 claro, 1,6:1 oscuro), donde --alerta sobre agua-0 da 5,0:1 / 5,4:1. */
+.rej-w { margin-top: var(--s-8); }
+.rej-media span { position: absolute; right: 0; bottom: var(--s-3); background: var(--fondo); color: var(--alerta); font: 600 var(--t-0)/1 var(--f-cifras); padding: 0 var(--s-1); }
 .unidad { font-size: var(--t-0); color: var(--tinta-2); margin: 0; }
 .hueco { border: var(--filete) dashed var(--tinta-2); display: grid; place-items: center; text-align: center; padding: var(--s-6); color: var(--tinta-2); min-height: calc(var(--s-12) * 4); max-width: var(--medida); }
 .hueco p { margin: 0; max-width: 26rem; }
@@ -40,15 +42,22 @@ figure.foto figcaption { font-size: var(--t-0); color: var(--tinta-2); margin-to
 @media (min-width: 72rem) {
   .doble { display: grid; grid-template-columns: var(--medida) var(--medida); gap: var(--s-12); }
 }
+.doble { display: grid; gap: var(--s-8); margin-top: var(--s-8); }
+@media (min-width: 64rem) {
+  .doble { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: start; margin-top: 0; }
+  .doble .ficha, .doble figure.foto { max-width: none; }
+  .nivel-w { grid-template-columns: auto minmax(0, 1fr); }
+  .rej-w { max-width: calc(var(--s-24) * 3.6); }
+}
 </style>
 </head>
 <body data-pag="embalse">
 <header class="cab" id="cab"></header>
-<main class="col">
+<main class="col ancha">
   <p class="fecha" id="fecha"></p>
 
   <section class="qa" aria-labelledby="q1">
-    <h1 class="q" id="q1"><span id="loc"></span>¿cómo está <b id="nom"></b>?</h1>
+    <h1 class="q" id="q1"><span id="loc"></span><span class="vh">. </span>¿cómo está <b id="nom"></b>?</h1>
     <div class="a">
       <p class="si" id="si"></p>
       <p class="gigante" aria-hidden="true"><mark><span id="pct"></span><small>%</small></mark></p>
@@ -82,21 +91,23 @@ figure.foto figcaption { font-size: var(--t-0); color: var(--tinta-2); margin-to
     <h2 class="q h2" id="q3">¿cómo ha ido este año?</h2>
     <div class="a">
       <p class="si" id="semana"></p>
-      <div class="hueco" role="img" aria-label="Espacio reservado para el gráfico de la serie del último año"><p>Gráfico de serie: lo hace dataviz en Fase 2. Línea del último año con banda de la media de 10 años.</p></div>
+      <div class="hueco" role="img" aria-label="Espacio reservado para el gráfico de la serie del último año"><p>Gráfico de serie: lo hace dataviz en Fase 2. Línea del último año con banda de la media de ' + U.NA + ' años.</p></div>
       <p class="peq">Alternativa en texto: la muestra de datos no trae la serie de este embalse, solo el valor de esta semana, el cambio semanal y la media. Aquí irá, bajo el gráfico, una tabla con las semanas.</p>
     </div>
   </section>
 
   <section class="qa" aria-labelledby="q4">
     <h2 class="q h2" id="q4">datos técnicos</h2>
+    <div class="doble">
     <div class="a">
       <dl class="ficha" id="ficha"></dl>
     </div>
-    <div class="a" style="margin-top:var(--s-8)">
+    <div class="a">
       <figure class="foto">
         <div class="hueco" role="img" aria-label="Espacio reservado para la foto del embalse"><p>Foto del embalse (Inventario de Presas, SNCZI)</p></div>
         <figcaption>Foto: pendiente de autor y licencia. La atribución es obligatoria.</figcaption>
       </figure>
+    </div>
     </div>
   </section>
 </main>
@@ -123,18 +134,18 @@ figure.foto figcaption { font-size: var(--t-0); color: var(--tinta-2); margin-to
   }
   var rej = document.getElementById('rejilla');
   rej.innerHTML = celdas;
-  rej.setAttribute('aria-label', 'Cuadrícula de 100 unidades: ' + f(e.pct) + ' llenas. La línea marca la media de 10 años, ' + f(e.media10) + ' %.');
+  rej.setAttribute('aria-label', 'Cuadrícula de 100 unidades: ' + f(e.pct) + ' llenas. La línea marca la media de ' + U.NA + ' años, ' + f(e.media10) + ' %.');
   document.getElementById('linea').style.bottom = 'calc(' + e.media10 + '% - 1px)';
   set('linea-t', 'media: ' + f(e.media10) + ' %');
   set('unidad', 'Cada cuadrado = 1 % de la capacidad = ' + f(un, 1) + ' hm³.');
   document.getElementById('leyenda').innerHTML = U.leyendaHTML();
-  set('alt', 'Texto alternativo: el embalse está al ' + f(e.pct) + ' % (nivel ' + U.nombres[k].toLowerCase() + '); su media de 10 años es ' + f(e.media10) + ' %.');
+  set('alt', 'Texto alternativo: el embalse está al ' + f(e.pct) + ' % (nivel ' + U.nombres[k].toLowerCase() + '); su media de ' + U.NA + ' años es ' + f(e.media10) + ' %.');
 
   set('normal', Math.abs(dif) <= 1 ? 'Sí, está en su media.' : dif > 0 ? 'Más lleno de lo habitual.' : 'Más vacío de lo habitual.');
   var m = document.getElementById('mini');
   m.setAttribute('aria-label', 'De 0 a 100 %: ahora ' + f(e.pct) + ' %, media ' + f(e.media10) + ' %');
   m.innerHTML = '<i style="width:' + e.pct + '%"></i><u style="left:' + e.media10 + '%"></u>';
-  set('r2', 'Ahora ' + f(e.pct) + ' %; su media de 10 años en esta semana, ' + f(e.media10) + ' % (raya roja): ' + f(U.abs(dif)) + ' puntos ' + (dif >= 0 ? 'por encima' : 'por debajo') + '. ' + U.provisional);
+  set('r2', 'Ahora ' + f(e.pct) + ' %; su media de ' + U.NA + ' años en esta semana, ' + f(e.media10) + ' % (raya de la media): ' + f(U.abs(dif)) + ' puntos ' + (dif >= 0 ? 'por encima' : 'por debajo') + '. ' + U.provisional);
 
   var v = e.var_pts;
   set('semana', v === 0 ? 'Sin cambios esta semana.' : (v > 0 ? 'Sube ' : 'Baja ') + f(U.abs(v)) + ' puntos frente a la semana anterior (' + f(e.pct - v) + ' %).');

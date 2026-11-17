@@ -20,7 +20,7 @@
 .anios-et { list-style: none; margin: 0 0 var(--s-4); padding: 0; display: grid; grid-template-columns: repeat(11, 1fr); gap: var(--s-1); font: 500 var(--t-0)/1.2 var(--f-cifras); text-align: center; color: var(--tinta-2); }
 .anios-et li { overflow: hidden; }
 .anios-et li:nth-child(even):not(:last-child) { visibility: hidden; }
-.anios-et li:last-child { font-weight: 700; color: var(--tinta); }
+.anios-et li:last-child { overflow: visible; white-space: nowrap; font-weight: 700; color: var(--tinta); }
 .dos { display: grid; gap: var(--s-4); margin: 0 0 var(--s-2); }
 .dos p { margin: 0; }
 .dos b { display: block; font: var(--peso-titulo) var(--t-2)/1.2 var(--f-titulos); }
@@ -33,11 +33,22 @@
 .ej .frase { line-height: var(--lh-largo); }
 .mas-mapa { margin-top: var(--s-3); }
 @media (min-width: 48rem) { .dos { grid-template-columns: 1fr 1fr; } .anios { height: calc(var(--s-12) * 4.5); } }
+@media (min-width: 64rem) {
+  .mapa-w { display: grid; grid-template-columns: minmax(0, 1fr) 15rem; gap: 0 var(--s-8); align-items: start; }
+  .mapa-w > .a { grid-column: 2; grid-row: 1; border-left: 0; padding-left: 0; }
+  .mapa-w .mapa { display: contents; }
+  .mapa-w .mapa svg { grid-column: 1; grid-row: 1 / span 2; max-height: none; margin-top: var(--s-5); }
+  .mapa-w figcaption { grid-column: 2; grid-row: 2; }
+  .mapa-w .leyenda { flex-direction: column; margin-top: 0; }
+  .mapa-w .dos { grid-template-columns: 1fr; margin-top: var(--s-5); }
+  .anios { height: calc(var(--s-12) * 5.5); gap: var(--s-2); }
+  .anios-et { gap: var(--s-2); }
+}
 </style>
 </head>
 <body data-pag="portada">
 <header class="cab" id="cab"></header>
-<main class="col">
+<main class="col ancha">
   <p class="fecha" id="fecha"></p>
 
   <section class="qa" aria-labelledby="q1">
@@ -55,7 +66,7 @@
     <div class="a">
       <p class="si" id="grave"></p>
       <p id="r2"></p>
-      <ol class="anios" id="anios" aria-label="Reserva peninsular en la misma semana de cada uno de los últimos 10 años y ahora"></ol>
+      <ol class="anios" id="anios" aria-label="Reserva peninsular en la misma semana de cada uno de los últimos años y ahora"></ol>
       <ol class="anios-et" id="anios-et" aria-hidden="true"></ol>
       <p class="peq" id="r2b"></p>
     </div>
@@ -71,6 +82,7 @@
 
   <section class="qa" aria-labelledby="mapa-q">
     <h2 class="q" id="mapa-q">¿dónde hay más y dónde menos?</h2>
+    <div class="mapa-w">
     <div class="a">
       <div class="dos">
         <p class="mas"><b id="mas-n"></b><span id="mas-t"></span></p>
@@ -83,12 +95,13 @@
       </svg>
       <figcaption><ul class="leyenda" id="leyenda" aria-label="Leyenda: porcentaje de llenado"></ul></figcaption>
     </figure>
+    </div>
     <div class="a">
       <details>
         <summary>Ver los datos en tabla</summary>
         <div class="tabla-w"><table id="tabla">
-          <caption>Reserva de cada demarcación frente a la media de 10 años.</caption>
-          <thead><tr><th scope="col">Demarcación</th><th scope="col">Nivel</th><th scope="col">Ahora</th><th scope="col">Media 10 años</th></tr></thead>
+          <caption>Reserva de cada demarcación frente a la media de <span class="na"></span> años.</caption>
+          <thead><tr><th scope="col">Demarcación</th><th scope="col">Nivel</th><th scope="col">Ahora</th><th scope="col">Media <span class="na"></span> años</th></tr></thead>
           <tbody></tbody>
         </table></div>
       </details>
@@ -115,7 +128,7 @@
   set('si', U.veredicto());
   set('pct', f(N.pct));
   set('r1', 'Los embalses peninsulares guardan ' + f(N.hm3, 0) + ' hm³ de los ' + f(N.capacidad, 0) + ' hm³ que caben. Es el ' + f(N.pct) + ' % de su capacidad.');
-  set('r1b', 'La media de la misma semana en los 10 años anteriores es ' + f(N.media10) + ' %: hoy estamos ' + f(U.abs(N.dif_media_pts)) + ' puntos ' + U.rel + ' ella. ' + U.provisional);
+  set('r1b', 'La media de la misma semana' + ' en los ' + U.NA + ' años anteriores es ' + f(N.media10) + ' %: hoy estamos ' + f(U.abs(N.dif_media_pts)) + ' puntos ' + U.rel + ' ella. ' + U.provisional);
 
   set('grave', U.esGrave().split(':')[0] + '.');
   set('r2', 'Esta semana, en ' + (M.anios.length - U.aniosPeores) + ' de los últimos ' + M.anios.length + ' años había más agua que ahora; en ' + U.aniosPeores + ', menos. El mínimo fue ' + f(U.anioMin) + ' % y el máximo ' + f(U.anioMax) + ' %.');
@@ -126,7 +139,7 @@
     return '<li class="' + (b.hoy ? 'hoy' : '') + '" aria-label="' + b.et + ': ' + f(b.v) + ' %"><span class="v">' + f(b.v, 0) + '</span><span class="b" style="height:' + (b.v / tope * 80) + '%"></span></li>';
   }).join('');
   document.getElementById('anios-et').innerHTML = barras.map(function (b) { return '<li>' + (b.hoy ? 'hoy' : b.et.slice(2)) + '</li>'; }).join('');
-  set('r2b', 'Una barra por año, misma semana de noviembre (' + M.anios.map(U.anioDe).join(', ') + '). La resaltada es esta semana. Cifras en %.');
+  set('r2b', 'Una barra por año, misma semana de ' + U.mes + ' (' + M.anios.map(U.anioDe).join(', ') + '). La resaltada es esta semana. Cifras en %.');
 
   set('sube', N.var_pts === 0 ? 'Sin cambios.' : (N.var_pts > 0 ? 'Sube.' : 'Baja.') + ' ' + U.semana());
   set('r3', 'Variación semanal de la reserva peninsular, en puntos de porcentaje, entre el ' + new Date(M.fecha_previa + 'T00:00:00').toLocaleDateString('es-ES', { day: 'numeric', month: 'long' }) + ' y el ' + U.fecha + '.');
@@ -153,7 +166,7 @@
     return '<li><h3><a href="embalse.html">' + e.nombre + '</a></h3><p class="peq">' + e.provincia + ' · ' + e.demarcacion + ' · ' + r + '</p>' +
       '<p class="frase"><mark class="cifra">' + f(e.pct) + ' %</mark> de <span class="cifra">' + f(e.capacidad, 0) + '</span> hm³. ' + frase + '</p>' +
       '<div class="mini" role="img" aria-label="De 0 a 100 %: ahora ' + f(e.pct) + ' %, media ' + f(e.media10) + ' %"><i style="width:' + e.pct + '%"></i><u style="left:' + e.media10 + '%"></u></div>' +
-      '<p class="peq">Raya roja: su media de 10 años, ' + f(e.media10) + ' %.</p></li>';
+      '<p class="peq">Raya de la media: ' + U.NA + ' años, ' + f(e.media10) + ' %.</p></li>';
   }).join('');
 })();
 </script>

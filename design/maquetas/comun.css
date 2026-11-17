@@ -34,7 +34,13 @@ header.cab .col { display: flex; justify-content: space-between; align-items: ba
 /* Mini barra con raya de media */
 .mini { position: relative; height: var(--s-3); background: var(--linea); margin: var(--s-3) 0 var(--s-2); max-width: var(--medida); }
 .mini i { position: absolute; inset: 0 auto 0 0; background: var(--tinta); }
-.mini u { position: absolute; top: calc(-1 * var(--s-1)); bottom: calc(-1 * var(--s-1)); width: var(--filete-grueso); margin-left: calc(-.5 * var(--filete-grueso)); background: var(--alerta); }
+.mini u { position: absolute; top: calc(-1 * var(--s-2)); bottom: calc(-1 * var(--s-2)); width: var(--filete-grueso); margin-left: calc(-.5 * var(--filete-grueso)); background: var(--alerta); outline: var(--filete) solid var(--fondo); }
+/* Raya de la media: --alerta con halo --fondo de 2 px. Halo vs barra --tinta 17,0:1 claro / 15,0:1 oscuro;
+   --alerta vs halo 6,1:1 claro / 8,7:1 oscuro. */
+.vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.salto { position: absolute; left: var(--s-2); top: var(--s-2); z-index: 10; background: var(--fondo); color: var(--tinta); padding: var(--s-2) var(--s-3); border: var(--filete) solid var(--tinta); transform: translateY(-200%); }
+.salto:focus { transform: none; }
+.cab nav .prox { font-size: var(--t-0); color: var(--tinta-2); padding: var(--s-2) 0; }
 
 /* Leyenda y mapa */
 .leyenda { display: flex; flex-wrap: wrap; gap: var(--s-1) var(--s-4); list-style: none; margin: var(--s-3) 0 0; padding: 0; font-size: var(--t-0); color: var(--tinta-2); }
@@ -66,4 +72,19 @@ footer .fuente { color: var(--tinta); font-weight: var(--peso-negrita); }
 @media (min-width: 48rem) {
   .qa { padding: var(--s-12) 0 var(--s-8); }
 }
+/* Escritorio: pregunta a la izquierda (fija mientras se lee), respuesta a la derecha */
+@media (min-width: 64rem) {
+  .qa:not(.plena) { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); column-gap: var(--s-12); align-items: start; padding: var(--s-16) 0 var(--s-12); border-top: var(--filete-fino) solid var(--linea); }
+  .qa:not(.plena) > * { grid-column: 2; min-width: 0; }
+  .qa:not(.plena) > .q { grid-column: 1; grid-row: 1 / span 20; position: sticky; top: var(--s-8); margin: 0; font-size: var(--t-5); }
+  .qa:not(.plena) > .q.h2 { font-size: var(--t-4); }
+  .qa:not(.plena) > * + * { margin-top: var(--s-6); }
+  .qa .a { max-width: none; }
+  .gigante { font-size: calc(var(--t-6) * 1.15); }
+  main > .qa:first-of-type { border-top: 0; }
+  .qa.plena > .a { max-width: calc(var(--medida) + var(--s-12)); }
+}
 @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+
+/* Cifras de tabla en una sola línea ("48,0 %" no se parte); la tabla ya hace scroll propio en móvil. */
+.tabla-w td { white-space: nowrap; }

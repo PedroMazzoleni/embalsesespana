@@ -73,7 +73,7 @@ export function leerCss(ruta) {
   const vars = (t, p) => [...t.matchAll(new RegExp("--" + p + "-(\\d+):\\s*(#[0-9a-fA-F]{6})", "g"))].map(m => m[2].toLowerCase());
   return {
     claro: { fondo: '#fbfaf5', borde: '#181818', col: vars(claro, 'agua'), txt: vars(claro, 'agua-texto') },
-    oscuro: { fondo: '#141413', borde: '#f2f0e8', col: vars(oscuro, 'agua'), txt: vars(oscuro, 'agua-texto') },
+    oscuro: { fondo: '#0b1e30', borde: '#f2f0e8', col: vars(oscuro, 'agua'), txt: vars(oscuro, 'agua-texto') },
   };
 }
 

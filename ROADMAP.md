@@ -3,7 +3,7 @@
 Proyecto de una sola persona. Las duraciones son orientativas (dedicación a tiempo parcial) y se revisan al cerrar cada fase.
 Cada tarea indica el agente responsable entre corchetes.
 
-**Fase actual: 1**
+**Fase actual: 2**
 
 ---
 
@@ -33,8 +33,8 @@ Objetivo: identidad propia antes de construir componentes.
 - [x] Explorar 3 direcciones con huashu-design y elegir una → ADR [jefe de proyecto] (elegida: 3 Conversación, ADR 0005)
 - [x] Definir `tokens.css`: tipografías, escala tipográfica, espaciado, colores [frontend]
 - [x] Diseñar la escala de color del agua (de vacío a lleno) accesible y comprobada en daltonismo [dataviz]
-- [ ] Maquetas móvil y escritorio de: portada, mapa, ficha de embalse [frontend]
-- [ ] Revisión de contraste y legibilidad de las maquetas [qa]
+- [x] Maquetas móvil y escritorio de: portada, mapa, ficha de embalse [frontend]
+- [x] Revisión de contraste y legibilidad de las maquetas [qa]
 
 **Criterio de salida:** tokens cerrados y maquetas aprobadas de las 3 pantallas del MVP.
 
@@ -54,7 +54,7 @@ Objetivo: primera versión en internet con datos reales que se actualizan solos.
 ### Páginas
 - [ ] Layout base, tipografía, cabecera, pie con atribución [frontend]
 - [ ] Portada: % de reserva, variación semanal, comparación con media de 10 años, frase "¿es grave?" [frontend + editorial]
-- [ ] Mapa 2D: demarcaciones coloreadas + puntos de embalses; clic → cuenca → embalse [mapas]
+- [ ] Mapa: demarcaciones coloreadas + puntos de embalses; clic → cuenca → embalse; con relieve (hillshade/terrain de MapLibre) e inclinación para dar sensación 3D, cargado de forma diferida; navegable con teclado (flechas entre demarcaciones) [mapas]
 - [ ] Ficha de embalse (una página estática por embalse, con SEO): datos, foto, serie histórica [frontend + dataviz]
 - [ ] Gráfico de serie histórica con año actual vs. media vs. años secos [dataviz]
 - [ ] Página de cuenca [frontend]
@@ -100,3 +100,5 @@ Objetivo: lo que nadie más tiene.
 - 2026-11-17 — Cobertura: solo península (ADR 0001). Licencias: código MIT, datos CC BY 4.0 (ADR 0002).
 - 2026-11-17 — Fase 1: las direcciones visuales siguen el método huashu-design (github.com/alchaincyf/huashu-design, MIT). Se descarta Godot (export web de decenas de MB, fuera del stack); la vista técnica 3D del embalse irá con deck.gl en la Fase 3.
 - 2026-11-17 — Fase 0 cerrada: 368 de 375 embalses de la última semana emparejados con coordenadas (98,13 %, `data/master/maestra-stats.json`), histórico documentado, scraping semanal funcionando. ADR 0003 (lector Access) y 0004 (CSV por año). Pendientes para la Fase 2: 7 embalses sin pareja (`data/master/sin-emparejar.csv`), diferencia de capacidad total frente a la prensa, criterio de comparación con la media cuando cambia el conjunto de embalses, revisar emparejamientos de confianza media/baja.
+- 2026-11-17 — Fase 1: el mapa SVG de las maquetas es solo de diseño. El mapa real de la Fase 2 llevará relieve e inclinación 3D (MapLibre); las columnas 3D siguen en la Fase 3 (deck.gl).
+- 2026-11-17 — Fase 1 cerrada: dirección "Conversación" (ADR 0005), `tokens.css` y `agua.css` cerrados, maquetas de portada, mapa y ficha en `design/maquetas/` (escritorio en dos columnas, modo oscuro azul mar #0b1e30, mapa navegable con flechas). Revisión de qa: bloqueantes corregidos. Pendiente Fase 2: gráficos con Observable Plot renderizados a SVG en build (sin JS) salvo los interactivos; cifras de texto con Montserrat en subconjunto de dígitos.

@@ -19,7 +19,7 @@
 
   Contraste de la clase frente al fondo (WCAG 1.4.11, >= 3:1):
     claro  (#fbfaf5): clase 0 = 1,22 (EXCEPCION, lleva borde); clases 1 a 5 = 3,15 / 4,33 / 6,34 / 10,43 / 16,52
-    oscuro (#141413): clase 0 = 1,74 (EXCEPCION, lleva borde); clases 1 a 5 = 3,23 / 4,71 / 6,37 / 9,15 / 13,47
+    oscuro (#0b1e30): clase 0 = 1,60 (EXCEPCION, lleva borde); clases 1 a 5 = 3,38 / 5,05 / 7,14 / 10,59 / 15,60
   La clase 0 lleva SIEMPRE borde de 1 px con --agua-borde cuando se pintan como relleno.
   --agua-texto-N: color de texto con >= 4,5:1 sobre --agua-N (ratios exactos: el script).
 */
@@ -40,18 +40,18 @@
 }
 @media (prefers-color-scheme: dark) {
   :root {
-    --agua-0: #4f3c0c;  /* tierra oscura; borde obligatorio, 1,74:1 con el fondo */
-    --agua-1: #875e35;  /* ocre */
-    --agua-2: #508a8e;  /* verde azulado */
-    --agua-3: #829ab7;  /* azul acero */
-    --agua-4: #7dbcf8;  /* azul claro */
-    --agua-5: #c4dfff;  /* azul hielo */
+    --agua-0: #4f3c0c;  /* tierra oscura; borde obligatorio, 1,60:1 con el fondo */
+    --agua-1: #916738;  /* ocre */
+    --agua-2: #5a969b;  /* verde azulado */
+    --agua-3: #91abc9;  /* azul acero */
+    --agua-4: #a0d2ff;  /* azul claro */
+    --agua-5: #eef7ff;  /* azul hielo */
     --agua-texto-0: #ffffff;
     --agua-texto-1: #ffffff;
-    --agua-texto-2: #141413;
-    --agua-texto-3: #141413;
-    --agua-texto-4: #141413;
-    --agua-texto-5: #141413;
+    --agua-texto-2: #0b1e30;
+    --agua-texto-3: #0b1e30;
+    --agua-texto-4: #0b1e30;
+    --agua-texto-5: #0b1e30;
     --agua-borde: #f2f0e8;
   }
 }

@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="../../packages/web/src/styles/agua.css">
 <style>
 :root { --fondo: #fbfaf5; --tinta: #181818; color-scheme: light dark; }
-@media (prefers-color-scheme: dark) { :root { --fondo: #141413; --tinta: #f2f0e8; } }
+@media (prefers-color-scheme: dark) { :root { --fondo: #0b1e30; --tinta: #f2f0e8; } }
 * { box-sizing: border-box; }
 body { margin: 0 auto; padding: 1.5rem 1rem 4rem; background: var(--fondo); color: var(--tinta); font: 1rem/1.5 Georgia, serif; max-width: 62rem; }
 h1 { font-size: 1.6rem; margin: 0 0 .25rem; } h2 { font-size: 1.15rem; margin: 2.2rem 0 .5rem; }
@@ -18,7 +18,7 @@ p { max-width: 42rem; margin: .25rem 0 .75rem; } .peq { font-size: .85rem; opaci
 .esc b { font-size: .95rem; }
 .fila { display: grid; grid-template-columns: 8.5rem 1fr; align-items: center; gap: .5rem; margin: .25rem 0; font: .8rem system-ui, sans-serif; }
 .tira { display: grid; grid-template-columns: repeat(6, 1fr); height: 2.2rem; }
-.panel-osc { background: #141413; color: #f2f0e8; padding: 1rem; margin-top: .5rem; }
+.panel-osc { background: #0b1e30; color: #f2f0e8; padding: 1rem; margin-top: .5rem; }
 .mapa svg { display: block; width: 100%; height: auto; max-height: 70vh; }
 .mapa path { stroke: var(--tinta); stroke-width: 1; stroke-linejoin: round; }
 .leyenda { list-style: none; padding: 0; margin: .5rem 0; display: flex; flex-wrap: wrap; gap: .4rem 1.2rem; font: .85rem system-ui, sans-serif; }
@@ -63,7 +63,7 @@ table { border-collapse: collapse; font: .85rem system-ui, sans-serif; } th, td 
   var CORTES = [20, 35, 50, 65, 80];
   var NOM = ['Casi seco', 'Muy bajo', 'Bajo', 'Medio', 'Alto', 'Muy alto'];
   var RANGO = ['0 a 20 %', '20 a 35 %', '35 a 50 %', '50 a 65 %', '65 a 80 %', '80 a 100 %'];
-  var OSC = ['#4f3c0c', '#875e35', '#508a8e', '#829ab7', '#7dbcf8', '#c4dfff'];
+  var OSC = ['#4f3c0c', '#916738', '#5a969b', '#91abc9', '#a0d2ff', '#eef7ff'];
   var M = window.MUESTRA;
   var cs = getComputedStyle(document.documentElement);
   var ACT = [0, 1, 2, 3, 4, 5].map(function (i) { return cs.getPropertyValue('--agua-' + i).trim(); });
