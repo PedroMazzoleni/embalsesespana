@@ -1,6 +1,6 @@
 # Contrato de datos
 
-> Estado: **Fase 0**. Este documento describe, por ahora, la **fuente** (la base de datos histórica de embalses del MITECO) tal como se publica. El contrato de salida (`embalses.json`, `series/{id}.json`, `resumen.json`, `historico.parquet`) se definirá en `packages/schema` en la Fase 2 y se documentará aquí.
+> Estado: **Fase 2**. La parte 1 describe la **fuente** (BD histórica del MITECO). La parte 2 (al final) es el **contrato de salida**, definido en `packages/schema` y generado por `packages/pipeline`.
 
 Todas las cifras de este documento salen de ejecutar:
 
@@ -181,3 +181,28 @@ Decisiones: ADR 0003 (leer el `.mdb` con `mdb-reader`) y ADR 0004 (CSV por año,
 - El script sale con código ≠ 0 y no escribe nada si la descarga no es un ZIP, si falta la tabla `T_Datos Embalses*` o si las columnas no son exactamente las esperadas. Hay que revisar la fuente y, si el cambio es legítimo, actualizar `COLUMNS` en el script y el contrato.
 - El jueves, si la última fecha no es el martes de esa semana, el workflow falla a propósito para que GitHub avise. Si el MITECO publica más tarde, la ejecución del martes siguiente recupera todo (el ZIP es acumulativo).
 - Para reintentar a mano: Actions → «Scrape MITECO reservoirs» → Run workflow.
+
+
+
+---
+
+## Contrato de salida (Fase 2)
+
+Fuente de verdad: `packages/schema/src/index.ts` (Zod). Generación: `pnpm data` (lee `data/raw/boletin-hidrologico/*.csv` y `data/master/embalses-maestra.csv`, valida todo y escribe en `packages/web/public/data/`; si algo no valida sale con código 1 y **no escribe nada**). El export se regenera completo en cada ejecución.
+
+| Fichero | Contenido |
+|---|---|
+| `embalses.json` | `{datos_hasta, fuente, embalses[]}`; cada embalse: id, slug, nombre, demarcacion, demarcacion_codigo (ESxxx), provincia, lat, lon (null si no hay pareja en el inventario), capacidad_hm3 (la de la última fecha con dato), uso, foto (null por ahora), activo (tiene dato en la última semana), primera_fecha, ultima_fecha |
+| `series/{id}.json` | `{id, serie:[{fecha, volumen_hm3, pct}]}`, orden cronológico; pct = volumen / capacidad de esa fila, 1 decimal |
+| `resumen.json` | `datos_hasta, fuente, fecha, fecha_previa, fechas_media[10], anios[{fecha,pct}]`, `nacional` y `demarcaciones[]` (codigo, nombre) con: pct, hm3, capacidad, n_embalses, pct_previa, var_pts, media10, dif_media_pts |
+| `historico.parquet` | **Pendiente**: se hará cuando lo pidan la máquina del tiempo o el comparador (requiere DuckDB) |
+
+Decisiones:
+
+- **Ids y slugs** salen de la tabla maestra (estables). El emparejamiento raw → maestra es por (nombre MITECO, ámbito); un nombre desconocido falla indicando fichero y línea.
+- **Embalses sin pareja en el inventario** (13 en la maestra, 7 activos hoy): se **incluyen**, con lat/lon `null`, para que cuenten en totales y tengan serie. La web no debe pintarlos en el mapa, pero sí en tablas y rankings.
+- **Nombre**: `"Barca, La"` se publica como `"La Barca"`.
+- **Descartes**: filas con volumen o capacidad vacíos, o capacidad 0 (unas 18 960), y 12 filas con volumen > 150 % de la capacidad (se listan como aviso en cada ejecución).
+- **Medias**: criterio en ADR 0006. El MITECO publica volúmenes con precisión de 1 hm³; el pct puede superar 100 % (hasta 150 %).
+- **Demarcación** = la de la tabla maestra, no el "ámbito" del MITECO (Cantábrico Oriental incluye 2 embalses con ámbito "Cuencas Internas del País Vasco").
+- `resumen.json` no lleva geometría ni posición en el mapa (cx, cy, path): eso es de `data/geo`.

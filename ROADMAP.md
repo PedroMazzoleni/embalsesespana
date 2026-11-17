@@ -45,9 +45,9 @@ Objetivo: identidad propia antes de construir componentes.
 Objetivo: primera versión en internet con datos reales que se actualizan solos.
 
 ### Cimientos
-- [ ] Monorepo pnpm con `schema`, `pipeline`, `web` [datos]
-- [ ] Contrato Zod: `embalses`, `series`, `resumen`, `historico` [datos]
-- [ ] Pipeline completo: fetch → clean → validate → export, con tests sobre un Excel de muestra [datos]
+- [x] Monorepo pnpm con `schema`, `pipeline`, `web` [datos]
+- [x] Contrato Zod: `embalses`, `series`, `resumen` (`historico` pendiente) [datos]
+- [x] Pipeline completo: fetch → clean → validate → export, con tests sobre un Excel de muestra [datos]
 - [ ] Workflow semanal: si falla la validación, no despliega y abre una incidencia [datos]
 - [ ] Deploy en Cloudflare Pages + dominio [frontend]
 

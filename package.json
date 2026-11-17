@@ -8,7 +8,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "pnpm --filter web dev",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "pnpm --filter schema --filter pipeline test",
+    "data": "pnpm --filter pipeline start"
   },
   "devDependencies": {
     "fflate": "^0.8.3",

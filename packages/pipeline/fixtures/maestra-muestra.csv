@@ -1,0 +1,4 @@
+id,slug,nombre_miteco,ambito_miteco,demarcacion,provincia,lat,lon,uso
+alfa,la-alfa,"Alfa, La",Tajo,Tajo,Madrid,40.1,-3.5,Abastecimiento
+beta,beta,Beta,Tajo,Tajo,Toledo,39.5,-4.1,Hidroeléctrico
+gamma,gamma,Gamma,Ebro,Ebro,Huesca,,,

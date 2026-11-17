@@ -16,3 +16,4 @@ data/raw/geo/*.zip
 data/raw/inventario/egis_*/
 dist/
 .astro/
+packages/web/public/data/
