@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Montserrat:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../packages/web/src/styles/tokens.css">
+<link rel="stylesheet" href="../../packages/web/src/styles/agua.css">
+<link rel="stylesheet" href="comun.css">
+<title>Embalses de España: ¿hay agua?</title>
+<meta name="description" content="El estado de los embalses de España, contado como respuestas a las preguntas de siempre.">
+<style>
+.anios { margin: var(--s-5) 0 var(--s-2); padding: 0; list-style: none; display: grid; grid-template-columns: repeat(11, 1fr); gap: var(--s-1); align-items: end; height: calc(var(--s-12) * 4); border-bottom: var(--filete) solid var(--tinta); }
+.anios li { display: flex; flex-direction: column; justify-content: flex-end; align-items: center; height: 100%; min-width: 0; }
+.anios .b { width: 100%; background: var(--linea); border-top: var(--filete-grueso) solid var(--tinta-2); min-height: var(--filete); }
+.anios .v { font: 600 var(--t-0)/1.1 var(--f-cifras); font-variant-numeric: tabular-nums; margin-bottom: var(--s-1); }
+.anios li.hoy .b { background: var(--marca); border: var(--filete) solid var(--tinta); }
+.anios-et { list-style: none; margin: 0 0 var(--s-4); padding: 0; display: grid; grid-template-columns: repeat(11, 1fr); gap: var(--s-1); font: 500 var(--t-0)/1.2 var(--f-cifras); text-align: center; color: var(--tinta-2); }
+.anios-et li { overflow: hidden; }
+.anios-et li:nth-child(even):not(:last-child) { visibility: hidden; }
+.anios-et li:last-child { font-weight: 700; color: var(--tinta); }
+.dos { display: grid; gap: var(--s-4); margin: 0 0 var(--s-2); }
+.dos p { margin: 0; }
+.dos b { display: block; font: var(--peso-titulo) var(--t-2)/1.2 var(--f-titulos); }
+.dos .mas b { color: var(--rio); } .dos .menos b { color: var(--alerta); }
+.ej { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s-6); }
+.ej li { padding-top: var(--s-3); border-top: var(--filete-fino) solid var(--tinta); }
+.ej h3 { font: var(--peso-titulo) var(--t-3)/var(--lh-titulo) var(--f-titulos); letter-spacing: -.015em; margin: 0 0 var(--s-1); }
+.ej h3 a { color: var(--tinta); }
+.ej p { margin: 0 0 var(--s-2); }
+.ej .frase { line-height: var(--lh-largo); }
+.mas-mapa { margin-top: var(--s-3); }
+@media (min-width: 48rem) { .dos { grid-template-columns: 1fr 1fr; } .anios { height: calc(var(--s-12) * 4.5); } }
+</style>
+</head>
+<body data-pag="portada">
+<header class="cab" id="cab"></header>
+<main class="col">
+  <p class="fecha" id="fecha"></p>
+
+  <section class="qa" aria-labelledby="q1">
+    <h1 class="q" id="q1">¿hay agua?</h1>
+    <div class="a">
+      <p class="si" id="si"></p>
+      <p class="gigante" aria-hidden="true"><mark><span id="pct"></span><small>%</small></mark></p>
+      <p id="r1"></p>
+      <p class="peq" id="r1b"></p>
+    </div>
+  </section>
+
+  <section class="qa" aria-labelledby="q2">
+    <h2 class="q" id="q2">¿es grave?</h2>
+    <div class="a">
+      <p class="si" id="grave"></p>
+      <p id="r2"></p>
+      <ol class="anios" id="anios" aria-label="Reserva peninsular en la misma semana de cada uno de los últimos 10 años y ahora"></ol>
+      <ol class="anios-et" id="anios-et" aria-hidden="true"></ol>
+      <p class="peq" id="r2b"></p>
+    </div>
+  </section>
+
+  <section class="qa" aria-labelledby="q3">
+    <h2 class="q" id="q3">¿sube o baja?</h2>
+    <div class="a">
+      <p class="si" id="sube"></p>
+      <p class="peq" id="r3"></p>
+    </div>
+  </section>
+
+  <section class="qa" aria-labelledby="mapa-q">
+    <h2 class="q" id="mapa-q">¿dónde hay más y dónde menos?</h2>
+    <div class="a">
+      <div class="dos">
+        <p class="mas"><b id="mas-n"></b><span id="mas-t"></span></p>
+        <p class="menos"><b id="menos-n"></b><span id="menos-t"></span></p>
+      </div>
+    </div>
+    <figure class="mapa">
+      <svg id="mapa" viewBox="0 0 1000 804" role="img" aria-labelledby="mapa-q mapa-d">
+        <desc id="mapa-d">Mapa de la España peninsular por demarcación hidrográfica, coloreado según el porcentaje de llenado, de casi seco a muy alto. Los valores exactos están en la tabla de debajo.</desc>
+      </svg>
+      <figcaption><ul class="leyenda" id="leyenda" aria-label="Leyenda: porcentaje de llenado"></ul></figcaption>
+    </figure>
+    <div class="a">
+      <details>
+        <summary>Ver los datos en tabla</summary>
+        <div class="tabla-w"><table id="tabla">
+          <caption>Reserva de cada demarcación frente a la media de 10 años.</caption>
+          <thead><tr><th scope="col">Demarcación</th><th scope="col">Nivel</th><th scope="col">Ahora</th><th scope="col">Media 10 años</th></tr></thead>
+          <tbody></tbody>
+        </table></div>
+      </details>
+      <p class="mas-mapa"><a href="mapa.html">Abrir el mapa grande</a></p>
+    </div>
+  </section>
+
+  <section class="qa" aria-labelledby="ej-q">
+    <h2 class="q" id="ej-q">¿y mi embalse?</h2>
+    <div class="a">
+      <p>El boletín recoge <span class="cifra" id="n-emb"></span> embalses peninsulares. Tres para empezar:</p>
+      <ol class="ej" id="lista"></ol>
+    </div>
+  </section>
+</main>
+<footer id="pie"></footer>
+<script src="../direcciones/datos-muestra.js"></script>
+<script src="../direcciones/util.js"></script>
+<script src="comun.js"></script>
+<script>
+(function () {
+  var U = window.U, M = U.M, N = U.N, f = U.f, set = U.set;
+  set('fecha', 'Boletín del ' + U.fecha + '. Datos provisionales.');
+  set('si', U.veredicto());
+  set('pct', f(N.pct));
+  set('r1', 'Los embalses peninsulares guardan ' + f(N.hm3, 0) + ' hm³ de los ' + f(N.capacidad, 0) + ' hm³ que caben. Es el ' + f(N.pct) + ' % de su capacidad.');
+  set('r1b', 'La media de la misma semana en los 10 años anteriores es ' + f(N.media10) + ' %: hoy estamos ' + f(U.abs(N.dif_media_pts)) + ' puntos ' + U.rel + ' ella. ' + U.provisional);
+
+  set('grave', U.esGrave().split(':')[0] + '.');
+  set('r2', 'Esta semana, en ' + (M.anios.length - U.aniosPeores) + ' de los últimos ' + M.anios.length + ' años había más agua que ahora; en ' + U.aniosPeores + ', menos. El mínimo fue ' + f(U.anioMin) + ' % y el máximo ' + f(U.anioMax) + ' %.');
+  var tope = Math.max(U.anioMax, N.pct);
+  var barras = M.anios.map(function (a) { return { et: U.anioDe(a), v: a.pct, hoy: false }; });
+  barras.push({ et: 'hoy', v: N.pct, hoy: true });
+  document.getElementById('anios').innerHTML = barras.map(function (b) {
+    return '<li class="' + (b.hoy ? 'hoy' : '') + '" aria-label="' + b.et + ': ' + f(b.v) + ' %"><span class="v">' + f(b.v, 0) + '</span><span class="b" style="height:' + (b.v / tope * 80) + '%"></span></li>';
+  }).join('');
+  document.getElementById('anios-et').innerHTML = barras.map(function (b) { return '<li>' + (b.hoy ? 'hoy' : b.et.slice(2)) + '</li>'; }).join('');
+  set('r2b', 'Una barra por año, misma semana de noviembre (' + M.anios.map(U.anioDe).join(', ') + '). La resaltada es esta semana. Cifras en %.');
+
+  set('sube', N.var_pts === 0 ? 'Sin cambios.' : (N.var_pts > 0 ? 'Sube.' : 'Baja.') + ' ' + U.semana());
+  set('r3', 'Variación semanal de la reserva peninsular, en puntos de porcentaje, entre el ' + new Date(M.fecha_previa + 'T00:00:00').toLocaleDateString('es-ES', { day: 'numeric', month: 'long' }) + ' y el ' + U.fecha + '.');
+
+  document.getElementById('mapa').insertAdjacentHTML('beforeend', M.demarcaciones.map(function (d) {
+    var c = d.pct == null ? 'sin' : 'c' + U.agua(d.pct);
+    return '<path class="' + c + '" d="' + d.d + '"><title>' + d.nombre + ': ' + (d.pct == null ? 'sin dato' : f(d.pct) + ' %') + '</title></path>';
+  }).join(''));
+  document.getElementById('leyenda').innerHTML = U.leyendaHTML();
+  var fl = U.filas(), top = fl[0], bot = fl[fl.length - 1];
+  set('mas-n', 'Más: ' + top.nombre + ', ' + f(top.pct) + ' %');
+  set('mas-t', f(top.hm3, 0) + ' hm³ de ' + f(top.capacidad, 0) + ' hm³; su media es ' + f(top.media10) + ' %.');
+  set('menos-n', 'Menos: ' + bot.nombre + ', ' + f(bot.pct) + ' %');
+  set('menos-t', f(bot.hm3, 0) + ' hm³ de ' + f(bot.capacidad, 0) + ' hm³; su media es ' + f(bot.media10) + ' %.');
+  document.getElementById('tabla').tBodies[0].innerHTML = fl.map(function (d) {
+    var k = U.agua(d.pct);
+    return '<tr><th scope="row">' + d.nombre + '</th><td><span class="sw c' + k + '"></span>' + U.nombres[k] + '</td><td>' + f(d.pct) + ' %</td><td>' + f(d.media10) + ' %</td></tr>';
+  }).join('');
+
+  set('n-emb', f(N.n_embalses, 0));
+  document.getElementById('lista').innerHTML = ['casi lleno', 'muy bajo', 'el más grande'].map(function (r) {
+    var e = U.ej(r), d = e.pct - e.media10;
+    var frase = d > 1 ? 'Más lleno de lo habitual: ' + f(U.abs(d)) + ' puntos por encima de su media.' : d < -1 ? 'Más vacío de lo habitual: ' + f(U.abs(d)) + ' puntos por debajo de su media.' : 'En su media.';
+    return '<li><h3><a href="embalse.html">' + e.nombre + '</a></h3><p class="peq">' + e.provincia + ' · ' + e.demarcacion + ' · ' + r + '</p>' +
+      '<p class="frase"><mark class="cifra">' + f(e.pct) + ' %</mark> de <span class="cifra">' + f(e.capacidad, 0) + '</span> hm³. ' + frase + '</p>' +
+      '<div class="mini" role="img" aria-label="De 0 a 100 %: ahora ' + f(e.pct) + ' %, media ' + f(e.media10) + ' %"><i style="width:' + e.pct + '%"></i><u style="left:' + e.media10 + '%"></u></div>' +
+      '<p class="peq">Raya roja: su media de 10 años, ' + f(e.media10) + ' %.</p></li>';
+  }).join('');
+})();
+</script>
+</body>
+</html>

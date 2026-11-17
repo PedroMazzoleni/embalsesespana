@@ -1,12 +1,27 @@
 /* Tokens de diseño — dirección "Conversación" (ADR 0005).
    Única fuente de valores: ningún componente escribe colores o tamaños sueltos. */
 
+/* Cifras dentro del texto corrido: solo los dígitos 0-9 salen de Montserrat (sin cero
+   con barra); el resto de glifos cae a Atkinson. Subconjunto de solo dígitos (~5 KB por
+   peso), autoalojado; Montserrat es OFL. Para el peso 400 se sirve Montserrat 500, que iguala
+   el grosor de Atkinson 400. */
+@font-face {
+  font-family: "Cifras Texto";
+  src: url("../fonts/montserrat-cifras-500.woff2") format("woff2");
+  font-weight: 400; font-display: swap; unicode-range: U+0030-0039;
+}
+@font-face {
+  font-family: "Cifras Texto";
+  src: url("../fonts/montserrat-cifras-700.woff2") format("woff2");
+  font-weight: 700; font-display: swap; unicode-range: U+0030-0039;
+}
+
 :root {
   color-scheme: light dark;
 
   /* ---------- Tipografía ---------- */
   --f-titulos: "Bricolage Grotesque", "Helvetica Neue", Arial, sans-serif;
-  --f-texto: "Atkinson Hyperlegible", Verdana, sans-serif;
+  --f-texto: "Cifras Texto", "Atkinson Hyperlegible", Verdana, sans-serif;
   /* Cifras: Montserrat. Atkinson Hyperlegible lleva el cero con barra (pensado para
      distinguirlo de la O), que en datos meteorológicos/hídricos se lee como "símbolo de
      vacío" y distrae. Montserrat tiene cero ovalado liso (glifo conocido, no verificable

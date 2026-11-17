@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Montserrat:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../packages/web/src/styles/tokens.css">
+<link rel="stylesheet" href="../../packages/web/src/styles/agua.css">
+<link rel="stylesheet" href="comun.css">
+<title>¿Dónde hay agua? Mapa de embalses por demarcación</title>
+<meta name="description" content="Mapa de la reserva de agua en cada demarcación hidrográfica peninsular, con tabla de datos.">
+<style>
+.lay { display: grid; gap: var(--s-6); margin-top: var(--s-4); }
+.lay .mapa { margin: 0; min-width: 0; }
+.mapa path { cursor: pointer; }
+.mapa path:hover { stroke: var(--tinta); stroke-width: var(--filete); }
+.mapa path.sel { stroke: var(--tinta); stroke-width: var(--filete-grueso); }
+.mapa path:focus-visible { outline: none; stroke: var(--foco); stroke-width: calc(2 * var(--filete-grueso)); }
+.panel { border-top: var(--filete-grueso) solid var(--tinta); padding-top: var(--s-4); }
+.panel h2 { font: var(--peso-titulo) var(--t-3)/var(--lh-titulo) var(--f-titulos); letter-spacing: -.02em; margin: 0 0 var(--s-3); }
+.panel .nivel { display: flex; align-items: center; gap: var(--s-2); font-weight: var(--peso-negrita); margin: 0 0 var(--s-3); }
+.panel .nivel .sw { width: var(--s-6); height: var(--s-4); }
+.panel .gran { font: 700 var(--t-5)/var(--lh-apretado) var(--f-cifras); margin: 0 0 var(--s-3); }
+.panel .gran mark { display: inline-block; line-height: var(--lh-apretado); }
+.panel dl { margin: 0 0 var(--s-4); display: grid; grid-template-columns: auto 1fr; gap: var(--s-2) var(--s-4); }
+.panel dt { color: var(--tinta-2); font-size: var(--t-0); }
+.panel dd { margin: 0; text-align: right; }
+.panel ul { margin: 0; padding-left: var(--s-5); }
+.panel .vacio { color: var(--tinta-2); }
+@media (min-width: 60rem) {
+  .lay { grid-template-columns: minmax(0, 1fr) calc(var(--s-24) * 3.5); align-items: start; gap: var(--s-8); }
+  .panel { position: sticky; top: var(--s-4); }
+}
+</style>
+</head>
+<body data-pag="mapa" data-ancha>
+<header class="cab" id="cab"></header>
+<main class="col ancha">
+  <p class="fecha" id="fecha"></p>
+  <section class="qa" aria-labelledby="q1">
+    <h1 class="q" id="q1">¿dónde hay agua?</h1>
+    <div class="a">
+      <p class="si" id="si"></p>
+      <p class="peq">Cada zona es una demarcación hidrográfica; el color dice cuánto de su capacidad está lleno. Elige una zona con el ratón, el dedo o el teclado (Tab y Enter) para ver sus datos.</p>
+    </div>
+
+    <div class="lay">
+      <figure class="mapa">
+        <svg id="mapa" viewBox="0 0 1000 804" role="group" aria-labelledby="q1 mapa-d">
+          <desc id="mapa-d">Mapa de la España peninsular por demarcación hidrográfica, coloreado según el porcentaje de llenado. Cada zona se puede seleccionar. Los valores exactos están en la tabla de debajo.</desc>
+        </svg>
+        <figcaption><ul class="leyenda" id="leyenda" aria-label="Leyenda: porcentaje de llenado"></ul>
+        <p class="peq" id="nota-pts"></p></figcaption>
+      </figure>
+      <aside class="panel" aria-labelledby="p-t" aria-live="polite" id="panel"></aside>
+    </div>
+
+    <details open>
+      <summary>Todos los datos en tabla</summary>
+      <div class="tabla-w"><table id="tabla">
+        <caption>Reserva de cada demarcación hidrográfica frente a la media de 10 años.</caption>
+        <thead><tr><th scope="col">Demarcación</th><th scope="col">Nivel</th><th scope="col">Ahora</th><th scope="col">Volumen (hm³)</th><th scope="col">Capacidad (hm³)</th><th scope="col">Media 10 años</th></tr></thead>
+        <tbody></tbody>
+      </table></div>
+    </details>
+  </section>
+</main>
+<footer id="pie"></footer>
+<script src="../direcciones/datos-muestra.js"></script>
+<script src="../direcciones/util.js"></script>
+<script src="comun.js"></script>
+<script>
+(function () {
+  var U = window.U, M = U.M, f = U.f, set = U.set, svg = document.getElementById('mapa'), panel = document.getElementById('panel');
+  set('fecha', 'Boletín del ' + U.fecha + '. Datos provisionales.');
+  set('si', U.frase());
+  set('nota-pts', 'No se dibujan los embalses como puntos: la muestra de datos no trae latitud ni longitud. Llegarán con la tabla maestra.');
+  document.getElementById('leyenda').innerHTML = U.leyendaHTML();
+  svg.insertAdjacentHTML('beforeend', M.demarcaciones.map(function (d) {
+    var k = U.agua(d.pct);
+    return '<path class="c' + k + '" data-c="' + d.codigo + '" d="' + d.d + '" tabindex="0" role="button" aria-pressed="false" aria-label="' + d.nombre + ': ' + f(d.pct) + ' %, nivel ' + U.nombres[k].toLowerCase() + '"></path>';
+  }).join(''));
+  document.getElementById('tabla').tBodies[0].innerHTML = U.filas('nombre').map(function (d) {
+    var k = U.agua(d.pct);
+    return '<tr><th scope="row">' + d.nombre + '</th><td><span class="sw c' + k + '"></span>' + U.nombres[k] + '</td><td>' + f(d.pct) + ' %</td><td>' + f(d.hm3, 0) + '</td><td>' + f(d.capacidad, 0) + '</td><td>' + f(d.media10) + ' %</td></tr>';
+  }).join('');
+
+  function mostrar(cod) {
+    var d = M.demarcaciones.filter(function (x) { return x.codigo === cod; })[0];
+    if (!d) { panel.innerHTML = '<h2 id="p-t">Elige una demarcación</h2><p class="vacio">Aquí verás cuánta agua tiene, cómo está frente a su media y qué embalses de ejemplo hay.</p>'; return; }
+    var k = U.agua(d.pct), dif = d.pct - d.media10;
+    var rel = dif > 1 ? f(U.abs(dif)) + ' puntos por encima de su media de 10 años.' : dif < -1 ? f(U.abs(dif)) + ' puntos por debajo de su media de 10 años.' : 'En su media de 10 años.';
+    var ej = M.ejemplos.filter(function (e) { return d.nombre.indexOf(e.demarcacion) === 0 || e.demarcacion.indexOf(d.nombre) === 0; });
+    panel.innerHTML = '<h2 id="p-t">' + d.nombre + '</h2>' +
+      '<p class="nivel"><span class="sw c' + k + '"></span>' + U.nombres[k] + '</p>' +
+      '<p class="gran"><mark>' + f(d.pct) + ' %</mark></p>' +
+      '<p>' + rel + '</p>' +
+      '<dl><dt>Volumen</dt><dd class="cifra">' + f(d.hm3, 0) + ' hm³</dd><dt>Capacidad</dt><dd class="cifra">' + f(d.capacidad, 0) + ' hm³</dd><dt>Media 10 años</dt><dd class="cifra">' + f(d.media10) + ' %</dd><dt>Embalses</dt><dd class="cifra">' + f(d.embalses, 0) + '</dd></dl>' +
+      (ej.length ? '<p class="peq">Embalses de ejemplo:</p><ul>' + ej.map(function (e) { return '<li><a href="embalse.html">' + e.nombre + '</a>, <span class="cifra">' + f(e.pct) + ' %</span></li>'; }).join('') + '</ul>' : '');
+  }
+  function sel(p) {
+    Array.prototype.forEach.call(svg.querySelectorAll('path'), function (x) { x.classList.remove('sel'); x.setAttribute('aria-pressed', 'false'); });
+    p.classList.add('sel'); p.setAttribute('aria-pressed', 'true');
+    mostrar(p.getAttribute('data-c'));
+  }
+  svg.addEventListener('click', function (e) { if (e.target.tagName === 'path') sel(e.target); });
+  svg.addEventListener('keydown', function (e) { if ((e.key === 'Enter' || e.key === ' ') && e.target.tagName === 'path') { e.preventDefault(); sel(e.target); } });
+  mostrar(null);
+})();
+</script>
+</body>
+</html>

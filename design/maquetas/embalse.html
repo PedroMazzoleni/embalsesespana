@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Montserrat:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../packages/web/src/styles/tokens.css">
+<link rel="stylesheet" href="../../packages/web/src/styles/agua.css">
+<link rel="stylesheet" href="comun.css">
+<title>Embalse de Saucelle: ¿cómo está?</title>
+<meta name="description" content="Estado actual del embalse, comparación con su media y datos técnicos.">
+<style>
+.sub { color: var(--tinta-2); font-size: var(--t-1); margin: 0 0 var(--s-2); }
+.nivel-w { display: grid; gap: var(--s-4); margin: var(--s-4) 0; }
+.rej-w { position: relative; width: 100%; max-width: calc(var(--s-24) * 3); }
+.rejilla { display: grid; grid-template-columns: repeat(10, 1fr); gap: var(--s-1); margin: 0; padding: 0; list-style: none; }
+.rejilla li { aspect-ratio: 1; border: var(--filete-fino) solid var(--tinta-2); background: transparent; }
+.rejilla li.l { background: var(--c); border-color: var(--c); }
+.rejilla li.l.c0 { border-color: var(--agua-borde); }
+.rejilla li.p { background: linear-gradient(to top, var(--c) var(--r), transparent var(--r)); }
+.rej-media { position: absolute; left: calc(-1 * var(--s-2)); right: calc(-1 * var(--s-2)); border-top: var(--filete) solid var(--alerta); pointer-events: none; }
+.rej-media span { position: absolute; right: 0; bottom: var(--s-1); background: var(--fondo); color: var(--alerta); font: 600 var(--t-0)/1 var(--f-cifras); padding: 0 var(--s-1); }
+.unidad { font-size: var(--t-0); color: var(--tinta-2); margin: 0; }
+.hueco { border: var(--filete) dashed var(--tinta-2); display: grid; place-items: center; text-align: center; padding: var(--s-6); color: var(--tinta-2); min-height: calc(var(--s-12) * 4); max-width: var(--medida); }
+.hueco p { margin: 0; max-width: 26rem; }
+figure.foto { margin: 0; max-width: var(--medida); }
+figure.foto .hueco { aspect-ratio: 4 / 3; min-height: 0; }
+figure.foto figcaption { font-size: var(--t-0); color: var(--tinta-2); margin-top: var(--s-2); }
+.ficha { margin: 0; display: grid; border-top: var(--filete) solid var(--tinta); max-width: var(--medida); }
+.ficha div { display: grid; grid-template-columns: 9rem 1fr; gap: var(--s-3); padding: var(--s-3) 0; border-bottom: var(--filete-fino) solid var(--linea); align-items: baseline; }
+.ficha dt { color: var(--tinta-2); font-size: var(--t-0); }
+.ficha dd { margin: 0; }
+.q b { text-transform: none; }
+@media (min-width: 48rem) {
+  .nivel-w { grid-template-columns: auto 1fr; align-items: start; gap: var(--s-8); }
+  .ficha div { grid-template-columns: 11rem 1fr; }
+}
+@media (min-width: 72rem) {
+  .doble { display: grid; grid-template-columns: var(--medida) var(--medida); gap: var(--s-12); }
+}
+</style>
+</head>
+<body data-pag="embalse">
+<header class="cab" id="cab"></header>
+<main class="col">
+  <p class="fecha" id="fecha"></p>
+
+  <section class="qa" aria-labelledby="q1">
+    <h1 class="q" id="q1"><span id="loc"></span>¿cómo está <b id="nom"></b>?</h1>
+    <div class="a">
+      <p class="si" id="si"></p>
+      <p class="gigante" aria-hidden="true"><mark><span id="pct"></span><small>%</small></mark></p>
+      <p id="r1"></p>
+    </div>
+    <div class="nivel-w">
+      <figure style="margin:0">
+        <div class="rej-w">
+          <ol class="rejilla" id="rejilla" role="img"></ol>
+          <div class="rej-media" id="linea"><span id="linea-t"></span></div>
+        </div>
+        <figcaption class="unidad" id="unidad"></figcaption>
+      </figure>
+      <div>
+        <ul class="leyenda" id="leyenda" aria-label="Leyenda: porcentaje de llenado"></ul>
+        <p class="peq" id="alt"></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="qa" aria-labelledby="q2">
+    <h2 class="q h2" id="q2">¿es normal para esta época?</h2>
+    <div class="a">
+      <p class="si" id="normal"></p>
+      <div class="mini" role="img" id="mini"></div>
+      <p class="peq" id="r2"></p>
+    </div>
+  </section>
+
+  <section class="qa" aria-labelledby="q3">
+    <h2 class="q h2" id="q3">¿cómo ha ido este año?</h2>
+    <div class="a">
+      <p class="si" id="semana"></p>
+      <div class="hueco" role="img" aria-label="Espacio reservado para el gráfico de la serie del último año"><p>Gráfico de serie: lo hace dataviz en Fase 2. Línea del último año con banda de la media de 10 años.</p></div>
+      <p class="peq">Alternativa en texto: la muestra de datos no trae la serie de este embalse, solo el valor de esta semana, el cambio semanal y la media. Aquí irá, bajo el gráfico, una tabla con las semanas.</p>
+    </div>
+  </section>
+
+  <section class="qa" aria-labelledby="q4">
+    <h2 class="q h2" id="q4">datos técnicos</h2>
+    <div class="a">
+      <dl class="ficha" id="ficha"></dl>
+    </div>
+    <div class="a" style="margin-top:var(--s-8)">
+      <figure class="foto">
+        <div class="hueco" role="img" aria-label="Espacio reservado para la foto del embalse"><p>Foto del embalse (Inventario de Presas, SNCZI)</p></div>
+        <figcaption>Foto: pendiente de autor y licencia. La atribución es obligatoria.</figcaption>
+      </figure>
+    </div>
+  </section>
+</main>
+<footer id="pie"></footer>
+<script src="../direcciones/datos-muestra.js"></script>
+<script src="../direcciones/util.js"></script>
+<script src="comun.js"></script>
+<script>
+(function () {
+  var U = window.U, M = U.M, f = U.f, set = U.set, e = U.ej('casi lleno');
+  var k = U.agua(e.pct), dif = e.pct - e.media10, un = e.capacidad / 100;
+  document.title = 'Embalse de ' + e.nombre + ': ¿cómo está?';
+  set('fecha', 'Boletín del ' + U.fecha + '. Datos provisionales.');
+  set('loc', e.provincia + ' · ' + e.demarcacion);
+  set('nom', e.nombre);
+  set('si', 'Nivel ' + U.nombres[k].toLowerCase() + '.');
+  set('pct', f(e.pct));
+  set('r1', 'Guarda ' + f(e.hm3, 0) + ' hm³ de los ' + f(e.capacidad, 0) + ' hm³ que caben.');
+
+  var llenas = Math.floor(e.pct), resto = e.pct - llenas, celdas = '';
+  for (var r = 9; r >= 0; r--) for (var c = 0; c < 10; c++) {
+    var i = r * 10 + c, parcial = i === llenas && resto > 0.05;
+    celdas += '<li class="' + (i < llenas ? 'l c' + k : parcial ? 'p c' + k : '') + '"' + (parcial ? ' style="--r:' + (resto * 100) + '%"' : '') + '></li>';
+  }
+  var rej = document.getElementById('rejilla');
+  rej.innerHTML = celdas;
+  rej.setAttribute('aria-label', 'Cuadrícula de 100 unidades: ' + f(e.pct) + ' llenas. La línea marca la media de 10 años, ' + f(e.media10) + ' %.');
+  document.getElementById('linea').style.bottom = 'calc(' + e.media10 + '% - 1px)';
+  set('linea-t', 'media: ' + f(e.media10) + ' %');
+  set('unidad', 'Cada cuadrado = 1 % de la capacidad = ' + f(un, 1) + ' hm³.');
+  document.getElementById('leyenda').innerHTML = U.leyendaHTML();
+  set('alt', 'Texto alternativo: el embalse está al ' + f(e.pct) + ' % (nivel ' + U.nombres[k].toLowerCase() + '); su media de 10 años es ' + f(e.media10) + ' %.');
+
+  set('normal', Math.abs(dif) <= 1 ? 'Sí, está en su media.' : dif > 0 ? 'Más lleno de lo habitual.' : 'Más vacío de lo habitual.');
+  var m = document.getElementById('mini');
+  m.setAttribute('aria-label', 'De 0 a 100 %: ahora ' + f(e.pct) + ' %, media ' + f(e.media10) + ' %');
+  m.innerHTML = '<i style="width:' + e.pct + '%"></i><u style="left:' + e.media10 + '%"></u>';
+  set('r2', 'Ahora ' + f(e.pct) + ' %; su media de 10 años en esta semana, ' + f(e.media10) + ' % (raya roja): ' + f(U.abs(dif)) + ' puntos ' + (dif >= 0 ? 'por encima' : 'por debajo') + '. ' + U.provisional);
+
+  var v = e.var_pts;
+  set('semana', v === 0 ? 'Sin cambios esta semana.' : (v > 0 ? 'Sube ' : 'Baja ') + f(U.abs(v)) + ' puntos frente a la semana anterior (' + f(e.pct - v) + ' %).');
+
+  var filas = [['Capacidad', f(e.capacidad, 0) + ' hm³'], ['Volumen ahora', f(e.hm3, 0) + ' hm³'], ['Provincia', e.provincia], ['Demarcación', e.demarcacion], ['Río', e.rio.charAt(0) + e.rio.slice(1).toLowerCase()], ['Usos', e.uso.split(' | ').join(', ')]];
+  document.getElementById('ficha').innerHTML = filas.map(function (x, i) { return '<div><dt>' + x[0] + '</dt><dd' + (i < 2 ? ' class="cifra"' : '') + '>' + x[1] + '</dd></div>'; }).join('');
+})();
+</script>
+</body>
+</html>
