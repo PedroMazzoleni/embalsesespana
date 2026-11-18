@@ -9,9 +9,12 @@
     "preview": "astro preview"
   },
   "dependencies": {
+    "@observablehq/plot": "^0.6.19",
     "@types/d3-geo": "^3.1.1",
     "astro": "^7.4.12",
     "d3-geo": "^3.1.2",
+    "linkedom": "^0.18.15",
+    "maplibre-gl": "^6.18.0",
     "schema": "workspace:*"
   }
 }
