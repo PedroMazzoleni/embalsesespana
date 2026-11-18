@@ -8,7 +8,7 @@
         "/embalse/yesa/index.html",
         "/cuenca/duero/index.html"
       ],
-      "numberOfRuns": 1,
+      "numberOfRuns": 3,
       "settings": {
         "chromeFlags": "--no-sandbox"
       }
