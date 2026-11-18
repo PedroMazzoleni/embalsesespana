@@ -1,6 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
 import Leyenda from '../../components/Leyenda.astro';
+import SerieHistorica from '../../components/SerieHistorica.astro';
 import { embalses, estadoDe, ultimas52, f, fechaDatos, fechaCorta, fechaLarga, NA, NOMBRES, clase } from '../../lib/datos';
 
 export function getStaticPaths() {
@@ -27,15 +28,6 @@ for (let r = 9; r >= 0; r--) for (let c = 0; c < 10; c++) {
   celdas.push({ cls: i < llenas ? `l c${k}` : parcial ? `p c${k}` : '', r: parcial ? resto * 100 : undefined });
 }
 
-// Gráfico provisional: SVG de las últimas 52 semanas
-const W = 600, H = 220, ML = 44, MR = 8, MT = 8, MB = 24;
-const tiempo = (iso: string) => new Date(iso + 'T00:00:00').getTime();
-const t0 = tiempo(serie[0].fecha), t1 = tiempo(ultimo.fecha);
-const maxY = Math.max(100, ...serie.map((p) => p.pct));
-const X = (iso: string) => ML + (t1 === t0 ? 0 : (tiempo(iso) - t0) / (t1 - t0)) * (W - ML - MR);
-const Y = (v: number) => MT + (1 - v / maxY) * (H - MT - MB);
-const linea = serie.map((p, i) => `${i ? 'L' : 'M'}${X(p.fecha).toFixed(1)} ${Y(p.pct).toFixed(1)}`).join('');
-const pMin = serie.reduce((a, b) => (b.pct < a.pct ? b : a)), pMax = serie.reduce((a, b) => (b.pct > a.pct ? b : a));
 const varSem = actual && previa ? actual.pct - previa.pct : null;
 const semana = !hayDato ? 'Sin dato en la última semana.' : varSem == null ? 'No tenemos la semana anterior para compararla.' : Math.abs(varSem) < 0.05 ? 'Sin cambios esta semana.' : `${varSem > 0 ? 'Sube' : 'Baja'} ${f(Math.abs(varSem))} puntos frente a la semana anterior (${f(previa!.pct)} %).`;
 const normal = media10 == null ? 'No podemos decirlo: no hay serie suficiente de años anteriores.' : Math.abs(dif) <= 1 ? 'Sí, está en su media.' : dif > 0 ? 'Más lleno de lo habitual.' : 'Más vacío de lo habitual.';
@@ -97,24 +89,7 @@ const filas: [string, string, boolean?][] = [
     <h2 class="q h2" id="q3">¿cómo ha ido este año?</h2>
     <div class="a">
       <p class="si">{semana}</p>
-      <figure class="serie">
-        <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-label={`Porcentaje de llenado semana a semana, del ${fechaCorta(serie[0].fecha)} al ${fechaCorta(ultimo.fecha)}. Mínimo ${f(pMin.pct)} % (${fechaCorta(pMin.fecha)}), máximo ${f(pMax.pct)} % (${fechaCorta(pMax.fecha)}), último ${f(ultimo.pct)} %. La tabla de debajo tiene todas las semanas.`}>
-          {[0, 50, 100].filter((v) => v <= maxY).map((v) => <g><line class="rej" x1={ML} x2={W - MR} y1={Y(v)} y2={Y(v)} /><text x={ML - 6} y={Y(v) + 4} text-anchor="end">{v} %</text></g>)}
-          <path class="lin" d={linea} />
-          <circle class="fin" cx={X(ultimo.fecha)} cy={Y(ultimo.pct)} r="4" />
-          <text x={ML} y={H - 6}>{fechaCorta(serie[0].fecha)}</text>
-          <text x={W - MR} y={H - 6} text-anchor="end">{fechaCorta(ultimo.fecha)}</text>
-        </svg>
-        <figcaption class="unidad">Porcentaje de llenado, últimas {serie.length} semanas con medición. Gráfico provisional.</figcaption>
-      </figure>
-      <details>
-        <summary>Ver las semanas en tabla</summary>
-        <div class="tabla-w"><table>
-          <caption>Volumen y porcentaje de llenado de {nombre}, semana a semana.</caption>
-          <thead><tr><th scope="col">Semana</th><th scope="col">Volumen (hm³)</th><th scope="col">Llenado</th></tr></thead>
-          <tbody>{serie.slice().reverse().map((p) => <tr><th scope="row">{fechaCorta(p.fecha)}</th><td>{f(p.volumen_hm3, 0)}</td><td>{f(p.pct)} %</td></tr>)}</tbody>
-        </table></div>
-      </details>
+      <SerieHistorica e={e} nombre={nombre} />
     </div>
   </section>
 

@@ -1,0 +1,103 @@
+---
+// Serie histórica por año hidrológico: año actual vs. media de 10 años vs. años secos.
+// SVG de Observable Plot generado en build con linkedom: cero JS en el cliente.
+import * as Plot from '@observablehq/plot';
+import { parseHTML } from 'linkedom';
+import type { Embalse } from 'schema';
+import { serieDe, f, fechaCorta } from '../lib/datos';
+import { serieHistorica, etiquetaAnio, INICIO_MES, MESES, N_MEDIA, MIN_MEDIA } from '../lib/serieHistorica';
+
+interface Props { e: Embalse; nombre: string; }
+const { e, nombre } = Astro.props;
+const h = e.capacidad_hm3 > 0 ? serieHistorica(serieDe(e.id)) : null;
+
+const W = 480, H = 320, GAP = 17;
+let svg = '';
+let frase = '';
+let titulo = '';
+if (h) {
+  const { document } = parseHTML('<html><body></body></html>');
+  const L = etiquetaAnio;
+  const filas = (pts: (number | null)[]) => h.rejilla.map((d, i) => ({ d, pct: pts[i] }));
+  const finDe = (pts: (number | null)[]) => { for (let i = pts.length - 1; i >= 0; i--) if (pts[i] != null) return pts[i] as number; return null; };
+
+  // Rótulos en el extremo derecho de las líneas de referencia, separados si chocan.
+  const unidades = (GAP * 100) / (H - 14 - 30);
+  const ext: { y: number; txt: string; color: string }[] = [];
+  if (h.media) { const p = finDe(h.media); if (p != null) ext.push({ y: p, txt: 'Media', color: 'var(--tinta-2)' }); }
+  for (const s of h.secos) { const p = finDe(s.puntos); if (p != null) ext.push({ y: p, txt: L(s.anio), color: 'var(--alerta)' }); }
+  ext.sort((a, b) => a.y - b.y);
+  for (let i = 1; i < ext.length; i++) if (ext[i].y - ext[i - 1].y < unidades) ext[i].y = ext[i - 1].y + unidades;
+  const ult = h.actual[h.actual.length - 1];
+
+  const marks: any[] = [
+    Plot.ruleY([0, 25, 50, 75, 100], { stroke: 'var(--linea)', strokeWidth: 1 }),
+    ...h.secos.map((s) => Plot.line(filas(s.puntos), { x: 'd', y: 'pct', stroke: 'var(--alerta)', strokeWidth: 1.75, strokeDasharray: '2 3', strokeLinecap: 'round' })),
+    ...(h.media ? [Plot.line(filas(h.media), { x: 'd', y: 'pct', stroke: 'var(--tinta-2)', strokeWidth: 2, strokeDasharray: '6 3' })] : []),
+    Plot.line(h.actual, { x: 'd', y: 'pct', stroke: 'var(--rio)', strokeWidth: 3.5, strokeLinejoin: 'round' }),
+    Plot.dot([ult], { x: 'd', y: 'pct', r: 5, fill: 'var(--rio)', stroke: 'var(--fondo)', strokeWidth: 2 }),
+    Plot.text(ext, { x: () => 365, y: 'y', text: 'txt', fill: 'color', textAnchor: 'start', dx: 7, fontWeight: 600 }),
+    Plot.text([{ ...ult, txt: L(h.anioActual) }], { x: 'd', y: 'pct', text: 'txt', fill: 'var(--rio)', textAnchor: 'start', dx: 4, dy: -14, fontWeight: 700 }),
+  ];
+  const chart = Plot.plot({
+    document: document as any,
+    width: W, height: H, marginLeft: 40, marginRight: 58, marginTop: 14, marginBottom: 30,
+    style: { fontFamily: 'var(--f-cifras)', fontSize: '14px', color: 'var(--tinta-2)', background: 'transparent', overflow: 'visible' },
+    x: { domain: [0, 365], ticks: [0, 2, 4, 6, 8, 10].map((m) => INICIO_MES[m]), tickFormat: (d: number) => MESES[INICIO_MES.indexOf(d)]?.slice(0, 3) ?? '', label: null, tickSize: 4 },
+    y: { domain: [0, 100], ticks: [0, 25, 50, 75, 100], tickFormat: (d: number) => `${d} %`, label: null, tickSize: 0, grid: false },
+    marks,
+  }) as unknown as Element;
+  const idT = `sh-t-${e.id}`, idD = `sh-d-${e.id}`;
+
+  const ahora = h.ultimo.pct, m = h.mediaAhora;
+  const dif = m == null ? null : ahora - m;
+  const cuando = `El ${fechaCorta(h.ultimo.fecha)}`;
+  if (dif == null) {
+    titulo = 'No hay histórico suficiente para calcular una media';
+    frase = `${cuando}, ${nombre} estaba al ${f(ahora)} %. Solo tiene ${h.nMedia} años hidrológicos anteriores con medición y hacen falta al menos ${MIN_MEDIA} para calcular una media.`;
+  } else if (Math.abs(dif) < 1) {
+    titulo = `${nombre} está en la media de los últimos ${N_MEDIA} años`;
+    frase = `${cuando}, ${nombre} estaba al ${f(ahora)} %, en línea con la media de esa semana (${f(m)} %).`;
+  } else {
+    titulo = `${nombre} está ${dif > 0 ? 'por encima' : 'por debajo'} de su media de los últimos ${N_MEDIA} años`;
+    frase = `${cuando}, ${nombre} estaba al ${f(ahora)} %, ${f(Math.abs(dif))} puntos ${dif > 0 ? 'por encima' : 'por debajo'} de la media de esa semana (${f(m)} %).`;
+  }
+  if (h.secos.length) frase += ` Los años más secos de su historia fueron ${h.secos.map((s) => `${L(s.anio)} (${f(s.media)} % de media)`).join(' y ')}.`;
+
+  chart.removeAttribute('width'); chart.removeAttribute('height');
+  chart.setAttribute('role', 'img');
+  chart.setAttribute('aria-labelledby', `${idT} ${idD}`);
+  chart.insertAdjacentHTML('afterbegin', `<title id="${idT}">${titulo}</title><desc id="${idD}">${frase} Año hidrológico: del 1 de octubre al 30 de septiembre. La tabla de debajo da los mismos datos por meses.</desc>`);
+  svg = chart.outerHTML;
+}
+const secos = h?.secos ?? [];
+const celda = (v: number | null | undefined) => (v == null ? '—' : `${f(v)} %`);
+---
+{h ? (
+  <figure class="sh">
+    <p class="sh-t">{titulo}.</p>
+    <div class="sh-g" set:html={svg} />
+    <figcaption class="unidad">
+      Porcentaje de llenado de {nombre} a lo largo del año hidrológico (de octubre a septiembre).
+      Línea azul gruesa: {etiquetaAnio(h.anioActual)}, el año en curso.
+      {h.media ? ` Línea de rayas: media de los ${h.nMedia} años hidrológicos anteriores${h.nMedia < N_MEDIA ? ' con datos' : ''}.` : ` Sin línea de media: hay menos de ${MIN_MEDIA} años anteriores medidos.`}
+      {secos.length ? ' Línea de puntos: los años más secos de su historia (menor porcentaje medio).' : ''}
+      {' '}{frase}
+    </figcaption>
+    <details>
+      <summary>Ver el año en tabla, mes a mes</summary>
+      <div class="tabla-w"><table>
+        <caption>Porcentaje medio de llenado de {nombre} por mes del año hidrológico.</caption>
+        <thead><tr><th scope="col">Mes</th><th scope="col">{etiquetaAnio(h.anioActual)}</th><th scope="col">Media</th>{secos.map((s) => <th scope="col">{etiquetaAnio(s.anio)} (seco)</th>)}</tr></thead>
+        <tbody>{MESES.map((mes, i) => <tr><th scope="row">{mes}</th><td>{celda(h.mensualActual[i])}</td><td>{celda(h.mensualMedia[i])}</td>{secos.map((s) => <td>{celda(s.mensual[i])}</td>)}</tr>)}</tbody>
+      </table></div>
+    </details>
+  </figure>
+) : <p class="peq">No hay serie histórica suficiente para dibujar este embalse.</p>}
+<style is:global>
+.sh { margin: var(--s-4) 0; max-width: var(--medida); }
+.sh-t { font-weight: 700; margin: 0 0 var(--s-2); }
+.sh-g svg { display: block; width: 100%; height: auto; max-width: 36rem; }
+.sh figcaption { margin-top: var(--s-2); }
+.sh details { margin-top: var(--s-3); }
+</style>

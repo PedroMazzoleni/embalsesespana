@@ -56,7 +56,7 @@ Objetivo: primera versión en internet con datos reales que se actualizan solos.
 - [ ] Portada: % de reserva, variación semanal, comparación con media de 10 años, frase "¿es grave?" [frontend + editorial]
 - [ ] Mapa: demarcaciones coloreadas + puntos de embalses; clic → cuenca → embalse; con relieve (hillshade/terrain de MapLibre) e inclinación para dar sensación 3D, cargado de forma diferida; navegable con teclado (flechas entre demarcaciones) [mapas]
 - [ ] Ficha de embalse (una página estática por embalse, con SEO): datos, foto, serie histórica [frontend + dataviz]
-- [ ] Gráfico de serie histórica con año actual vs. media vs. años secos [dataviz]
+- [x] Gráfico de serie histórica con año actual vs. media vs. años secos [dataviz]
 - [ ] Página de cuenca [frontend]
 - [ ] Alternativas accesibles (tablas) para mapa y gráficos [frontend]
 
