@@ -3,7 +3,7 @@
 Proyecto de una sola persona. Las duraciones son orientativas (dedicación a tiempo parcial) y se revisan al cerrar cada fase.
 Cada tarea indica el agente responsable entre corchetes.
 
-**Fase actual: 2**
+**Fase actual: 3**
 
 ---
 
@@ -96,3 +96,4 @@ Objetivo: lo que nadie más tiene.
 - 2026-11-17 — Fase 0 cerrada: 368 de 375 embalses de la última semana emparejados con coordenadas (98,13 %, `data/master/maestra-stats.json`), histórico documentado, scraping semanal funcionando. ADR 0003 (lector Access) y 0004 (CSV por año). Pendientes para la Fase 2: 7 embalses sin pareja (`data/master/sin-emparejar.csv`), diferencia de capacidad total frente a la prensa, criterio de comparación con la media cuando cambia el conjunto de embalses, revisar emparejamientos de confianza media/baja.
 - 2026-11-17 — Fase 1: el mapa SVG de las maquetas es solo de diseño. El mapa real de la Fase 2 llevará relieve e inclinación 3D (MapLibre); las columnas 3D siguen en la Fase 3 (deck.gl).
 - 2026-11-17 — Fase 1 cerrada: dirección "Conversación" (ADR 0005), `tokens.css` y `agua.css` cerrados, maquetas de portada, mapa y ficha en `design/maquetas/` (escritorio en dos columnas, modo oscuro azul mar #0b1e30, mapa navegable con flechas). Revisión de qa: bloqueantes corregidos. Pendiente Fase 2: gráficos con Observable Plot renderizados a SVG en build (sin JS) salvo los interactivos; cifras de texto con Montserrat en subconjunto de dígitos.
+- 2026-11-18 — Fase 2 cerrada: web pública en https://embalses-espana.pages.dev, actualizada sola (scraping → commit del bot → despliegue; probado con el boletín del 17-11-2026). Si los datos no validan no se publica y se abre incidencia; también si falla el scraping. Playwright 31/31 y Lighthouse móvil 99–100 en CI. ADR 0007: mapa 3D automático solo en escritorio. Pendiente para la Fase 3: gráfico agregado por cuenca, `historico.parquet`, fotos con licencia libre.
