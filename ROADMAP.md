@@ -61,8 +61,8 @@ Objetivo: primera versión en internet con datos reales que se actualizan solos.
 - [x] Alternativas accesibles (tablas) para mapa y gráficos [frontend]
 
 ### Calidad
-- [ ] Playwright: pruebas básicas de las páginas principales [qa]
-- [ ] Lighthouse CI en cada cambio con los presupuestos del CLAUDE.md [qa]
+- [x] Playwright: pruebas básicas de las páginas principales [qa]
+- [x] Lighthouse CI en cada cambio con los presupuestos del CLAUDE.md [qa]
 
 **Criterio de salida:** web pública, actualizada automáticamente una semana tras otra sin intervención manual.
 

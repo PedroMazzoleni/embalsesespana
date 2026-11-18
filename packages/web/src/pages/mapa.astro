@@ -30,6 +30,9 @@ const ejemplosDe = (cod: string) => embalses.filter((e) => e.demarcacion_codigo 
           <g class="resalte"><path class="ext"></path><path class="int"></path></g>
         </svg></div>
         <div id="mapa-gl" class="mapa-gl" hidden tabindex="0" role="group" aria-label="Mapa interactivo con relieve. Flechas: cambiar de demarcación. Intro: abrir el detalle. Escape: cerrar."></div>
+        <div id="mapa-3d" class="mapa-ctl" hidden>
+          <button type="button" id="mapa-3d-btn">Ver en 3D con relieve</button>
+        </div>
         <div id="mapa-ctl" class="mapa-ctl" hidden>
           <button type="button" id="mapa-plano" aria-pressed="false">Vista plana</button>
           <button type="button" id="mapa-cerrar" hidden>Cerrar detalle</button>
@@ -110,6 +113,7 @@ const ejemplosDe = (cod: string) => embalses.filter((e) => e.demarcacion_codigo 
 .maplibregl-popup-content a { color: var(--tinta); font-weight: var(--peso-negrita); }
 .maplibregl-popup-anchor-top .maplibregl-popup-tip { border-bottom-color: var(--fondo); }
 .maplibregl-popup-anchor-bottom .maplibregl-popup-tip { border-top-color: var(--fondo); }
+.maplibregl-ctrl-attrib a { text-decoration: underline; } /* links in text must not rely on colour alone */
 .panel .todos-lista { max-height: 16rem; overflow: auto; }
 
 .lay { display: grid; gap: var(--s-6); margin-top: var(--s-4); }

@@ -231,6 +231,22 @@ async function arrancar() {
 function cuandoToque() {
   if (!caja) return;
   const lanzar = () => { void arrancar(); };
+  // Mobile (or data saver): MapLibre is ~300 KB gzip, so the 3D map loads only on request.
+  // The SVG map stays fully usable (click, keyboard, table). Desktop loads it automatically.
+  const escritorio = matchMedia('(min-width: 64rem)').matches;
+  const ahorro = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData === true;
+  if (!escritorio || ahorro) {
+    const caja3d = document.getElementById('mapa-3d');
+    const btn = document.getElementById('mapa-3d-btn') as HTMLButtonElement | null;
+    if (!caja3d || !btn || !hayWebGL()) return;
+    caja3d.hidden = false;
+    btn.addEventListener('click', async () => {
+      btn.disabled = true; btn.textContent = 'Cargando el mapa 3D…';
+      await arrancar();
+      caja3d.hidden = true;
+    }, { once: true });
+    return;
+  }
   const idle = () => ('requestIdleCallback' in window
     ? (window as unknown as { requestIdleCallback: (f: () => void, o: object) => void }).requestIdleCallback(lanzar, { timeout: 3000 })
     : setTimeout(lanzar, 1200));

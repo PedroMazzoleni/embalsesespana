@@ -56,8 +56,8 @@ const filas: [string, string, boolean?, string?][] = [
     </div>
     <div class="nivel-w">
       <figure style="margin:0">
-        <div class="rej-w">
-          <ol class="rejilla" role="img" aria-label={`Cuadrícula de 100 unidades: ${f(pct)} llenas.${media10 != null ? ` La línea marca la media de ${nMedia} años, ${f(media10)} %.` : ''}`}>
+        <div class="rej-w" role="img" aria-label={`Cuadrícula de 100 unidades: ${f(pct)} llenas.${media10 != null ? ` La línea marca la media de ${nMedia} años, ${f(media10)} %.` : ''}`}>
+          <ol class="rejilla" aria-hidden="true">
             {celdas.map((c) => <li class={c.cls} style={c.r != null ? `--r:${c.r}%` : undefined}></li>)}
           </ol>
           {media10 != null && <div class="rej-media" style={`bottom:calc(${Math.min(media10, 100)}% - 1px)`}><span>media: {f(media10)} %</span></div>}

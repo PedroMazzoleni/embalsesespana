@@ -70,6 +70,8 @@ if (h) {
   const etiqueta = `${titulo}. ${frase} Año hidrológico: del 1 de octubre al 30 de septiembre. La tabla de debajo da los mismos datos por meses.`;
   const prepara = (c: Element, cls: string) => {
     c.removeAttribute('width'); c.removeAttribute('height');
+    // the whole SVG is one role="img"; Plot's per-mark aria-labels on <g> are prohibited (axe aria-prohibited-attr)
+    c.querySelectorAll('[aria-label], [aria-description]').forEach((n: Element) => { n.removeAttribute('aria-label'); n.removeAttribute('aria-description'); });
     c.setAttribute('role', 'img'); c.setAttribute('aria-label', etiqueta); c.setAttribute('class', cls);
     return c.outerHTML;
   };

@@ -17,3 +17,6 @@ data/raw/inventario/egis_*/
 dist/
 .astro/
 packages/web/public/data/
+playwright-report/
+test-results/
+.lighthouseci/

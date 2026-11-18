@@ -1,0 +1,59 @@
+name: Quality
+
+on:
+  pull_request:
+  push:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: quality-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 12 # same as deploy.yml
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Test
+        run: pnpm test
+
+      - name: Generate data (fails if validation fails)
+        run: pnpm data
+
+      - name: Build web
+        run: pnpm --filter web build
+
+      - name: Install Chromium for Playwright
+        run: pnpm --filter web exec playwright install --with-deps chromium
+
+      - name: Playwright
+        run: pnpm --filter web test:e2e
+
+      - name: Lighthouse CI
+        run: pnpm exec lhci autorun
+
+      - name: Upload reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: quality-reports
+          path: |
+            packages/web/playwright-report/
+            packages/web/test-results/
+            .lighthouseci/
+          if-no-files-found: ignore

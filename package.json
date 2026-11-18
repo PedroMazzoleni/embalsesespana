@@ -9,9 +9,12 @@
   "scripts": {
     "dev": "pnpm --filter web dev",
     "test": "pnpm --filter schema --filter pipeline test",
-    "data": "pnpm --filter pipeline start"
+    "data": "pnpm --filter pipeline start",
+    "lhci": "lhci autorun",
+    "test:e2e": "pnpm --filter web test:e2e"
   },
   "devDependencies": {
+    "@lhci/cli": "0.16.0",
     "fflate": "^0.8.3",
     "mapshaper": "0.7.101",
     "mdb-reader": "^3.2.1"
