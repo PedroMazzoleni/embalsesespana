@@ -43,7 +43,7 @@ if (h) {
     document: document as any,
     width: W, height: H, marginLeft: 40, marginRight: 58, marginTop: 14, marginBottom: 30,
     style: { fontFamily: 'var(--f-cifras)', fontSize: '14px', color: 'var(--tinta-2)', background: 'transparent', overflow: 'visible' },
-    x: { domain: [0, 365], ticks: [0, 2, 4, 6, 8, 10].map((m) => INICIO_MES[m]), tickFormat: (d: number) => MESES[INICIO_MES.indexOf(d)]?.slice(0, 3) ?? '', label: null, tickSize: 4 },
+    x: { domain: [0, 365], ticks: INICIO_MES.slice(0, 12), tickFormat: (d: number) => MESES[INICIO_MES.indexOf(d)]?.slice(0, 3) ?? '', label: null, tickSize: 4 },
     y: { domain: [0, 100], ticks: [0, 25, 50, 75, 100], tickFormat: (d: number) => `${d} %`, label: null, tickSize: 0, grid: false },
     marks,
   }) as unknown as Element;
