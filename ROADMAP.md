@@ -52,13 +52,13 @@ Objetivo: primera versión en internet con datos reales que se actualizan solos.
 - [x] Deploy en Cloudflare Pages + dominio (de momento `embalses-espana.pages.dev`) [frontend]
 
 ### Páginas
-- [ ] Layout base, tipografía, cabecera, pie con atribución [frontend]
-- [ ] Portada: % de reserva, variación semanal, comparación con media de 10 años, frase "¿es grave?" [frontend + editorial]
+- [x] Layout base, tipografía, cabecera, pie con atribución [frontend]
+- [x] Portada: % de reserva, variación semanal, comparación con media de 10 años, frase "¿es grave?" [frontend + editorial]
 - [x] Mapa: demarcaciones coloreadas + puntos de embalses; clic → cuenca → embalse; con relieve (hillshade/terrain de MapLibre) e inclinación para dar sensación 3D, cargado de forma diferida; navegable con teclado (flechas entre demarcaciones) [mapas]
-- [ ] Ficha de embalse (una página estática por embalse, con SEO): datos, foto, serie histórica [frontend + dataviz]
+- [x] Ficha de embalse (una página estática por embalse, con SEO): datos, foto, serie histórica [frontend + dataviz] — sin foto: las del Inventario no son reutilizables (R1)
 - [x] Gráfico de serie histórica con año actual vs. media vs. años secos [dataviz]
-- [ ] Página de cuenca [frontend]
-- [ ] Alternativas accesibles (tablas) para mapa y gráficos [frontend]
+- [x] Página de cuenca [frontend] — falta el gráfico agregado de la cuenca
+- [x] Alternativas accesibles (tablas) para mapa y gráficos [frontend]
 
 ### Calidad
 - [ ] Playwright: pruebas básicas de las páginas principales [qa]

@@ -1,5 +1,5 @@
 ---
-import { porNombre, porPct, NA, NOMBRES, clase, f } from '../lib/datos';
+import { porNombre, porPct, NA, NOMBRES, clase, f, slugCuenca } from '../lib/datos';
 const { completa = false } = Astro.props;
 const filas = completa ? porNombre : porPct;
 ---
@@ -8,7 +8,7 @@ const filas = completa ? porNombre : porPct;
   <thead><tr><th scope="col">Demarcación</th><th scope="col">Nivel</th><th scope="col">Ahora</th>{completa && <><th scope="col">Volumen (hm³)</th><th scope="col">Capacidad (hm³)</th></>}<th scope="col">Media {NA} años</th></tr></thead>
   <tbody>
     {filas.map((d) => { const k = clase(d.pct); return (
-      <tr><th scope="row">{d.nombre}</th><td><span class={`sw c${k}`}></span>{NOMBRES[k]}</td><td>{f(d.pct)} %</td>{completa && <><td>{f(d.hm3, 0)}</td><td>{f(d.capacidad, 0)}</td></>}<td>{d.media10 == null ? 'sin dato' : `${f(d.media10)} %`}</td></tr>
+      <tr><th scope="row"><a href={`/cuenca/${slugCuenca(d.nombre)}`}>{d.nombre}</a></th><td><span class={`sw c${k}`}></span>{NOMBRES[k]}</td><td>{f(d.pct)} %</td>{completa && <><td>{f(d.hm3, 0)}</td><td>{f(d.capacidad, 0)}</td></>}<td>{d.media10 == null ? 'sin dato' : `${f(d.media10)} %`}</td></tr>
     ); })}
   </tbody>
 </table></div>

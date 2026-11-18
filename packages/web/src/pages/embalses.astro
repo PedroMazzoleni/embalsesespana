@@ -1,6 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
-import { embalses, demarcaciones, nacional, f, fechaDatos } from '../lib/datos';
+import { embalses, demarcaciones, nacional, f, fechaDatos, slugCuenca } from '../lib/datos';
 
 const grupos = demarcaciones.map((d) => ({
   d,
@@ -24,7 +24,7 @@ const arreglar = (n: string) => n.replace(/^(.*), (A|O|As|Os|El|La|Los|Las)$/, (
     <div id="listado">
       {grupos.map((g) => (
         <section class="grupo" aria-labelledby={`g-${g.d.codigo}`}>
-          <h2 id={`g-${g.d.codigo}`}>{g.d.nombre} <span class="n">{g.lista.length}</span></h2>
+          <h2 id={`g-${g.d.codigo}`}><a href={`/cuenca/${slugCuenca(g.d.nombre)}`}>{g.d.nombre}</a> <span class="n">{g.lista.length}</span></h2>
           <ul>
             {g.lista.map((e) => <li data-n={arreglar(e.nombre).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')}><a href={`/embalse/${e.slug}`}>{arreglar(e.nombre)}</a>{e.provincia && <span class="peq"> · {e.provincia}</span>} <span class="cifra peq">{f(e.capacidad_hm3, 0)} hm³</span></li>)}
           </ul>

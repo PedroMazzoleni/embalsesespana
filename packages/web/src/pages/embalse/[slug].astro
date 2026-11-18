@@ -2,7 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import Leyenda from '../../components/Leyenda.astro';
 import SerieHistorica from '../../components/SerieHistorica.astro';
-import { embalses, estadoDe, ultimas52, f, fechaDatos, fechaCorta, fechaLarga, NA, NOMBRES, clase } from '../../lib/datos';
+import { embalses, estadoDe, ultimas52, f, fechaDatos, fechaCorta, fechaLarga, NA, NOMBRES, clase, urlCuenca } from '../../lib/datos';
 
 export function getStaticPaths() {
   return embalses.map((e) => ({ params: { slug: e.slug }, props: { e } }));
@@ -16,6 +16,7 @@ const pct = actual?.pct ?? 0;
 const k = clase(pct);
 const un = e.capacidad_hm3 / 100;
 const dif = media10 == null ? 0 : pct - media10;
+const urlC = urlCuenca(e.demarcacion_codigo);
 const loc = [e.provincia, e.demarcacion].filter(Boolean).join(' · ');
 const serie = ultimas52(e.id);
 const ultimo = serie[serie.length - 1];
@@ -32,11 +33,11 @@ const varSem = actual && previa ? actual.pct - previa.pct : null;
 const semana = !hayDato ? 'Sin dato en la última semana.' : varSem == null ? 'No tenemos la semana anterior para compararla.' : Math.abs(varSem) < 0.05 ? 'Sin cambios esta semana.' : `${varSem > 0 ? 'Sube' : 'Baja'} ${f(Math.abs(varSem))} puntos frente a la semana anterior (${f(previa!.pct)} %).`;
 const normal = media10 == null ? 'No podemos decirlo: no hay serie suficiente de años anteriores.' : Math.abs(dif) <= 1 ? 'Sí, está en su media.' : dif > 0 ? 'Más lleno de lo habitual.' : 'Más vacío de lo habitual.';
 const alt = hayDato ? `El embalse está al ${f(pct)} % (nivel ${NOMBRES[k].toLowerCase()})${media10 != null ? `; su media de ${nMedia} años es ${f(media10)} %` : ''}.` : 'Sin dato reciente.';
-const filas: [string, string, boolean?][] = [
+const filas: [string, string, boolean?, string?][] = [
   ['Capacidad', `${f(e.capacidad_hm3, 0)} hm³`, true],
   ...(hayDato ? [['Volumen ahora', `${f(actual!.volumen_hm3, 0)} hm³`, true] as [string, string, boolean]] : []),
   ['Provincia', e.provincia ?? 'sin dato'],
-  ['Demarcación', e.demarcacion],
+  ['Demarcación', e.demarcacion, false, urlC ?? undefined],
   ['Usos', e.uso ? e.uso.split(' | ').join(', ') : 'sin dato'],
   ['Serie desde', fechaCorta(e.primera_fecha)],
 ];
@@ -95,16 +96,9 @@ const filas: [string, string, boolean?][] = [
 
   <section class="qa" aria-labelledby="q4">
     <h2 class="q h2" id="q4">datos técnicos</h2>
-    <div class="doble">
     <div class="a">
-      <dl class="ficha">{filas.map(([t, v, c]) => <div><dt>{t}</dt><dd class={c ? 'cifra' : undefined}>{v}</dd></div>)}</dl>
-    </div>
-    <div class="a">
-      <figure class="foto">
-        <div class="hueco" role="img" aria-label="Espacio reservado para la foto del embalse"><p>Foto del embalse (Inventario de Presas, SNCZI)</p></div>
-        <figcaption>Foto: pendiente de autor y licencia. La atribución es obligatoria.</figcaption>
-      </figure>
-    </div>
+      <dl class="ficha">{filas.map(([t, v, c, u]) => <div><dt>{t}</dt><dd class={c ? 'cifra' : undefined}>{u ? <a href={u}>{v}</a> : v}</dd></div>)}</dl>
+      <p class="peq">Sin foto por ahora: las del Inventario de Presas no tienen una licencia que permita reutilizarlas.</p>
     </div>
   </section>
 </main>
@@ -132,7 +126,6 @@ figure.foto figcaption { font-size: var(--t-0); color: var(--tinta-2); margin-to
 .ficha div { display: grid; grid-template-columns: 9rem 1fr; gap: var(--s-3); padding: var(--s-3) 0; border-bottom: var(--filete-fino) solid var(--linea); align-items: baseline; }
 .ficha dt { color: var(--tinta-2); font-size: var(--t-0); }
 .ficha dd { margin: 0; }
-.q b { text-transform: none; }
 @media (min-width: 48rem) {
   .nivel-w { grid-template-columns: auto 1fr; align-items: start; gap: var(--s-8); }
   .ficha div { grid-template-columns: 11rem 1fr; }

@@ -84,3 +84,10 @@ export function ejemplos() {
 export const demarcaciones = resumen.demarcaciones;
 export const porNombre = [...demarcaciones].sort((a, b) => a.nombre.localeCompare(b.nombre, 'es'));
 export const porPct = [...demarcaciones].sort((a, b) => b.pct - a.pct);
+
+export const slugCuenca = (nombre: string) =>
+  nombre.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+export const urlCuenca = (codigo: string) => {
+  const d = demarcaciones.find((x) => x.codigo === codigo);
+  return d ? `/cuenca/${slugCuenca(d.nombre)}` : null;
+};

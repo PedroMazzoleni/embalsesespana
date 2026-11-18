@@ -1,0 +1,137 @@
+---
+import Base from '../../layouts/Base.astro';
+import Leyenda from '../../components/Leyenda.astro';
+import { demarcaciones, embalses, estadoDe, resumen, slugCuenca, f, fechaDatos, fechaDiaMes, NA, NOMBRES, clase, rel } from '../../lib/datos';
+import { zonas } from '../../lib/mapa';
+
+export function getStaticPaths() {
+  return demarcaciones.map((r) => ({ params: { slug: slugCuenca(r.nombre) }, props: { r } }));
+}
+const { r } = Astro.props;
+const k = clase(r.pct);
+const dif = r.dif_media_pts ?? 0;
+const zona = zonas.find((z: any) => z.codigo === r.codigo);
+const [ax, ay, bx, by] = zona?.caja ?? [0, 0, 1000, 1000];
+const m = 12;
+const vb = `${Math.floor(ax - m)} ${Math.floor(ay - m)} ${Math.ceil(bx - ax + 2 * m)} ${Math.ceil(by - ay + 2 * m)}`;
+const arreglar = (n: string) => n.replace(/^(.*), (A|O|As|Os|El|La|Los|Las)$/, (_m, x, art) => `${art} ${x}`);
+const filas = embalses.filter((e) => e.demarcacion_codigo === r.codigo).map((e) => {
+  const s = estadoDe(e);
+  return { e, nombre: arreglar(e.nombre), pct: s.actual?.pct ?? null, hm3: s.actual?.volumen_hm3 ?? null, media: s.media10 };
+}).sort((a, b) => b.e.capacidad_hm3 - a.e.capacidad_hm3);
+const conDato = filas.filter((x) => x.pct != null).length;
+const sube = r.var_pts == null || r.var_pts === 0 ? 'Sin cambios esta semana.' : `${r.var_pts > 0 ? 'Sube' : 'Baja'} ${f(Math.abs(r.var_pts))} puntos frente a la semana anterior (${f(r.pct_previa)} %).`;
+const normal = r.media10 == null ? 'No podemos decirlo: sin media comparable.' : dif > 1 ? 'Más llena de lo habitual.' : dif < -1 ? 'Más vacía de lo habitual.' : 'Sí, está en su media.';
+const otras = demarcaciones.filter((d) => d.codigo !== r.codigo).sort((a, b) => a.nombre.localeCompare(b.nombre, 'es'));
+---
+<Base title={`Demarcación ${r.nombre}: ¿cómo están sus embalses?`} description={`Los ${r.n_embalses} embalses de la demarcación ${r.nombre} están al ${f(r.pct)} % de su capacidad de ${f(r.capacidad, 0)} hm³ (boletín del ${fechaDatos}), ${r.media10 != null ? `${f(Math.abs(dif))} puntos ${rel(dif)} su media de ${NA} años. ` : ''}Lista de todos sus embalses.`} pag="cuenca">
+<main class="col ancha" id="main">
+  <p class="fecha">Boletín del {fechaDatos}. Datos provisionales.</p>
+
+  <section class="qa" aria-labelledby="q1">
+    <h1 class="q" id="q1"><span>Demarcación hidrográfica</span><span class="vh">. </span>¿cómo está <b>{r.nombre}</b>?</h1>
+    <div class="a">
+      <p class="si">Nivel {NOMBRES[k].toLowerCase()}.</p>
+      <p class="gigante" aria-hidden="true"><mark><span>{f(r.pct)}</span><small>%</small></mark></p>
+      <p>Guarda {f(r.hm3, 0)} hm³ de los {f(r.capacidad, 0)} hm³ que caben en sus {r.n_embalses} embalses ({conDato} de {filas.length} de la lista tienen dato esta semana).</p>
+    </div>
+    <div class="cuenca-w">
+      <figure class="mapa silueta">
+        <svg viewBox={vb} role="img" aria-labelledby="sil-t">
+          <title id="sil-t">Silueta de la demarcación {r.nombre}, coloreada según su nivel: {NOMBRES[k].toLowerCase()}, {f(r.pct)} %.</title>
+          <path class={`c${k}`} d={zona?.d}></path>
+        </svg>
+      </figure>
+      <div><Leyenda /></div>
+    </div>
+  </section>
+
+  <section class="qa" aria-labelledby="q2">
+    <h2 class="q h2" id="q2">¿es normal para esta época?</h2>
+    <div class="a">
+      <p class="si">{normal}</p>
+      {r.media10 != null && <div class="mini" role="img" aria-label={`De 0 a 100 %: ahora ${f(r.pct)} %, media ${f(r.media10)} %`}><i style={`width:${Math.min(r.pct, 100)}%`}></i><u style={`left:${Math.min(r.media10, 100)}%`}></u></div>}
+      <p class="peq">{r.media10 != null ? `Ahora ${f(r.pct)} %; media de la misma semana en los ${NA} años anteriores, ${f(r.media10)} % (raya de la media): ${f(Math.abs(dif))} puntos ${dif >= 0 ? 'por encima' : 'por debajo'}.` : 'Sin media comparable para esta época.'}</p>
+    </div>
+  </section>
+
+  <section class="qa" aria-labelledby="q3">
+    <h2 class="q h2" id="q3">¿sube o baja?</h2>
+    <div class="a">
+      <p class="si">{sube}</p>
+      <p class="peq">Variación semanal entre el {fechaDiaMes(resumen.fecha_previa)} y el {fechaDatos}, en puntos de porcentaje.</p>
+    </div>
+  </section>
+
+  <section class="qa" aria-labelledby="q4">
+    <h2 class="q h2" id="q4">¿y sus embalses?</h2>
+    <div class="a">
+      <p>{filas.length} embalses, de mayor a menor capacidad. Pulsa una cabecera para reordenar.</p>
+      <div class="tabla-w"><table id="emb-tabla">
+        <caption>Embalses de {r.nombre}: capacidad, volumen, porcentaje de llenado y comparación con su media de {NA} años.</caption>
+        <thead><tr>
+          <th scope="col">Embalse</th>
+          <th scope="col" aria-sort="descending" data-k="cap">Capacidad (hm³)</th>
+          <th scope="col" data-k="vol">Volumen (hm³)</th>
+          <th scope="col" data-k="pct">Ahora</th>
+          <th scope="col" data-k="dif">Frente a su media</th>
+        </tr></thead>
+        <tbody>
+          {filas.map((x) => { const kk = x.pct == null ? -1 : clase(x.pct); const d = x.pct != null && x.media != null ? x.pct - x.media : null; return (
+            <tr data-cap={x.e.capacidad_hm3} data-vol={x.hm3 ?? ''} data-pct={x.pct ?? ''} data-dif={d ?? ''}>
+              <th scope="row"><a href={`/embalse/${x.e.slug}`}>{x.nombre}</a></th>
+              <td>{f(x.e.capacidad_hm3, 0)}</td>
+              <td>{x.hm3 == null ? '—' : f(x.hm3, 0)}</td>
+              <td>{x.pct == null ? 'sin dato' : <><span class={`sw c${kk}`}></span>{f(x.pct)} %</>}</td>
+              <td>{d == null ? 'sin media' : Math.abs(d) <= 1 ? 'en su media' : `${f(Math.abs(d))} pts ${d > 0 ? 'más' : 'menos'}`}</td>
+            </tr>); })}
+        </tbody>
+      </table></div>
+    </div>
+  </section>
+
+  <section class="qa" aria-labelledby="q5">
+    <h2 class="q h2" id="q5">¿y las demás demarcaciones?</h2>
+    <div class="a">
+      <ul class="otras">{otras.map((d) => <li><a href={`/cuenca/${slugCuenca(d.nombre)}`}>{d.nombre}</a> <span class="cifra peq">{f(d.pct)} %</span></li>)}</ul>
+      <p class="peq"><a href="/mapa">Ver todas en el mapa</a></p>
+    </div>
+  </section>
+</main>
+<script slot="script" is:inline>
+(function () {
+  var t = document.getElementById('emb-tabla'); if (!t) return;
+  var tb = t.tBodies[0], ths = t.querySelectorAll('th[data-k]');
+  Array.prototype.forEach.call(ths, function (th) {
+    var b = document.createElement('button'); b.type = 'button'; b.textContent = th.textContent; th.textContent = ''; th.appendChild(b);
+    b.addEventListener('click', function () {
+      var k = th.getAttribute('data-k'), desc = th.getAttribute('aria-sort') !== 'descending';
+      Array.prototype.forEach.call(ths, function (x) { x.removeAttribute('aria-sort'); });
+      th.setAttribute('aria-sort', desc ? 'descending' : 'ascending');
+      var rows = Array.prototype.slice.call(tb.rows);
+      rows.sort(function (a, c) {
+        var x = a.getAttribute('data-' + k), y = c.getAttribute('data-' + k);
+        if (x === '' && y === '') return 0; if (x === '') return 1; if (y === '') return -1;
+        return desc ? y - x : x - y;
+      });
+      rows.forEach(function (r) { tb.appendChild(r); });
+    });
+  });
+})();
+</script>
+<style is:global>
+.cuenca-w { display: grid; gap: var(--s-4); margin-top: var(--s-4); }
+.silueta { margin: 0; max-width: 28rem; }
+.silueta svg { max-height: 22rem; }
+.silueta path { stroke-width: 3; }
+.otras { list-style: none; margin: 0 0 var(--s-3); padding: 0; display: grid; gap: var(--s-1) var(--s-6); grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr)); }
+#emb-tabla th[data-k] { padding: 0; }
+#emb-tabla th[data-k] button { font: inherit; color: inherit; background: none; border: 0; padding: var(--s-2) var(--s-1); cursor: pointer; text-align: right; width: 100%; min-height: 2.75rem; }
+#emb-tabla th[data-k] button:focus-visible { outline: var(--foco-anchura) solid var(--foco); outline-offset: calc(-1 * var(--foco-anchura)); }
+#emb-tabla th[aria-sort="descending"] button::after { content: " ↓"; }
+#emb-tabla th[aria-sort="ascending"] button::after { content: " ↑"; }
+#emb-tabla tbody th { font-weight: var(--peso-texto); text-align: left; }
+.mas-cuenca { margin: 0 0 var(--s-3); }
+@media (min-width: 48rem) { .cuenca-w { grid-template-columns: auto 1fr; align-items: end; gap: var(--s-8); } }
+</style>
+</Base>

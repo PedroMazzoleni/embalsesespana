@@ -2,7 +2,7 @@
 import Base from '../layouts/Base.astro';
 import Leyenda from '../components/Leyenda.astro';
 import TablaDemarcaciones from '../components/TablaDemarcaciones.astro';
-import { nacional as N, NA, f, fechaDatos, rel, clase, NOMBRES, embalses, estadoDe } from '../lib/datos';
+import { nacional as N, NA, f, fechaDatos, rel, clase, NOMBRES, embalses, estadoDe, slugCuenca } from '../lib/datos';
 import { zonas, alto } from '../lib/mapa';
 
 const dif = N.dif_media_pts ?? 0;
@@ -48,6 +48,7 @@ const ejemplosDe = (cod: string) => embalses.filter((e) => e.demarcacion_codigo 
             <p class="gran"><mark>{f(r.pct)} %</mark></p>
             <p>{r.media10 == null ? 'Sin media comparable.' : d > 1 ? `${f(d)} puntos por encima de su media de ${NA} años.` : d < -1 ? `${f(-d)} puntos por debajo de su media de ${NA} años.` : `En su media de ${NA} años.`}</p>
             <dl><dt>Volumen</dt><dd class="cifra">{f(r.hm3, 0)} hm³</dd><dt>Capacidad</dt><dd class="cifra">{f(r.capacidad, 0)} hm³</dd>{r.media10 != null && <><dt>Media {NA} años</dt><dd class="cifra">{f(r.media10)} %</dd></>}<dt>Embalses</dt><dd class="cifra">{f(r.n_embalses, 0)}</dd></dl>
+            <p class="mas-cuenca"><a href={`/cuenca/${slugCuenca(z.nombre)}`}>Ver la demarcación {z.nombre} completa</a></p>
             {ej.length > 0 && <><p class="peq">Los mayores embalses de la zona:</p><ul>{ej.map((x) => <li><a href={`/embalse/${x.e.slug}`}>{x.e.nombre}</a>, <span class="cifra">{f(x.actual!.pct)} %</span></li>)}</ul></>}
           </div>
         ); })}

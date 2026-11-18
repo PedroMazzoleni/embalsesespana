@@ -21,7 +21,7 @@ export const zonas = geo.features.map((ft: any) => {
   const r = demarcaciones.find((d) => d.codigo === ft.properties.codigo);
   if (!r) sinDato.push(ft.properties.codigo);
   const [[ax, ay], [bx, by]] = gen.bounds(ft);
-  return { codigo: ft.properties.codigo as string, nombre: ft.properties.nombre as string, d: gen(ft)!, r, y: Math.round((ay + by) / 2 / 60), x: (ax + bx) / 2 };
+  return { codigo: ft.properties.codigo as string, nombre: ft.properties.nombre as string, d: gen(ft)!, r, caja: [ax, ay, bx, by] as [number, number, number, number], y: Math.round((ay + by) / 2 / 60), x: (ax + bx) / 2 };
 });
 // Orden del teclado: de norte a sur y, a igual altura, de oeste a este
 zonas.sort((a: any, b: any) => a.y - b.y || a.x - b.x);
