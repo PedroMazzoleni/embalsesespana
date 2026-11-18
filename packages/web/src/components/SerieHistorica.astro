@@ -11,7 +11,7 @@ interface Props { e: Embalse; nombre: string; }
 const { e, nombre } = Astro.props;
 const h = e.capacidad_hm3 > 0 ? serieHistorica(serieDe(e.id)) : null;
 
-const W = 480, H = 320, GAP = 17;
+const W = 480, WN = 340, H = 320, GAP = 17;
 let svg = '';
 let frase = '';
 let titulo = '';
@@ -22,6 +22,7 @@ if (h) {
   const finDe = (pts: (number | null)[]) => { for (let i = pts.length - 1; i >= 0; i--) if (pts[i] != null) return pts[i] as number; return null; };
 
   // Rótulos en el extremo derecho de las líneas de referencia, separados si chocan.
+  const crea = (W: number, H: number, estrecho: boolean) => {
   const unidades = (GAP * 100) / (H - 14 - 30);
   const ext: { y: number; txt: string; color: string }[] = [];
   if (h.media) { const p = finDe(h.media); if (p != null) ext.push({ y: p, txt: 'Media', color: 'var(--tinta-2)' }); }
@@ -41,13 +42,15 @@ if (h) {
   ];
   const chart = Plot.plot({
     document: document as any,
-    width: W, height: H, marginLeft: 40, marginRight: 58, marginTop: 14, marginBottom: 30,
+    width: W, height: H, marginLeft: 40, marginRight: estrecho ? 62 : 58, marginTop: 14, marginBottom: 30,
     style: { fontFamily: 'var(--f-cifras)', fontSize: '14px', color: 'var(--tinta-2)', background: 'transparent', overflow: 'visible' },
-    x: { domain: [0, 365], ticks: INICIO_MES.slice(0, 12), tickFormat: (d: number) => MESES[INICIO_MES.indexOf(d)]?.slice(0, 3) ?? '', label: null, tickSize: 4 },
-    y: { domain: [0, 100], ticks: [0, 25, 50, 75, 100], tickFormat: (d: number) => `${d} %`, label: null, tickSize: 0, grid: false },
+    x: { domain: [0, 365], ticks: INICIO_MES.slice(0, 12), tickFormat: (d: number) => MESES[INICIO_MES.indexOf(d)]?.slice(0, estrecho ? 1 : 3).toUpperCase() ?? '', label: null, tickSize: 4 },
+    y: { domain: [0, 100], ticks: estrecho ? [0, 50, 100] : [0, 25, 50, 75, 100], tickFormat: (d: number) => `${d} %`, label: null, tickSize: 0, grid: false },
     marks,
   }) as unknown as Element;
-  const idT = `sh-t-${e.id}`, idD = `sh-d-${e.id}`;
+  return chart;
+  };
+  const anchoC = crea(W, H, false), estrC = crea(WN, H, true);
 
   const ahora = h.ultimo.pct, m = h.mediaAhora;
   const dif = m == null ? null : ahora - m;
@@ -64,11 +67,14 @@ if (h) {
   }
   if (h.secos.length) frase += ` Los años más secos de su historia fueron ${h.secos.map((s) => `${L(s.anio)} (${f(s.media)} % de media)`).join(' y ')}.`;
 
-  chart.removeAttribute('width'); chart.removeAttribute('height');
-  chart.setAttribute('role', 'img');
-  chart.setAttribute('aria-labelledby', `${idT} ${idD}`);
-  chart.insertAdjacentHTML('afterbegin', `<title id="${idT}">${titulo}</title><desc id="${idD}">${frase} Año hidrológico: del 1 de octubre al 30 de septiembre. La tabla de debajo da los mismos datos por meses.</desc>`);
-  svg = chart.outerHTML;
+  const etiqueta = `${titulo}. ${frase} Año hidrológico: del 1 de octubre al 30 de septiembre. La tabla de debajo da los mismos datos por meses.`;
+  const prepara = (c: Element, cls: string) => {
+    c.removeAttribute('width'); c.removeAttribute('height');
+    c.setAttribute('role', 'img'); c.setAttribute('aria-label', etiqueta); c.setAttribute('class', cls);
+    return c.outerHTML;
+  };
+  // Dos SVG, uno por ancho: el estrecho conserva el texto >= 12 px en móvil. Solo uno se muestra (display:none quita el otro del árbol de accesibilidad).
+  svg = prepara(estrC, 'sh-n') + prepara(anchoC, 'sh-a');
 }
 const secos = h?.secos ?? [];
 const celda = (v: number | null | undefined) => (v == null ? '—' : `${f(v)} %`);
@@ -98,6 +104,8 @@ const celda = (v: number | null | undefined) => (v == null ? '—' : `${f(v)} %`
 .sh { margin: var(--s-4) 0; max-width: var(--medida); }
 .sh-t { font-weight: 700; margin: 0 0 var(--s-2); }
 .sh-g svg { display: block; width: 100%; height: auto; max-width: 36rem; }
+.sh-g .sh-n { display: none; }
+@media (max-width: 36rem) { .sh-g .sh-n { display: block; max-width: 22rem; } .sh-g .sh-a { display: none; } }
 .sh figcaption { margin-top: var(--s-2); }
 .sh details { margin-top: var(--s-3); }
 </style>
