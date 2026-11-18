@@ -67,9 +67,7 @@ jobs:
           script: |
             const label = "pipeline-fallido";
             const run = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
-            const body = `Ha fallado el scraping semanal del MITECO. Los datos de la web no se han actualizado.
-
-Ejecucion: ${run}`;
+            const body = `Ha fallado el scraping semanal del MITECO. Los datos de la web no se han actualizado. Ejecucion: ${run}`;
             try {
               await github.rest.issues.getLabel({ ...context.repo, name: label });
             } catch {
