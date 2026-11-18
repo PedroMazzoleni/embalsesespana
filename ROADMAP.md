@@ -49,7 +49,7 @@ Objetivo: primera versión en internet con datos reales que se actualizan solos.
 - [x] Contrato Zod: `embalses`, `series`, `resumen` (`historico` pendiente) [datos]
 - [x] Pipeline completo: fetch → clean → validate → export, con tests sobre un Excel de muestra [datos]
 - [x] Workflow semanal: si falla la validación, no despliega y abre una incidencia [datos]
-- [ ] Deploy en Cloudflare Pages + dominio [frontend]
+- [x] Deploy en Cloudflare Pages + dominio (de momento `embalses-espana.pages.dev`) [frontend]
 
 ### Páginas
 - [ ] Layout base, tipografía, cabecera, pie con atribución [frontend]
@@ -84,13 +84,7 @@ Objetivo: lo que nadie más tiene.
 
 ---
 
-## Fase 4 — Lanzamiento y crecimiento (continuo)
 
-- [ ] Imágenes para compartir en redes generadas por embalse y por semana [frontend]
-- [ ] SEO: sitemap, datos estructurados, títulos por embalse [frontend]
-- [ ] Analítica respetuosa con la privacidad (Cloudflare Web Analytics) [frontend]
-- [ ] Difusión: periodistas de datos, comunidades de datos abiertos, datos.gob.es (catálogo de aplicaciones) [jefe de proyecto]
-- [ ] Ideas futuras: alertas por embalse, datos diarios de los SAIH, newsletter semanal
 
 ---
 
