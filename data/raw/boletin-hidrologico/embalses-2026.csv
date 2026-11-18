@@ -16555,7 +16555,7 @@ Ebro,Cañón de Santolea,2026-11-10,"82,00","15,00",0
 Galicia Costa,Cecebre,2026-11-10,"22,00","7,00",0
 Tajo,Cedillo,2026-11-10,"260,00","236,00",1
 Guadalete-Barbate,Celemín,2026-11-10,"45,00","33,00",0
-Segura,Cenajo,2026-11-10,"437,00","236,00",0
+Segura,Cenajo,2026-11-10,"437,00","235,00",0
 Miño - Sil,Cenza,2026-11-10,"40,00","8,00",1
 Duero,Cernadilla,2026-11-10,"255,00","31,00",1
 Ebro,Certescáns,2026-11-10,"16,00","7,00",1
@@ -16645,7 +16645,7 @@ Guadiana,La Cabezuela,2026-11-10,"43,00","22,00",0
 Guadiana,La Colada,2026-11-10,"58,00","47,00",0
 Cuencas Internas de Cataluña,La Llosa del Cavall,2026-11-10,"80,00","59,00",0
 Júcar,La Muela,2026-11-10,"20,00","10,00",1
-Segura,La Pedrera,2026-11-10,"246,00","86,00",0
+Segura,La Pedrera,2026-11-10,"246,00","87,00",0
 Guadiana,La Serena,2026-11-10,"3219,00","2622,00",0
 Júcar,La Toba,2026-11-10,"10,00","4,00",1
 Ebro,Lanuza,2026-11-10,"17,00","3,00",0
@@ -16835,3 +16835,378 @@ Guadalquivir,Zufre,2026-11-10,"175,00","129,00",0
 Guadiana,Zújar,2026-11-10,"302,00","254,00",0
 Duero,Águeda,2026-11-10,"15,00","11,00",0
 Duero,Úzquiza,2026-11-10,"75,00","43,00",0
+Tajo,Aceña,2026-11-17,"24,00","13,00",0
+Duero,"Agavanzal, Nª Sª de",2026-11-17,"36,00","31,00",1
+Guadalquivir,Agrio (Aznalcollar),2026-11-17,"20,00","17,00",0
+Guadalquivir,Aguascebas,2026-11-17,"6,00","3,00",0
+Guadiana,"Aguijón, El",2026-11-17,"11,00","10,00",0
+Duero,Aguilar,2026-11-17,"247,00","99,00",0
+Guadiana,Alange,2026-11-17,"852,00","432,00",0
+Júcar,Alarcón,2026-11-17,"1118,00","789,00",0
+Miño - Sil,Albarellos,2026-11-17,"91,00","26,00",1
+Ebro,Albiña,2026-11-17,"5,00","3,00",0
+Ebro,Alcañiz (Estanca),2026-11-17,"7,00","6,00",0
+Guadiana,Alcollarín,2026-11-17,"52,00","19,00",0
+Tajo,Alcorlo,2026-11-17,"180,00","97,00",0
+Tajo,Alcántara,2026-11-17,"3160,00","1688,00",1
+Duero,Aldeadávila,2026-11-17,"114,00","107,00",1
+Cantábrico Occidental,Alfilorios,2026-11-17,"8,00","3,00",0
+Segura,Alfonso XIII,2026-11-17,"22,00","1,00",0
+Júcar,Algar,2026-11-17,"6,00","0,00",0
+Segura,Algeciras,2026-11-17,"45,00","8,00",0
+Ebro,Alloz,2026-11-17,"66,00","19,00",0
+Duero,Almendra,2026-11-17,"2649,00","1063,00",1
+Guadalete-Barbate,Almodóvar,2026-11-17,"6,00","3,00",0
+Tajo,Almoguera,2026-11-17,"7,00","6,00",1
+Cantábrico Occidental,Alsa - Mediajo,2026-11-17,"22,00","17,00",1
+Júcar,Amadorio,2026-11-17,"16,00","4,00",0
+Segura,Anchuricas,2026-11-17,"6,00","4,00",1
+Guadiana,Andévalo,2026-11-17,"634,00","538,00",0
+Guadalquivir,Aracena,2026-11-17,"129,00","111,00",0
+Cantábrico Occidental,Arbón,2026-11-17,"41,00","36,00",1
+Guadalete-Barbate,Arcos de la Frontera,2026-11-17,"14,00","14,00",0
+Guadalquivir,Arenoso,2026-11-17,"167,00","115,00",0
+Júcar,Arenós,2026-11-17,"137,00","52,00",0
+Segura,Argos,2026-11-17,"10,00","7,00",0
+Duero,Arlanzón,2026-11-17,"22,00","8,00",0
+Júcar,Arquillo de San Blas,2026-11-17,"21,00","14,00",0
+Tajo,"Atance, El",2026-11-17,"35,00","18,00",0
+Tajo,"Atazar, El",2026-11-17,"426,00","272,00",0
+Tajo,Azután,2026-11-17,"113,00","77,00",1
+Cantábrico Oriental,Añarbe,2026-11-17,"38,00","18,00",0
+Miño - Sil,Bao,2026-11-17,"238,00","148,00",1
+Ebro,Barasona,2026-11-17,"85,00","44,00",0
+Guadalete-Barbate,Barbate,2026-11-17,"228,00","155,00",0
+Cantábrico Occidental,"Barca, La",2026-11-17,"29,00","24,00",1
+Galicia Costa,Barrie de la Maza,2026-11-17,"31,00","7,00",1
+Duero,Barrios de Luna,2026-11-17,"311,00","69,00",0
+Ebro,Baserca,2026-11-17,"22,00","15,00",1
+Tajo,Baños,2026-11-17,"41,00","25,00",0
+Miño - Sil,Belesar,2026-11-17,"655,00","156,00",1
+Tajo,Beleña,2026-11-17,"53,00","18,00",0
+Júcar,Bellús,2026-11-17,"69,00","14,00",0
+Guadalquivir,Bembézar,2026-11-17,"328,00","250,00",0
+Júcar,Benagéber,2026-11-17,"221,00","81,00",0
+Júcar,Beniarrés,2026-11-17,"27,00","7,00",0
+Cuenca Mediterránea Andaluza,Benínar,2026-11-17,"63,00","10,00",0
+Guadalquivir,Bermejales,2026-11-17,"91,00","61,00",0
+Cuencas Internas de Cataluña,Boadella,2026-11-17,"61,00","38,00",0
+Tajo,Bolarque,2026-11-17,"31,00","27,00",1
+Guadalquivir,"Bolera, La",2026-11-17,"54,00","21,00",0
+Guadiana,Boquerón,2026-11-17,"6,00","3,00",0
+Tajo,Borbollon,2026-11-17,"88,00","55,00",0
+Guadalete-Barbate,Bornos,2026-11-17,"200,00","130,00",0
+Guadalquivir,"Breña II, La",2026-11-17,"823,00","636,00",0
+Guadiana,Brovales,2026-11-17,"7,00","5,00",0
+Tajo,Buendía,2026-11-17,"1705,00","799,00",0
+Duero,Burgomillodo,2026-11-17,"14,00","7,00",1
+Tajo,Burguillo - Puente Nuevo,2026-11-17,"201,00","96,00",0
+Júcar,Buseo,2026-11-17,"8,00","1,00",0
+Miño - Sil,Bárcena,2026-11-17,"341,00","167,00",0
+Cuenca Mediterránea Andaluza,Béznar,2026-11-17,"53,00","35,00",0
+Ebro,Búbal,2026-11-17,"63,00","10,00",0
+Guadiana,Búrdalo,2026-11-17,"79,00","23,00",0
+Guadalquivir,Cala,2026-11-17,"59,00","28,00",1
+Ebro,Calanda,2026-11-17,"54,00","25,00",0
+Ebro,Camarasa,2026-11-17,"163,00","86,00",1
+Segura,Camarillas,2026-11-17,"36,00","11,00",0
+Miño - Sil,"Campañana, La",2026-11-17,"14,00","10,00",1
+Duero,Camporredondo,2026-11-17,"69,00","15,00",0
+Guadalquivir,Canales,2026-11-17,"70,00","56,00",0
+Guadiana,Canchales,2026-11-17,"26,00","20,00",0
+Guadiana,Cancho del Fresno,2026-11-17,"15,00","11,00",0
+Ebro,Canelles,2026-11-17,"679,00","313,00",1
+Duero,Casares de Arbas,2026-11-17,"37,00","11,00",0
+Cuenca Mediterránea Andaluza,Casasola,2026-11-17,"22,00","7,00",0
+Ebro,Caspe,2026-11-17,"82,00","52,00",0
+Tajo,Castrejón,2026-11-17,"44,00","41,00",1
+Miño - Sil,Castrelo,2026-11-17,"60,00","49,00",1
+Duero,Castro,2026-11-17,"27,00","26,00",1
+Duero,Castro de las Cogotas,2026-11-17,"58,00","21,00",0
+Tajo,"Castro, El",2026-11-17,"8,00","3,00",0
+Ebro,Cavallers,2026-11-17,"16,00","14,00",1
+Tajo,Cazalegas,2026-11-17,"7,00","6,00",0
+Ebro,Cañón de Santolea,2026-11-17,"82,00","15,00",0
+Galicia Costa,Cecebre,2026-11-17,"22,00","8,00",0
+Tajo,Cedillo,2026-11-17,"260,00","241,00",1
+Guadalete-Barbate,Celemín,2026-11-17,"45,00","33,00",0
+Segura,Cenajo,2026-11-17,"437,00","230,00",0
+Miño - Sil,Cenza,2026-11-17,"40,00","13,00",1
+Duero,Cernadilla,2026-11-17,"255,00","44,00",1
+Ebro,Certescáns,2026-11-17,"16,00","8,00",1
+Duero,Cervera,2026-11-17,"10,00","2,00",0
+Miño - Sil,Chandrexa,2026-11-17,"61,00","19,00",1
+Guadiana,Chanza,2026-11-17,"338,00","189,00",0
+Cuenca Mediterránea Andaluza,Charco Redondo,2026-11-17,"82,00","47,00",0
+Segura,"Cierva, La",2026-11-17,"7,00","4,00",0
+Guadiana,Cijara,2026-11-17,"1505,00","1155,00",0
+Ebro,Ciurana,2026-11-17,"12,00","9,00",0
+Cantábrico Occidental,"Cohilla, La",2026-11-17,"12,00","2,00",1
+Guadalquivir,Colomera,2026-11-17,"40,00","31,00",0
+Duero,Compuerto,2026-11-17,"95,00","22,00",0
+Cuenca Mediterránea Andaluza,Concepción,2026-11-17,"62,00","27,00",0
+Miño - Sil,"Conchas, Las",2026-11-17,"80,00","23,00",1
+Cuenca Mediterránea Andaluza,Conde Guadalhorce,2026-11-17,"66,00","38,00",0
+Júcar,Contreras,2026-11-17,"361,00","247,00",0
+Guadiana,Cornalbo,2026-11-17,"3,00","2,00",0
+Júcar,Cortes II,2026-11-17,"118,00","100,00",1
+"Tinto, Odiel y Piedras",Corumbel Bajo,2026-11-17,"19,00","13,00",0
+Segura,Crevillente,2026-11-17,"13,00","8,00",0
+Guadiana,Cubilar,2026-11-17,"6,00","2,00",0
+Guadalquivir,Cubillas,2026-11-17,"14,00","8,00",0
+Duero,Cuerda del Pozo,2026-11-17,"249,00","128,00",0
+Ebro,Cueva Foradada,2026-11-17,"22,00","16,00",0
+Cuenca Mediterránea Andaluza,Cuevas de Almanzora,2026-11-17,"161,00","15,00",0
+Tajo,Cáceres - Guadiloba,2026-11-17,"20,00","9,00",0
+Cantábrico Occidental,Doiras,2026-11-17,"97,00","66,00",1
+Ebro,Ebro,2026-11-17,"541,00","269,00",0
+Miño - Sil,Edrada-Mao,2026-11-17,"14,00","4,00",1
+Galicia Costa,Eiras,2026-11-17,"22,00","15,00",0
+Júcar,El Naranjero,2026-11-17,"29,00","22,00",0
+Guadalquivir,El Portillo,2026-11-17,"31,00","28,00",0
+Guadiana,El Vicario,2026-11-17,"32,00","19,00",0
+Ebro,Enciso,2026-11-17,"46,00","17,00",1
+Tajo,Entrepeñas,2026-11-17,"813,00","483,00",0
+Ebro,Escales,2026-11-17,"152,00","112,00",1
+Júcar,Escalona,2026-11-17,"99,00","5,00",0
+Galicia Costa,Eume,2026-11-17,"123,00","80,00",1
+Ebro,Eúgui,2026-11-17,"21,00","8,00",0
+Guadalquivir,"Fernandina, La",2026-11-17,"247,00","176,00",0
+Galicia Costa,Fervenza,2026-11-17,"103,00","37,00",1
+Tajo,Finisterre,2026-11-17,"133,00","24,00",0
+Ebro,Flix,2026-11-17,"11,00","10,00",1
+Júcar,Forata,2026-11-17,"37,00","16,00",0
+Galicia Costa,"Forcadas, As",2026-11-17,"11,00","2,00",0
+Guadalquivir,Francisco Abellán,2026-11-17,"58,00","25,00",0
+Guadalquivir,Fresneda,2026-11-17,"19,00","15,00",0
+Miño - Sil,Frieira,2026-11-17,"44,00","39,00",1
+Segura,Fuensanta,2026-11-17,"210,00","140,00",0
+Tajo,Gabriel y Galán,2026-11-17,"911,00","443,00",0
+Guadiana,García de Sola,2026-11-17,"554,00","274,00",0
+Guadiana,Gargáligas,2026-11-17,"21,00","13,00",0
+Guadiana,Gasset,2026-11-17,"39,00","24,00",0
+Guadalquivir,Gergal,2026-11-17,"35,00","25,00",0
+Guadalquivir,Giribaile,2026-11-17,"491,00","349,00",0
+Ebro,González Lacasa,2026-11-17,"33,00","8,00",0
+Ebro,"Grado, El",2026-11-17,"400,00","180,00",0
+Guadalete-Barbate,Guadalcacín II,2026-11-17,"800,00","669,00",0
+Júcar,Guadalest,2026-11-17,"13,00","3,00",0
+Cuenca Mediterránea Andaluza,Guadalhorce-Guadalteba,2026-11-17,"279,00","246,00",0
+Guadalquivir,Guadalmellato,2026-11-17,"145,00","88,00",0
+Guadalquivir,Guadalmena,2026-11-17,"345,00","255,00",0
+Guadalquivir,Guadalén,2026-11-17,"163,00","71,00",0
+Cuenca Mediterránea Andaluza,Guadarranque,2026-11-17,"88,00","65,00",0
+Tajo,Guajaraz,2026-11-17,"18,00","15,00",0
+Ebro,Guiamets,2026-11-17,"10,00","7,00",0
+Tajo,Guijo de Granadilla,2026-11-17,"13,00","12,00",1
+Miño - Sil,Guístolas,2026-11-17,"5,00","3,00",1
+Guadiana,Horno Tejero,2026-11-17,"24,00","13,00",0
+Guadalquivir,Huesna,2026-11-17,"135,00","93,00",0
+Guadalete-Barbate,"Hurones, Los",2026-11-17,"135,00","80,00",0
+Cuencas Internas del País Vasco,Ibai-Eder,2026-11-17,"11,00","6,00",0
+Cantábrico Oriental,Ibiur,2026-11-17,"8,00","5,00",0
+Ebro,Ip,2026-11-17,"5,00","2,00",1
+Ebro,Irabia,2026-11-17,"14,00","4,00",1
+Duero,Irueña,2026-11-17,"110,00","64,00",0
+Ebro,Itoiz,2026-11-17,"417,00","124,00",0
+Guadalquivir,Iznájar,2026-11-17,"920,00","692,00",0
+Tajo,"Jarosa, La",2026-11-17,"7,00","3,00",0
+"Tinto, Odiel y Piedras",Jarrama,2026-11-17,"43,00","26,00",0
+Tajo,Jerte - Plasencia,2026-11-17,"59,00","44,00",0
+Guadalquivir,José Torán,2026-11-17,"101,00","61,00",0
+Guadalquivir,Jándula,2026-11-17,"325,00","181,00",0
+Cuencas Internas de Cataluña,La Baells,2026-11-17,"109,00","92,00",0
+Guadiana,La Cabezuela,2026-11-17,"43,00","22,00",0
+Guadiana,La Colada,2026-11-17,"58,00","48,00",0
+Cuencas Internas de Cataluña,La Llosa del Cavall,2026-11-17,"80,00","61,00",0
+Júcar,La Muela,2026-11-17,"20,00","13,00",1
+Segura,La Pedrera,2026-11-17,"246,00","86,00",0
+Guadiana,La Serena,2026-11-17,"3219,00","2619,00",0
+Júcar,La Toba,2026-11-17,"10,00","4,00",1
+Ebro,Lanuza,2026-11-17,"17,00","5,00",0
+Ebro,Las Fitas,2026-11-17,"9,00","5,00",0
+Ebro,Laverné,2026-11-17,"38,00","9,00",0
+Ebro,Lechago,2026-11-17,"18,00","11,00",0
+Cuenca Mediterránea Andaluza,Limonero,2026-11-17,"22,00","13,00",0
+Duero,Linares del Arroyo,2026-11-17,"54,00","20,00",0
+Ebro,Llauset,2026-11-17,"17,00","7,00",1
+Guadiana,Llerena,2026-11-17,"8,00","7,00",0
+Júcar,Loriguilla,2026-11-17,"73,00","20,00",0
+"Tinto, Odiel y Piedras",Los Machos,2026-11-17,"12,00","3,00",0
+Guadiana,Los Molinos,2026-11-17,"34,00","30,00",0
+Ebro,Loteta (La),2026-11-17,"104,00","7,00",0
+Ebro,Maidevera,2026-11-17,"20,00","13,00",0
+Ebro,Mansilla,2026-11-17,"68,00","19,00",0
+Guadalquivir,Martín Gonzalo,2026-11-17,"20,00","12,00",0
+Júcar,María Cristina,2026-11-17,"18,00","4,00",0
+Miño - Sil,Matalavilla,2026-11-17,"65,00","20,00",1
+Ebro,Mediano,2026-11-17,"435,00","133,00",0
+Guadalquivir,"Melonares, Los",2026-11-17,"186,00","157,00",0
+Ebro,Mequinenza,2026-11-17,"1373,00","675,00",1
+Guadalquivir,"Minilla, La",2026-11-17,"58,00","30,00",0
+Tajo,Molino de Chincha,2026-11-17,"6,00","5,00",1
+Ebro,Moneva,2026-11-17,"8,00","4,00",0
+Ebro,Monteagudo,2026-11-17,"10,00","7,00",0
+Ebro,Montearagón,2026-11-17,"52,00","24,00",0
+Miño - Sil,Montefurado,2026-11-17,"10,00","10,00",1
+Guadiana,Montijo,2026-11-17,"11,00","11,00",0
+Guadalquivir,Montoro,2026-11-17,"105,00","91,00",0
+Ebro,Nagore,2026-11-17,"5,00","2,00",0
+Tajo,Navacerrada,2026-11-17,"11,00","4,00",0
+Tajo,Navalcán,2026-11-17,"34,00","21,00",0
+Tajo,Navamuño,2026-11-17,"14,00","6,00",0
+Guadalquivir,Negratín,2026-11-17,"571,00","329,00",0
+Guadiana,Nogales,2026-11-17,"18,00","11,00",0
+"Tinto, Odiel y Piedras",Odiel,2026-11-17,"8,00","7,00",0
+Ebro,Oliana,2026-11-17,"84,00","51,00",0
+"Tinto, Odiel y Piedras",Olivargas,2026-11-17,"29,00","23,00",0
+Cantábrico Oriental,Ordunte,2026-11-17,"22,00","9,00",0
+Guadiana,Orellana,2026-11-17,"808,00","594,00",0
+Ebro,Pajares,2026-11-17,"35,00","12,00",0
+Tajo,"Pardo, El",2026-11-17,"43,00","13,00",0
+Ebro,Parras (Las),2026-11-17,"5,00","3,00",0
+Miño - Sil,"Peares, Os",2026-11-17,"182,00","152,00",1
+Ebro,Pena,2026-11-17,"18,00","11,00",0
+Ebro,"Peña, La",2026-11-17,"15,00","10,00",0
+Guadiana,Peñarroya,2026-11-17,"51,00","50,00",0
+Miño - Sil,Peñarrubia,2026-11-17,"13,00","11,00",1
+Tajo,Picadas,2026-11-17,"15,00","10,00",0
+Guadiana,Piedra Aguda,2026-11-17,"16,00","12,00",0
+"Tinto, Odiel y Piedras",Piedras,2026-11-17,"60,00","24,00",0
+Tajo,Pinilla,2026-11-17,"38,00","17,00",0
+Guadalquivir,"Pintado, El",2026-11-17,"215,00","173,00",0
+Duero,"Pontón Alto, El",2026-11-17,"7,00","5,00",0
+Duero,Porma-(Juan Benet),2026-11-17,"318,00","121,00",0
+Tajo,Portaje,2026-11-17,"23,00","17,00",0
+Miño - Sil,"Portas, Las",2026-11-17,"536,00","229,00",1
+Tajo,"Portiña, La",2026-11-17,"5,00","2,00",0
+Galicia Costa,Portodemouros,2026-11-17,"297,00","102,00",1
+Miño - Sil,Prada,2026-11-17,"122,00","63,00",1
+Guadiana,Proserpina,2026-11-17,"5,00","4,00",0
+Guadiana,Pto. Vallehermoso,2026-11-17,"7,00","6,00",0
+Guadalquivir,Puebla de Cazalla,2026-11-17,"63,00","37,00",0
+Guadalquivir,Puente Nuevo,2026-11-17,"281,00","203,00",0
+Duero,Puente Porto,2026-11-17,"23,00","3,00",1
+Ebro,Puente de Santolea,2026-11-17,"18,00","18,00",0
+Segura,Puentes,2026-11-17,"26,00","12,00",0
+Tajo,Puentes Viejas,2026-11-17,"53,00","33,00",0
+Tajo,Pálmaces,2026-11-17,"31,00","19,00",0
+Miño - Sil,Pías (San Agustín),2026-11-17,"10,00","5,00",1
+Guadalquivir,Quiebrajano,2026-11-17,"33,00","26,00",0
+Guadalquivir,Quéntar,2026-11-17,"14,00","1,00",0
+Júcar,Regajo,2026-11-17,"6,00","3,00",0
+Duero,Requejada,2026-11-17,"59,00","32,00",0
+Guadalquivir,Retortillo,2026-11-17,"61,00","46,00",0
+Ebro,Rialb,2026-11-17,"404,00","225,00",0
+Duero,Riaño,2026-11-17,"641,00","245,00",0
+Ebro,Ribarroja,2026-11-17,"210,00","200,00",1
+Galicia Costa,"Ribeira, A",2026-11-17,"33,00","18,00",1
+Duero,Ricobayo,2026-11-17,"1145,00","286,00",1
+Galicia Costa,Riocobo,2026-11-17,"6,00","2,00",0
+Cantábrico Occidental,Rioseco,2026-11-17,"4,00","3,00",0
+Tajo,Riosequillo,2026-11-17,"50,00","30,00",0
+Cuencas Internas de Cataluña,Riudecanyes,2026-11-17,"5,00","1,00",0
+Tajo,Rivera de Gata,2026-11-17,"49,00","14,00",0
+Tajo,Rosarito,2026-11-17,"82,00","60,00",0
+Miño - Sil,"Rozas, Las",2026-11-17,"28,00","2,00",1
+Guadiana,Ruecas,2026-11-17,"42,00","28,00",0
+Cuenca Mediterránea Andaluza,Rules,2026-11-17,"111,00","92,00",0
+Guadalquivir,Rumblar,2026-11-17,"140,00","79,00",0
+Duero,Rábanos,2026-11-17,"8,00","6,00",1
+Miño - Sil,Salas,2026-11-17,"87,00","20,00",1
+Cantábrico Occidental,Salime,2026-11-17,"238,00","64,00",1
+Ebro,Sallente,2026-11-17,"6,00","2,00",1
+Tajo,Salor,2026-11-17,"14,00","7,00",0
+Cantábrico Oriental,San Antón,2026-11-17,"5,00","3,00",0
+Ebro,San Bartolomé,2026-11-17,"6,00","2,00",0
+Guadalquivir,San Clemente,2026-11-17,"117,00","20,00",0
+Duero,San José,2026-11-17,"6,00","6,00",0
+Tajo,San Juan,2026-11-17,"138,00","73,00",0
+Ebro,San Lorenzo,2026-11-17,"10,00","9,00",1
+Miño - Sil,San Martiño,2026-11-17,"10,00","9,00",1
+Miño - Sil,San Pedro,2026-11-17,"6,00","5,00",1
+Guadalquivir,San Rafael de Navallana,2026-11-17,"160,00","100,00",0
+Ebro,San Salvador,2026-11-17,"137,00","50,00",0
+Miño - Sil,San Sebastián,2026-11-17,"46,00","17,00",1
+Miño - Sil,San. Estevo,2026-11-17,"213,00","171,00",1
+"Tinto, Odiel y Piedras",Sancho,2026-11-17,"58,00","48,00",0
+Cuencas Internas de Cataluña,Sant Pons,2026-11-17,"24,00","22,00",0
+Ebro,Santa Ana,2026-11-17,"237,00","137,00",0
+Miño - Sil,Santa Eulalia,2026-11-17,"10,00","9,00",1
+Ebro,Santa María de Belsué,2026-11-17,"14,00","1,00",0
+Duero,Santa Teresa,2026-11-17,"496,00","339,00",0
+Tajo,Santillana,2026-11-17,"91,00","53,00",0
+Ebro,Santolea,2026-11-17,"5,00","3,00",0
+Segura,Santomera,2026-11-17,"26,00","3,00",0
+Cuencas Internas de Cataluña,Sau,2026-11-17,"165,00","119,00",0
+Duero,Saucelle,2026-11-17,"181,00","180,00",1
+Miño - Sil,Sequeiros,2026-11-17,"11,00","10,00",1
+Duero,Serones,2026-11-17,"6,00","6,00",0
+Júcar,Sichar,2026-11-17,"49,00","19,00",0
+Guadalquivir,Sierra Boyera,2026-11-17,"39,00","28,00",0
+Guadiana,Sierra Brava,2026-11-17,"233,00","89,00",0
+Guadalquivir,Siles,2026-11-17,"30,00","23,00",0
+Ebro,Sistema Aguas Limpias,2026-11-17,"18,00","6,00",1
+Ebro,Sistema Alto Caldarés,2026-11-17,"18,00","4,00",1
+Ebro,Sistema Capdella,2026-11-17,"50,00","30,00",1
+Ebro,Sistema Escarra,2026-11-17,"5,00","1,00",1
+Ebro,Sistema Lagos Espot,2026-11-17,"10,00","9,00",1
+Ebro,Sistema Valle de Arán,2026-11-17,"22,00","8,00",1
+Ebro,Sobrón,2026-11-17,"20,00","16,00",1
+Ebro,Sotonera,2026-11-17,"189,00","40,00",0
+Galicia Costa,Sta Uxia,2026-11-17,"18,00","12,00",1
+Cuencas Internas de Cataluña,Susqueda,2026-11-17,"233,00","191,00",0
+Segura,Taibilla,2026-11-17,"9,00","8,00",0
+Tajo,"Tajera, La",2026-11-17,"64,00","31,00",0
+Segura,Talave,2026-11-17,"35,00","8,00",0
+Cantábrico Occidental,Tanes,2026-11-17,"34,00","18,00",0
+Guadiana,Tentudia,2026-11-17,"5,00","4,00",0
+Ebro,Terradets,2026-11-17,"33,00","32,00",1
+Ebro,Terroba,2026-11-17,"8,00","1,00",0
+Ebro,"Torcas, Las",2026-11-17,"7,00","1,00",0
+Tajo,Torcón,2026-11-17,"7,00","3,00",0
+Guadiana,Torre de Abrahán,2026-11-17,"183,00","133,00",0
+Guadalquivir,Torre del Águila,2026-11-17,"48,00","8,00",0
+Tajo,Torrejón (Tajo - Tietar),2026-11-17,"188,00","173,00",1
+Júcar,Tous - La Ribera,2026-11-17,"379,00","64,00",0
+Guadalquivir,Tranco de Beas,2026-11-17,"506,00","362,00",0
+Ebro,"Tranquera, La",2026-11-17,"82,00","45,00",0
+Ebro,Tremp ó Talárn,2026-11-17,"227,00","103,00",1
+Júcar,Ulldecona,2026-11-17,"11,00","7,00",0
+Ebro,Ullivarri,2026-11-17,"146,00","82,00",1
+Ebro,Urdalur,2026-11-17,"6,00","3,00",0
+Ebro,Urdiceto,2026-11-17,"5,00","2,00",1
+Cuencas Internas del País Vasco,Urkulu,2026-11-17,"10,00","7,00",0
+Ebro,Urrunaga,2026-11-17,"72,00","37,00",1
+Ebro,Vadiello,2026-11-17,"16,00","7,00",0
+Tajo,"Vado, El",2026-11-17,"56,00","14,00",0
+Guadalquivir,Vadomojón,2026-11-17,"146,00","109,00",0
+Ebro,"Val, El",2026-11-17,"24,00","12,00",0
+Tajo,Valdecañas,2026-11-17,"1446,00","783,00",1
+Segura,Valdeinfierno,2026-11-17,"12,00","0,00",0
+Tajo,Valdeobispo,2026-11-17,"53,00","50,00",0
+Ebro,Valdepatao,2026-11-17,"6,00","1,00",0
+Tajo,Valmayor,2026-11-17,"124,00","88,00",0
+Duero,Valparaíso,2026-11-17,"169,00","153,00",1
+Guadiana,Valuengo,2026-11-17,"20,00","8,00",0
+Guadiana,Vega del Jabalón,2026-11-17,"34,00","12,00",0
+Miño - Sil,Velle,2026-11-17,"17,00","13,00",1
+Tajo,"Vellón,El-(Pedrezuela)",2026-11-17,"41,00","34,00",0
+Duero,"Vencías, Las",2026-11-17,"5,00","4,00",1
+Miño - Sil,Vilasouto,2026-11-17,"21,00","6,00",0
+Duero,Villagonzalo,2026-11-17,"6,00","6,00",0
+Galicia Costa,Villagudín,2026-11-17,"18,00","16,00",0
+Guadiana,Villalba de los Barros,2026-11-17,"106,00","94,00",0
+Duero,Villalcampo,2026-11-17,"66,00","61,00",1
+Duero,Villameca,2026-11-17,"19,00","2,00",0
+Guadiana,Villar del Rey,2026-11-17,"131,00","94,00",0
+Tajo,"Villar, El",2026-11-17,"23,00","12,00",0
+Cuenca Mediterránea Andaluza,"Viñuela, La",2026-11-17,"165,00","137,00",0
+Guadalquivir,Víboras,2026-11-17,"17,00","8,00",0
+Guadalquivir,Yeguas,2026-11-17,"229,00","173,00",0
+Ebro,Yesa,2026-11-17,"447,00","67,00",0
+Guadalete-Barbate,Zahara-El Gastor,2026-11-17,"223,00","142,00",0
+Guadalquivir,Zufre,2026-11-17,"175,00","134,00",0
+Guadiana,Zújar,2026-11-17,"302,00","271,00",0
+Duero,Águeda,2026-11-17,"15,00","12,00",0
+Duero,Úzquiza,2026-11-17,"75,00","43,00",0
