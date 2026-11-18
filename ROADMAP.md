@@ -74,11 +74,11 @@ Objetivo: lo que nadie más tiene.
 
 - [ ] Máquina del tiempo v1 en 2D: deslizador semana a semana desde 1988 [mapas + dataviz]
 - [ ] Máquina del tiempo v2 con deck.gl: columnas de agua 3D animadas (con alternativa 2D) [mapas]
-- [ ] Vista técnica 3D de cada embalse con deck.gl (presa, vaso y nivel del agua), cargada de forma diferida, con alternativa 2D [mapas]
+- [ ] Vista técnica 3D de cada embalse con deck.gl: relieve real del vaso (modelo de elevación recortado al polígono del Inventario) lleno hasta un nivel aproximado a partir del volumen, rotulado como aproximación; carga diferida y alternativa 2D [mapas]
 - [ ] Primer explicador con scrollama: "¿Es grave la situación?" [editorial + frontend]
-- [ ] Explicadores siguientes: sequías históricas, de dónde viene el agua de tu ciudad [editorial]
+- [ ] Explicadores siguientes: sequías históricas, y un tercero que salga de nuestros datos (p. ej. por qué unas cuencas tienen más agua que otras, o usos: regar, beber, luz). Se descarta "de dónde viene el agua de tu ciudad" por falta de fuente unificada [editorial]
 - [ ] Comparador de años y cuencas con DuckDB-WASM [dataviz]
-- [ ] (Idea) Red de trasvases con react-force-graph — requiere buscar fuente de datos [datos]
+- [ ] (Idea, fuera de la Fase 3) Red de trasvases con react-force-graph — requiere buscar fuente de datos [datos]
 
 **Criterio de salida:** máquina del tiempo publicada y al menos 2 explicadores.
 
@@ -97,3 +97,4 @@ Objetivo: lo que nadie más tiene.
 - 2026-11-17 — Fase 1: el mapa SVG de las maquetas es solo de diseño. El mapa real de la Fase 2 llevará relieve e inclinación 3D (MapLibre); las columnas 3D siguen en la Fase 3 (deck.gl).
 - 2026-11-17 — Fase 1 cerrada: dirección "Conversación" (ADR 0005), `tokens.css` y `agua.css` cerrados, maquetas de portada, mapa y ficha en `design/maquetas/` (escritorio en dos columnas, modo oscuro azul mar #0b1e30, mapa navegable con flechas). Revisión de qa: bloqueantes corregidos. Pendiente Fase 2: gráficos con Observable Plot renderizados a SVG en build (sin JS) salvo los interactivos; cifras de texto con Montserrat en subconjunto de dígitos.
 - 2026-11-18 — Fase 2 cerrada: web pública en https://embalses-espana.pages.dev, actualizada sola (scraping → commit del bot → despliegue; probado con el boletín del 17-11-2026). Si los datos no validan no se publica y se abre incidencia; también si falla el scraping. Playwright 31/31 y Lighthouse móvil 99–100 en CI. ADR 0007: mapa 3D automático solo en escritorio. Pendiente para la Fase 3: gráfico agregado por cuenca, `historico.parquet`, fotos con licencia libre.
+- 2026-11-18 — Plan de la Fase 3: primero histórico, máquina del tiempo 2D y 2 explicadores (criterio de salida); después comparador y deck.gl. Decisiones del titular: vista 3D con relieve real del vaso; tercer explicador con tema basado en nuestros datos; trasvases fuera de esta fase.
