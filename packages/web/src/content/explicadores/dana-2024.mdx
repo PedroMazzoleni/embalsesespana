@@ -1,0 +1,242 @@
+---
+titulo: "Los embalses del Júcar durante la DANA de octubre de 2024"
+descripcion: "Qué se ve (y qué no) en los datos semanales de los embalses valencianos antes y después de la DANA del 29 de octubre de 2024."
+estado: borrador
+fuente: "MITECO, Boletín Hidrológico (datos provisionales). AEMET y MITECO para el contexto meteorológico. Cálculos propios."
+---
+
+{/*
+BORRADOR DE CONTENIDO. Mismas convenciones que es-grave.mdx y sequias.mdx:
+- {marcador}  = valor importado de los datos. Nunca se escribe a mano. Definiciones en la tabla final.
+- {si cond}...{si no}...{fin} = variante condicional resuelta al construir la página.
+- {para cada e en embalses_dana}...{fin} = bloque repetido por cada embalse de la lista editorial. Dentro, los marcadores llevan el prefijo `e.`.
+- {para cada a en anios_previos}...{fin} = ídem por cada uno de los tres años anteriores al episodio. Prefijo `a.`.
+- <!-- visual: ... --> = qué muestra el gráfico/mapa fijo mientras el paso está activo.
+- Cada paso lleva "alt:" con el resumen en texto del visual.
+- Hechos externos (fecha del episodio, lluvias, avisos, víctimas) van escritos con su fuente enlazada: no salen de nuestros datos. Todo lo demás son marcadores.
+- Tema sensible. No se valora la gestión de ninguna presa ni se atribuyen responsabilidades. No se usan adjetivos como "catástrofe" o "tragedia" fuera de la cita de fuentes. No se cita ninguna cifra de embalses de fuentes externas (solo nuestros datos semanales).
+*/}
+
+<!-- intro (fuera del scroll) -->
+
+# Los embalses del Júcar durante la DANA de octubre de 2024
+
+El 29 de octubre de 2024 una DANA dejó lluvias torrenciales en la provincia de Valencia. Murieron más de 200 personas, la mayoría en esa provincia ([AEMET](https://aemetblog.es/2024/12/03/informe-operativo-semanal-del-28-de-octubre-al-3-de-noviembre-de-2024/)). Este texto no es una crónica de aquello ni valora lo que se hizo. Es una pregunta pequeña y concreta: **¿qué se ve en los datos semanales de los embalses de la zona y qué no se ve?**
+
+<!-- /intro -->
+
+---
+
+## Paso 1 · Qué ocurrió
+
+Una **DANA** es una "depresión aislada en niveles altos": una bolsa de aire frío en las capas altas de la atmósfera que se separa de la corriente general y se queda dando vueltas. Es el término que usa la AEMET en lugar de "gota fría" ([AEMET, blog](https://aemetblog.es/2023/06/03/que-es-una-dana-y-como-se-formapor-que-es-mas-adecuado-usar-este-termino-que-gota-fria/)). Una DANA no siempre llueve mucho. Esta sí.
+
+El 29 de octubre de 2024, una DANA situada sobre el estrecho de Gibraltar provocó precipitaciones muy intensas en Valencia, Cuenca, Albacete y Murcia. En Turís (Valencia) cayeron 771 litros por metro cuadrado en 24 horas, un récord de España en ese periodo ([MITECO, 8 de noviembre de 2024, a partir del balance de la AEMET](https://www.miteco.gob.es/es/prensa/ultimas-noticias/2024/noviembre/octubre-de-2024-fue-el-mas-lluvioso-de-la-serie-historica.html)). La AEMET habla de "impactos muy graves, especialmente en la provincia de Valencia" en su [estudio del episodio](https://www.aemet.es/en/conocermas/recursos_en_linea/publicaciones_y_estudios/estudios/detalles/episodio_dana_oct_nov24).
+
+Las lluvias de esos días no se limitaron al Júcar. Según la AEMET, afectaron sobre todo a las provincias mediterráneas, a las vecinas de Castilla-La Mancha y Aragón y a parte del suroeste peninsular.
+
+<!-- visual: Mapa de la península (sobrio, sin colores de alarma). Demarcación del Júcar resaltada y, sobre ella, los {n_embalses_dana} embalses de la lista como puntos sin datos todavía. Rótulo: "29 de octubre de 2024". alt: "Mapa de la demarcación del Júcar con los embalses que se comentan en este texto." -->
+
+---
+
+## Paso 2 · Qué miden estos datos y qué no
+
+Nuestros datos son los del **Boletín Hidrológico del MITECO**: una foto por embalse **cada martes**, con cuántos hectómetros cúbicos (hm³) tiene guardados. Un hm³ son mil millones de litros: {piscinas_1hm3_txt} piscinas olímpicas.
+
+Eso tiene una consecuencia importante para este episodio:
+
+- **No vemos las horas.** Una crecida se juega en horas y nuestros datos son semanales. Un embalse puede subir mucho un día y bajar al siguiente, y entre dos martes solo vemos el saldo.
+- **Reserva no es caudal.** Los datos dicen cuánta agua hay almacenada, no cuánta entra ni cuánta sale. No dicen a qué velocidad bajaba el río.
+- **No vemos lo que no es embalse.** Barrancos, ramblas y ríos sin embalse no salen aquí.
+- **Son datos provisionales.** El MITECO los publica "sujetos a revisión y validación".
+
+Lo que sí podemos hacer es comparar **la semana del 29 de octubre con la siguiente, la del {fecha_post_larga}**, y contar lo que cambió.
+
+<!-- visual: Línea de tiempo horizontal con las semanas de septiembre a diciembre de 2024 como marcas semanales. Resaltadas dos: {fecha_pre_larga} y {fecha_post_larga}. El tramo entre ambas, rotulado "lo que no vemos: lo que pasó entre dos martes". alt: "Los datos son semanales: solo comparamos la semana del {fecha_pre_larga} con la del {fecha_post_larga}." -->
+
+---
+
+## Paso 3 · Cómo estaba el Júcar antes
+
+La semana del {fecha_pre_larga} (la del día del episodio), los embalses de la demarcación del Júcar guardaban **{jucar_hm3_pre} hm³**, el **{jucar_pct_pre} %** de su capacidad. {si abs(jucar_var_semana_previa_pts) < umbral_igual}Esa semana no muestra ningún cambio respecto a la anterior, así que la tomamos como la foto del "antes".{si no}Ojo: esa semana ya mostraba un cambio de {jucar_var_semana_previa_abs} puntos respecto a la anterior, así que no es una foto limpia del "antes".{fin}
+
+¿Era poco o mucho? Depende con qué se compare:
+
+- {para cada a en anios_previos}En la misma semana de {a.anio}, el Júcar estaba al {a.jucar_pct} %. {fin}{si jucar_bajo_ultimos_3}Es decir, estaba **por debajo de los tres años anteriores**.{si no}Es decir, **no estaba por debajo de los tres años anteriores**.{fin}
+- En esa semana del año, de los {n_anios_jucar_serie} años anteriores de la serie desde {primer_anio}, en {n_anios_jucar_peores} hubo menos reserva que en {anio_episodio}.
+- La media del Júcar en toda la serie es del {jucar_media_serie} %. {si jucar_pct_pre > jucar_media_serie}Estaba por encima de esa media.{si no}Estaba por debajo de esa media.{fin} El mínimo de la serie fue el {jucar_min_pct} % en {jucar_min_anio}.
+
+{si jucar_bajo_ultimos_3 y jucar_pct_pre > jucar_media_serie}Resumiendo: **estaba más bajo que en los tres años anteriores, pero lejos de los mínimos de su historia**. Los datos de reserva de la cuenca no muestran una sequía extrema en ese momento.{fin}
+
+Pero la cuenca es una media. Algunos embalses concretos estaban mucho más bajos. Lo vemos más abajo, uno a uno.
+
+<!-- visual: Gráfico de puntos (strip plot) con el % del Júcar en la semana equivalente de cada año desde {primer_anio}, hasta {anio_episodio} incluido. Ese último punto, destacado y rotulado "{jucar_pct_pre} %". Línea vertical punteada en la media del Júcar ({jucar_media_serie} %). Los tres años anteriores, etiquetados con su año. alt: tabla con año y % del Júcar en esa semana, con las filas de {anio_episodio} y los tres años previos resaltadas. -->
+
+---
+
+## Paso 4 · Qué cambió en una semana
+
+Entre la semana del {fecha_pre_larga} y la del {fecha_post_larga}, la reserva del Júcar pasó de {jucar_hm3_pre} a **{jucar_hm3_post} hm³**. Son {jucar_sube_hm3} hm³ más. Para imaginarlo, {jucar_sube_piscinas_txt} piscinas olímpicas. En porcentaje, de {jucar_pct_pre} % a **{jucar_pct_post} %**: {jucar_sube_pts} puntos.
+
+{si jucar_es_la_mayor}De las {n_cuencas} demarcaciones, **el Júcar fue la que más subió en puntos** esa semana.{si no}De las {n_cuencas} demarcaciones, el Júcar fue la número {jucar_rank_subida} en subida de puntos esa semana.{fin} Pero no fue la única: {n_cuencas_suben} de las {n_cuencas} demarcaciones subieron. Las lluvias de aquellos días llegaron a más sitios, como decíamos arriba.
+
+A escala nacional, la reserva peninsular pasó de {nac_pct_pre} % a {nac_pct_post} %. El Júcar aportó el {jucar_parte_subida_nac_pct} % del agua que se sumó en toda España esa semana, y tiene el {jucar_parte_capacidad_pct} % de la capacidad nacional.
+
+Esto es lo que **sí** muestran los datos: una subida clara y concentrada en esa semana. Lo que **no** muestran es cuánta agua llegó en total a los embalses, ni cuánta se soltó mientras tanto, ni a qué hora. Solo el saldo del martes siguiente.
+
+<!-- visual: Línea del % del Júcar por semana, de septiembre a diciembre de 2024. Salto marcado entre {fecha_pre_larga} y {fecha_post_larga} con anotación directa "+{jucar_sube_pts} puntos". Debajo, barras horizontales con el cambio en puntos de las {n_cuencas} demarcaciones entre esas dos semanas, ordenadas, con el Júcar rotulado. Escala de un solo tono, no rojo/verde. alt: tabla de {n_cuencas} filas: demarcación, % el {fecha_pre_larga}, % el {fecha_post_larga}, diferencia en puntos. -->
+
+---
+
+## Paso 5 · Los embalses, uno a uno
+
+Estos son los embalses del Júcar que más se citaron aquellos días, junto con otros que no se movieron. Los datos son los de la semana del {fecha_pre_larga} y la del {fecha_post_larga}.
+
+{para cada e en embalses_dana}
+
+**[{e.nombre}](/embalse/{e.slug})** ({e.capacidad} hm³ de capacidad). {si e.sube_pct_cap >= umbral_cambio_embalse}Pasó de {e.hm3_pre} a **{e.hm3_post} hm³** ({e.pct_pre} % → {e.pct_post} %), {e.sube_hm3} hm³ más.{si no}Casi no se movió: de {e.hm3_pre} a {e.hm3_post} hm³ ({e.pct_pre} % → {e.pct_post} %).{fin} Antes del episodio le quedaban {e.hueco_pre} hm³ libres. {si e.hm3_cierre < e.hm3_post}Al cerrar el año tenía {e.hm3_cierre} hm³: había bajado desde la semana siguiente al episodio.{si no, si e.hm3_cierre > e.hm3_post}Al cerrar el año tenía {e.hm3_cierre} hm³: siguió subiendo.{si no}Al cerrar el año tenía los mismos {e.hm3_cierre} hm³.{fin}
+
+{fin}
+
+Entre los {n_embalses_jucar} embalses del Júcar con dato esa semana, los que más hectómetros ganaron fueron {embalses_mas_suben_lista}.
+
+Hay dos lecturas que conviene evitar. La primera: que un embalse "casi no se moviera" no quiere decir que no recibiera agua. Puede haber recibido mucha y haberla soltado antes del siguiente martes, y nuestros datos no lo distinguen. La segunda: que otro "subiera mucho" no significa que "evitara" algo concreto. Solo dice cuánta más agua tenía una semana después.
+
+<!-- visual: Pequeños múltiplos: una mini-línea por cada embalse de la lista ({n_embalses_dana}), de septiembre a diciembre de 2024, con la franja entre {fecha_pre_larga} y {fecha_post_larga} sombreada, y el eje Y en hm³ de 0 a su capacidad (cada uno con su propia escala, indicada). Nombre del embalse enlazado a su ficha. alt: tabla de {n_embalses_dana} filas: embalse, capacidad, hm³ antes, hm³ después, diferencia, hm³ al cierre de {anio_episodio}. -->
+
+---
+
+## Paso 6 · Qué es "laminar" una avenida
+
+Cuando se habla de embalses y riadas aparece la palabra **laminación**. Explicada sin tecnicismos: una crecida llega al río de golpe, con mucha agua en poco tiempo. Un embalse con espacio libre puede **guardar una parte de esa agua de golpe y soltarla después más despacio**, de modo que el pico aguas abajo sea más bajo y más largo. Esa es la idea, y es una explicación nuestra: no es una cita.
+
+El MITECO reconoce "el gran papel que juegan las presas en la laminación de avenidas" ([MITECO, Presas y seguridad hídrica](https://www.miteco.gob.es/es/agua/temas/seguridad-de-presas-y-embalses/presas-y-seguridad-hidrica.html)). Pero hay tres límites que explican por qué esto no se puede resolver con una gráfica semanal:
+
+1. **Depende del espacio libre.** Un embalse solo puede guardar el agua que le cabe. Antes del episodio, los embalses de la lista tenían entre {hueco_min} y {hueco_max} hm³ libres. Es un dato nuestro; cuánto sirve ese espacio depende de cuánta agua llegue y cuándo.
+2. **Se decide en horas.** Cuánta agua se guarda y cuánta se suelta en cada momento se decide en tiempo real. Eso no está en un boletín semanal.
+3. **Un hm³ más en el embalse no es "un hm³ menos en el río".** Hay que saber qué habría pasado sin él, y eso es un cálculo de ingeniería hidráulica, no un dato del boletín.
+
+Según el Poder Judicial, en febrero de 2025 un juzgado de Catarroja investigaba lo ocurrido ([Poder Judicial, TSJ de la Comunidad Valenciana, nota del 27 de febrero de 2025](https://www.poderjudicial.es/cgpj/es/Poder-Judicial/Tribunales-Superiores-de-Justicia/TSJ-Comunidad-Valenciana/Oficina-de-Comunicacion/Archivo-de-notas-de-prensa/La-juez-de-Catarroja-que-investiga-la-gestion-de-la-Dana-encarga-a-la-Guardia-Civil-la-confeccion-de-un-informe-sobre-la-cronologia-del-29-de-octubre)). No entramos en ello: aquí solo mostramos lo que dicen los datos de reserva.
+
+<!-- visual: Esquema simple (no datos): un río con un embalse; flecha de entrada gruesa y de salida más fina y prolongada; rótulo "espacio libre" en el embalse. Sin personas ni imágenes de las inundaciones. Al lado, la cifra de espacio libre antes del episodio de los embalses de la lista (hueco_min–hueco_max hm³). alt: "Un embalse con espacio libre puede guardar parte de una crecida y soltarla más despacio. Antes del episodio, los embalses citados tenían entre {hueco_min} y {hueco_max} hm³ libres." -->
+
+---
+
+## Paso 7 · Después: ¿qué pasó con la reserva?
+
+Tras el salto de la primera semana, la reserva del Júcar **no volvió atrás**. Siguió subiendo {jucar_semanas_seguidas_subiendo} semanas seguidas y cerró {anio_episodio} en el **{jucar_pct_cierre} %**, {jucar_sube_total_pts} puntos más que antes del episodio. Nuestros datos no permiten decir de dónde salió cada hectómetro cúbico de esas semanas.
+
+La reserva de la cuenca se mantuvo alta durante los meses siguientes. Un año después, la semana del {fecha_un_anio_larga}, estaba al {jucar_pct_un_anio} %. El máximo de {anio_siguiente} fue el {jucar_pct_max_sig} %, la semana del {fecha_max_sig_larga}. En ese tiempo hubo más lluvias y un verano de consumo, así que **no se puede atribuir esa reserva a la DANA**. {si jucar_sube_total_pts > 0}Solo se puede decir que la cuenca cerró el año más llena de lo que estaba en octubre.{fin}
+
+Hoy (semana del {fecha_dato_larga}) el Júcar está al **{jucar_pct_hoy} %**.
+
+Puedes ver cómo estaban los embalses esas dos semanas en la [máquina del tiempo](/tiempo?semana={fecha_pre_iso}) y en la [de la semana siguiente](/tiempo?semana={fecha_post_iso}). La [página de la cuenca del Júcar](/cuenca/jucar) tiene la serie completa.
+
+<!-- visual: Línea del % del Júcar de septiembre de {anio_episodio} a hoy, con dos marcas verticales ({fecha_pre_larga} y {fecha_post_larga}) y el punto de hoy destacado. Dos tarjetas de enlace debajo: máquina del tiempo (con {fecha_pre_iso} precargada) y ficha de la cuenca. alt: tabla de 5 filas: antes ({fecha_pre_larga}), después ({fecha_post_larga}), cierre de {anio_episodio}, un año después ({fecha_un_anio_larga}), hoy ({fecha_dato_larga}), con su % del Júcar. -->
+
+---
+
+## Paso 8 · Lo que estos datos no dicen
+
+Antes de sacar conclusiones, cuatro avisos.
+
+**Son datos semanales.** No se ve el pico ni la hora. Si quieres conocer lo que pasó cada hora en los ríos, la fuente son los sistemas de medida de la Confederación Hidrográfica del Júcar y de la AEMET, no este boletín.
+
+**Reserva no es caudal.** Que un embalse suba no mide cuánta agua pasaba por el río ni cuánto daño hizo.
+
+**Son datos provisionales.** El MITECO los revisa, así que alguna de las cifras de este texto puede cambiar. Último dato: semana del {fecha_dato_larga}.
+
+**Solo cuentan los embalses peninsulares de más de {umbral_capacidad_hm3} hm³.** Faltan los embalses pequeños y todo lo que no es embalse: ramblas, barrancos y ríos sin presa. Los cálculos de comparación son propios, no oficiales. [Cómo lo calculamos](/fuentes#metodo).
+
+Si quieres saber más sobre lo ocurrido el 29 de octubre de 2024, empieza por el [estudio de la AEMET](https://www.aemet.es/en/conocermas/recursos_en_linea/publicaciones_y_estudios/estudios/detalles/episodio_dana_oct_nov24). Para ver si la reserva actual es preocupante, lee [¿Es grave la situación de los embalses?](/explicadores/es-grave). Y para ver las sequías con la misma lente, [las grandes sequías vistas desde los embalses](/explicadores/sequias).
+
+<!-- visual: Fondo neutro con etiqueta "Datos provisionales" y tres tarjetas de enlace a /explicadores/es-grave, /explicadores/sequias y /tiempo. Sin gráfico protagonista. alt: la lista de avisos en texto. -->
+
+---
+
+## Marcadores necesarios
+
+Todos se importan. Si un dato no existe, se pide a `datos` (columna "Origen"). Convenciones como en `es-grave.mdx` y `sequias.mdx`: `_abs` = valor absoluto; `_larga` = "10 de noviembre de 2026"; `_iso` = AAAA-MM-DD; `_txt` = formato es-ES; los % a un decimal con coma.
+
+**Base común.**
+
+- `T` = `tiempo/demarcaciones.json`; `jucar = T.series["ES080"]` (código de Júcar en `embalses.json > demarcacion_codigo`); `nac = T.series.nacional`.
+- `S(slug)` = `series/{slug}.json` (embalse) o `series/cuenca-jucar.json` (cuenca): `volumen_hm3` y `pct` por fecha.
+- `fecha_episodio` = `2024-10-29` (constante de config; es la fecha del episodio según AEMET/MITECO).
+- `i_pre` = índice de `fecha_episodio` en `T.fechas`. `i_post = i_pre + 1`. `i_cierre` = índice de la última fecha de `T.fechas` con año `anio_episodio` (el último martes del año).
+- `validos` y `baja cobertura`: como en `sequias.mdx`; para el Júcar se excluyen los índices de `T.baja_cobertura.ES080` (si existe) y `nacional`.
+- "Semana equivalente" = la fecha publicada más cercana al mismo día del año (±3 días), ADR 0006.
+
+**Notas de método.** (1) Las cifras de Júcar en `T.series.ES080` y en `series/cuenca-jucar.json` son la misma agregación (ADR 0008): volúmenes sumados / capacidades sumadas de los embalses con dato esa semana ("tal como se publicó"). (2) Los hm³ de cada embalse son los de `series/{slug}.json` (`volumen_hm3`, entero: el MITECO publica con precisión de 1 hm³). (3) Si al construir `fecha_episodio` no existe en `T.fechas`, falla la construcción.
+
+| Marcador | Definición exacta | Origen / cálculo |
+|---|---|---|
+| `anio_episodio`, `anio_siguiente` | Año de `fecha_episodio` y ese año + 1 | `fecha_episodio` |
+| `primer_anio` | Año de `T.fechas[0]` | `tiempo/demarcaciones.json` |
+| `fecha_pre_larga`, `fecha_pre_iso` | `T.fechas[i_pre]` | `tiempo/demarcaciones.json` |
+| `fecha_post_larga`, `fecha_post_iso` | `T.fechas[i_post]` | Ídem |
+| `fecha_un_anio_larga` | Semana equivalente a `fecha_episodio` en `anio_siguiente` | Ídem |
+| `fecha_dato_larga` | Última fecha de `T.fechas` | Ídem (o `resumen.json > fecha`) |
+| `piscinas_1hm3_txt` | `1e6 m³ / volumen_piscina_olimpica`, en es-ES | Cálculo. Constante "piscina olímpica = 2.500 m³" en config, con su fuente (como en `es-grave.mdx`) |
+| `jucar_pct_pre`, `jucar_pct_post` | `jucar[i_pre]`, `jucar[i_post]` | `tiempo/demarcaciones.json` |
+| `jucar_hm3_pre`, `jucar_hm3_post` | `volumen_hm3` de `series/cuenca-jucar.json` en esas fechas | `series/cuenca-jucar.json` |
+| `jucar_sube_hm3`, `jucar_sube_pts` | `jucar_hm3_post - jucar_hm3_pre` y `jucar_pct_post - jucar_pct_pre` (puntos) | Cálculo |
+| `jucar_sube_piscinas_txt` | `jucar_sube_hm3 * 1e6 / volumen_piscina_olimpica` | Cálculo |
+| `jucar_var_semana_previa_pts`, `_abs` | `jucar[i_pre] - jucar[i_pre - 1]` y su valor absoluto | Cálculo |
+| `umbral_igual` | Diferencia en puntos por debajo de la cual se considera "sin cambio" | Constante de config (la misma que en `es-grave.mdx`/`sequias.mdx`). No se escribe en texto |
+| `anios_previos`, `a.anio`, `a.jucar_pct` | Los 3 años anteriores a `anio_episodio`; `a.jucar_pct` = `jucar` en la semana equivalente de ese año | `tiempo/demarcaciones.json` |
+| `jucar_bajo_ultimos_3` | `jucar_pct_pre < min(a.jucar_pct)` sobre `anios_previos` | Cálculo |
+| `n_anios_jucar_serie` | Nº de años de la serie anteriores a `anio_episodio` con dato de `jucar` en la semana equivalente | Cálculo |
+| `n_anios_jucar_peores` | De esos años, cuántos tienen `jucar` en la semana equivalente `< jucar_pct_pre` | Cálculo |
+| `jucar_media_serie` | Media aritmética de `jucar[i]` para `i` en `validos` | Cálculo (criterio de `media_serie` en `sequias.mdx`, pero para el Júcar) |
+| `jucar_min_pct`, `jucar_min_anio` | Mínimo de `jucar[i]` sobre `validos` y su año | Cálculo |
+| `n_cuencas` | Nº de series de `T.series` distintas de `nacional` | `tiempo/demarcaciones.json` |
+| `n_cuencas_suben` | Nº de demarcaciones con `T.series[cod][i_post] > T.series[cod][i_pre]` (sin `nacional`) | Cálculo |
+| `jucar_rank_subida`, `jucar_es_la_mayor` | Posición del Júcar al ordenar las demarcaciones por `T.series[cod][i_post] - T.series[cod][i_pre]` (1 = la que más sube); `es_la_mayor` = posición 1 | Cálculo |
+| `nac_pct_pre`, `nac_pct_post` | `nac[i_pre]`, `nac[i_post]` | `tiempo/demarcaciones.json` |
+| `jucar_parte_subida_nac_pct` | `jucar_sube_hm3 / (suma de volumen_hm3 de las 15 series/cuenca-*.json en i_post - suma en i_pre) * 100` | Cálculo sobre `series/cuenca-*.json` |
+| `jucar_parte_capacidad_pct` | Capacidad del Júcar / capacidad total en `i_pre`, donde capacidad = suma de `AGUA_TOTAL` de las filas de ese martes en `embalses-2024.csv` con dato (capacidad > 0), agrupadas por demarcación de la tabla maestra | Cálculo sobre `data/raw/boletin-hidrologico/embalses-2024.csv` + `data/master/embalses-maestra.csv`. Mejor que lo calcule `datos` |
+| `embalses_dana` | Lista editorial fija de slugs: `forata`, `buseo`, `loriguilla`, `benageber`, `tous-la-ribera`, `bellus`, `arenos`, `contreras`. Orden: el de esta lista | Constante de la página (nombres, no cifras). Los slugs existen en `embalses.json` |
+| `n_embalses_dana` | Longitud de `embalses_dana` | Cálculo |
+| `e.nombre`, `e.slug` | `nombre` y `slug` del embalse | `embalses.json` |
+| `e.capacidad` | `AGUA_TOTAL` de la fila de `i_pre` en `embalses-2024.csv` (hm³) | CSV |
+| `e.hm3_pre`, `e.hm3_post`, `e.hm3_cierre` | `volumen_hm3` en `i_pre`, `i_post`, `i_cierre` | `series/{slug}.json` |
+| `e.pct_pre`, `e.pct_post` | `pct` en `i_pre` e `i_post` | `series/{slug}.json` |
+| `e.sube_hm3` | `e.hm3_post - e.hm3_pre` | Cálculo |
+| `e.sube_pct_cap` | `e.sube_hm3 / e.capacidad * 100` | Cálculo |
+| `umbral_cambio_embalse` | Puntos de % de la capacidad del embalse por debajo de los cuales "casi no se movió" | Constante de config (propuesta editorial: la misma magnitud que `umbral_igual`, pero definida y publicada en `/fuentes#metodo`) |
+| `e.hueco_pre` | `e.capacidad - e.hm3_pre` | Cálculo |
+| `hueco_min`, `hueco_max` | Mínimo y máximo de `e.hueco_pre` sobre `embalses_dana` | Cálculo |
+| `n_embalses_jucar` | Nº de embalses del Júcar (`demarcacion_codigo = ES080`) con fila en `i_pre` en el CSV | Cálculo |
+| `embalses_mas_suben_lista` | Los 3 embalses del Júcar con mayor `volumen_hm3[i_post] - volumen_hm3[i_pre]`, con su nombre y esa diferencia ("X (+n hm³), Y (+n hm³) y Z (+n hm³)"). Incluye todos los embalses del Júcar, también los reversibles (hidroeléctricos de bombeo) | Cálculo sobre `series/{id}.json` |
+| `jucar_semanas_seguidas_subiendo` | Nº de semanas consecutivas desde `i_post` en las que `jucar[i] >= jucar[i-1]`, hasta que se rompe | Cálculo |
+| `jucar_pct_cierre` | `jucar[i_cierre]` | `tiempo/demarcaciones.json` |
+| `jucar_sube_total_pts` | `jucar_pct_cierre - jucar_pct_pre` (puntos) | Cálculo |
+| `jucar_pct_un_anio` | `jucar` en la semana equivalente de `anio_siguiente` (`fecha_un_anio_larga`) | `tiempo/demarcaciones.json` |
+| `jucar_pct_max_sig`, `fecha_max_sig_larga` | Máximo de `jucar[i]` para las semanas de `anio_siguiente` y su fecha | Cálculo |
+| `jucar_pct_hoy` | `jucar` en la última fecha de `T.fechas` | `tiempo/demarcaciones.json` |
+| `umbral_capacidad_hm3` | Umbral de capacidad del conjunto de embalses | Config del pipeline / contrato |
+
+### Condicionales usados
+
+`abs(jucar_var_semana_previa_pts) < umbral_igual` (paso 3) · `jucar_bajo_ultimos_3` y `jucar_pct_pre > jucar_media_serie` (paso 3) · `jucar_es_la_mayor` (paso 4) · `e.sube_pct_cap >= umbral_cambio_embalse` y comparación de `e.hm3_cierre` con `e.hm3_post` (paso 5).
+
+### Reglas de redacción al implementar
+
+- Ninguna cifra de embalses ni del Júcar se escribe a mano. Las únicas cifras escritas son hechos externos con su fuente: 29 de octubre de 2024, "más de 200 personas" (AEMET) y 771 l/m² en 24 h (MITECO a partir de la AEMET).
+- Si `fecha_episodio` no existe en `T.fechas`, no se publica la página.
+- Si falta el dato de un embalse en `i_pre` o `i_post`, se omite ese embalse del bloque (no se deja hueco ni se escribe 0).
+- No usar "catástrofe", "tragedia", "desastre", "culpa", "fallo", "negligencia" ni valoraciones de la gestión de ninguna presa.
+- No cambiar el orden ni el tono del paso 6 sin consultar: es el que toca el tema judicial.
+- La referencia a la instrucción judicial se revisa antes de cada publicación: si cambia el estado, se actualiza o se retira.
+
+## Fuentes (pie del explicador)
+
+- Reserva de los embalses (todos los datos del Júcar y de los embalses): [Boletín Hidrológico semanal, MITECO](https://www.miteco.gob.es/es/agua/temas/evaluacion-de-los-recursos-hidricos/boletin-hidrologico.html). Datos provisionales. Comparaciones, medias y ranking: cálculo propio. Agregación "tal como se publicó" (ADR 0008).
+- Definición de DANA: [AEMET, blog "¿Qué es una dana y cómo se forma?"](https://aemetblog.es/2023/06/03/que-es-una-dana-y-como-se-formapor-que-es-mas-adecuado-usar-este-termino-que-gota-fria/), E. Fernández Barrera, 3 de junio de 2023. Verificada ("Una dana es una depresión aislada a niveles altos").
+- Episodio del 29 de octubre de 2024 (DANA sobre el estrecho de Gibraltar; Valencia, Cuenca, Albacete y Murcia; Turís, 771 l/m² en 24 horas): [MITECO, nota de 8 de noviembre de 2024](https://www.miteco.gob.es/es/prensa/ultimas-noticias/2024/noviembre/octubre-de-2024-fue-el-mas-lluvioso-de-la-serie-historica.html). Verificada.
+- Descripción del episodio y de sus impactos ("impactos muy graves, especialmente en la provincia de Valencia"): [AEMET, estudio sobre lluvias intensas entre el 28 de octubre y el 4 de noviembre de 2024](https://www.aemet.es/en/conocermas/recursos_en_linea/publicaciones_y_estudios/estudios/detalles/episodio_dana_oct_nov24). Verificada en la página de resumen; el informe del 29 de octubre ([PDF de la AEMET](https://www.aemet.es/documentos/es/conocermas/recursos_en_linea/publicaciones_y_estudios/estudios/informe_episodio_dana_29_oct_2024_.pdf)) no se ha podido leer en esta revisión, hay que contrastarlo antes de publicar.
+- "Más de 200 personas fallecidas, la mayoría de ellas en la provincia de Valencia": [AEMET, informe operativo semanal del 28 de octubre al 3 de noviembre de 2024](https://aemetblog.es/2024/12/03/informe-operativo-semanal-del-28-de-octubre-al-3-de-noviembre-de-2024/) (blog de la AEMET, 3 de diciembre de 2024). Verificada. Cita literal verificada con WebFetch: "dejando más de 200 personas fallecidas, la mayoría de ellas en la provincia de Valencia". Es texto de la AEMET (organismo oficial), no de un medio. Sin cifra exacta a propósito: las cifras varían según la fuente y la fecha.
+- Papel de las presas en la laminación de avenidas: [MITECO, Presas y seguridad hídrica](https://www.miteco.gob.es/es/agua/temas/seguridad-de-presas-y-embalses/presas-y-seguridad-hidrica.html). Verificada la frase citada. La página no define laminación: la explicación del paso 6 es nuestra.
+- Investigación judicial: [Poder Judicial (CGPJ), TSJ de la Comunidad Valenciana, nota de prensa del 27 de febrero de 2025](https://www.poderjudicial.es/cgpj/es/Poder-Judicial/Tribunales-Superiores-de-Justicia/TSJ-Comunidad-Valenciana/Oficina-de-Comunicacion/Archivo-de-notas-de-prensa/La-juez-de-Catarroja-que-investiga-la-gestion-de-la-Dana-encarga-a-la-Guardia-Civil-la-confeccion-de-un-informe-sobre-la-cronologia-del-29-de-octubre). Verificada con WebFetch: la jueza de Catarroja "investiga las muertes y lesiones causados por la Dana". La fuente es de esa fecha: la frase del texto está en presente solo por ese hecho mínimo; revisar el estado actual en la web del TSJCV antes de publicar.
+- Pie legal: este proyecto es independiente y no está respaldado por el MITECO ni por la AEMET.
