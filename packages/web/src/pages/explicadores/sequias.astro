@@ -1,0 +1,227 @@
+---
+// Explicador "Las grandes sequías vistas desde los embalses" (borrador: src/content/explicadores/sequias.mdx).
+// Texto y cifras calculados en build (src/lib/explicadores/sequias.ts). Los únicos hechos escritos a mano son
+// los del episodio de los barcos de Barcelona (2008), citados de una fuente externa.
+import Base from '../../layouts/Base.astro';
+import Leyenda from '../../components/Leyenda.astro';
+import '../../styles/explicador.css';
+import { resumen, f, fechaCorta, clase } from '../../lib/datos';
+import { zonas, alto } from '../../lib/mapa';
+import { IGUAL_PTS } from '../../lib/explicadores/es-grave';
+import { Q, sequias, tiempoMin, tablaCuencas, PERCENTIL_SECO, MAX_SEQUIAS, N_CAIDA, FECHA_BARCO_BCN, bajaIdx } from '../../lib/explicadores/sequias';
+import { vDeteccion, vSequias, vCataluna, vRecuperacion, vHoy } from '../../lib/explicadores/visuales-sequias';
+
+const N = 8;
+const mediaSerie = Q.mediaSerie, nac = Q.pctNacional;
+const mas = (a: number, b: number) => (Math.abs(a - b) < IGUAL_PTS ? 0 : a > b ? 1 : -1);
+const sMedia = mas(nac, mediaSerie);
+const hayMin = Q.nSequias > 0;
+const sNorteSur = mas(Q.pctNorteMin ?? 0, Q.pctSurMin ?? 0);
+const marcas = [{ l: 'A', c: Q.cMin.c }, { l: 'B', c: Q.cMax.c }].map((m) => {
+  const z = zonas.find((x: any) => x.codigo === m.c);
+  return { l: m.l, cx: z ? (z.caja[0] + z.caja[2]) / 2 : 0, cy: z ? (z.caja[1] + z.caja[3]) / 2 : 0 };
+});
+const etiquetaMapa = `Mapa de las demarcaciones el ${Q.min.fechaLarga}, semana del mínimo nacional. La más vacía es ${Q.cMin.nombre} (A) y la más llena, ${Q.cMax.nombre} (B).`;
+const barcoVis = vCataluna();
+const titulo = 'Las grandes sequías vistas desde los embalses';
+const descripcion = `Cuándo han estado más bajos los embalses desde ${Q.primerAnio}, cuánto duró cada bajón, cómo lo vivió cada cuenca y cuánto tardó en recuperarse la reserva.`;
+const lenta = Q.lenta;
+---
+<Base title={`${titulo}: ${Q.nSequias} sequías desde ${Q.primerAnio}`} description={descripcion} pag="explicadores">
+<main class="col ancha ex" id="main">
+  <header class="ex-intro">
+    <p class="fecha">Explicador · datos del {Q.fechaDato}, provisionales.</p>
+    <h1 class="q">{titulo}</h1>
+    <p class="ex-lede">Los embalses guardan el agua de los años buenos para los malos. Mirando cuánto han bajado desde {Q.primerAnio}, se pueden ver las peores rachas secas de la serie y cómo se salió de ellas. Aquí las repasamos con los datos del MITECO, sin dramatizar y sin olvidar lo que estos datos no pueden decir.</p>
+    <p class="peq">{N} pasos. Baja con el dedo o la rueda y el gráfico cambia con el texto.</p>
+  </header>
+
+  <div class="ex-scroll" style={`--np:${N}`}>
+    <script is:inline>document.currentScript.parentElement.classList.add('ex-js');</script>
+
+    <!-- Paso 1 -->
+    <article class="paso" style="--n:1" aria-labelledby="p1">
+      <figure class="visual" data-paso="1">
+        <div class="ex-dentro">
+          <div><h3>Lo que miden los planes del MITECO</h3><ul><li>Lluvia</li><li>Caudales</li><li>Demandas de agua</li></ul></div>
+          <div><h3>Lo que mide esta web</h3><ul><li>Agua guardada en los embalses, cada semana</li></ul></div>
+        </div>
+      </figure>
+      <div class="paso-t" data-paso="1">
+        <p class="ex-kicker">Paso 1 de {N}</p>
+        <h2 class="q h2" id="p1">Qué es una sequía y qué miden estos datos</h2>
+        <p>«Sequía» se usa para cosas distintas. Para el ministerio, la <b>sequía prolongada</b> es la que se produce directamente por la falta de lluvia. La <b>escasez</b>, que también llama sequía hidrológica, es la que tiene que ver con los problemas para atender las demandas de agua. Suele llegar con retraso respecto a la falta de lluvia, o ni siquiera llegar, según cómo se gestionen los sistemas y cuánta agua se pida (<a href="https://www.miteco.gob.es/es/agua/temas/observatorio-nacional-de-la-sequia/informes-mapas-seguimiento.html">Observatorio Nacional de la Sequía, MITECO</a>).</p>
+        <p>Nuestros datos miden otra cosa, más sencilla: <b>cuánta agua hay guardada en los embalses cada semana</b>. Es una pista muy buena de lo seco que ha sido un periodo, pero no es la definición oficial. Cuando aquí decimos «sequía», queremos decir «una racha en la que la reserva estuvo anormalmente baja». Es un criterio <b>de cálculo propio</b>.</p>
+      </div>
+    </article>
+
+    <!-- Paso 2 -->
+    <article class="paso" style="--n:2" aria-labelledby="p2">
+      <figure class="visual" data-paso="2">
+        <Fragment set:html={vDeteccion()} />
+        <figcaption class="peq">Reserva nacional semana a semana desde {Q.primerAnio}. Raya ocre: umbral de reserva baja. Puntos: los grandes mínimos.</figcaption>
+      </figure>
+      <div class="paso-t" data-paso="2">
+        <p class="ex-kicker">Paso 2 de {N}</p>
+        <h2 class="q h2" id="p2">Cómo buscamos las sequías en los datos</h2>
+        <p>Hemos recorrido la serie nacional semana a semana desde {Q.primerAnio}. Para cada año hemos anotado el momento en que la reserva tocó fondo. Después nos hemos quedado con los años en los que ese fondo fue <b>más bajo que el del año anterior y el del siguiente</b>: son los grandes mínimos, no simples malos años dentro de una racha.</p>
+        <p>Además fijamos un <b>umbral de reserva baja</b>: el {Q.percentil} % de la serie, es decir, el nivel por debajo del cual ha estado solo una de cada {Q.umbralInverso} semanas desde {Q.primerAnio}. Hoy ese umbral queda en el <b>{Q.umbralTxt} %</b> de la capacidad.</p>
+        <p>Salen {Q.nSequias} grandes sequías. Las vemos una a una.</p>
+        <details><summary>Ver los datos en tabla</summary>
+          <div class="tabla-w"><table><caption>Grandes mínimos detectados.</caption>
+            <thead><tr><th scope="col">Año</th><th scope="col">Semana del</th><th scope="col">Reserva</th></tr></thead>
+            <tbody>{sequias.map((s) => <tr><th scope="row">{s.anio}</th><td>{fechaCorta(s.fechaIso)}</td><td>{f(s.pct)} %</td></tr>)}</tbody></table></div>
+        </details>
+      </div>
+    </article>
+
+    <!-- Paso 3 -->
+    <article class="paso" style="--n:3" aria-labelledby="p3">
+      <figure class="visual" data-paso="3">
+        <Fragment set:html={vSequias()} />
+        <figcaption class="peq">En ocre, cada racha: desde que la reserva baja del umbral hasta que vuelve a la media de la serie.</figcaption>
+      </figure>
+      <div class="paso-t" data-paso="3">
+        <p class="ex-kicker">Paso 3 de {N}</p>
+        <h2 class="q h2" id="p3">Las sequías, una a una</h2>
+        {sequias.map((s) => <p><b>La sequía de {s.anio}.</b> La reserva llegó a su punto más bajo la semana del {s.fechaLarga}, con un <b>{f(s.pct)} %</b>. {s.semanasBajo > 0 ? `Estuvo por debajo del umbral de reserva baja durante ${s.semanasBajo} semanas seguidas.` : 'No llegó a bajar del umbral de reserva baja.'} {s.j != null ? `Hasta volver a la media de la serie (${Q.mediaSerieTxt} %) pasaron ${s.semanasRec} semanas, hasta la semana del ${s.fechaRecLarga}.` : 'Todavía no ha vuelto a la media de la serie.'}</p>)}
+        {hayMin && <p>El mínimo más bajo de toda la serie es el de {Q.anioMinAbs}, con un {f(Q.pctMinAbs)} %.</p>}
+        <details><summary>Ver los datos en tabla</summary>
+          <div class="tabla-w"><table><caption>Sequías detectadas, de la más antigua a la más reciente.</caption>
+            <thead><tr><th scope="col">Año</th><th scope="col">Mínimo</th><th scope="col">Semanas bajo umbral</th><th scope="col">Semanas hasta la media</th></tr></thead>
+            <tbody>{sequias.map((s) => <tr><th scope="row">{s.anio}</th><td>{f(s.pct)} %</td><td>{s.semanasBajo}</td><td>{s.semanasRec ?? '—'}</td></tr>)}</tbody></table></div>
+        </details>
+      </div>
+    </article>
+
+    <!-- Paso 4 -->
+    <article class="paso" style="--n:4" aria-labelledby="p4">
+      <figure class="visual" data-paso="4">
+        {barcoVis ? <Fragment set:html={barcoVis} /> : <p class="peq">Sin gráfico para esta cuenca.</p>}
+        <figcaption class="peq">Cuencas Internas de Cataluña, un año antes y un año después de la llegada del primer barco (raya ocre).</figcaption>
+      </figure>
+      <div class="paso-t" data-paso="4">
+        <p class="ex-kicker">Paso 4 de {N}</p>
+        <h2 class="q h2" id="p4">Lo que vivió la gente</h2>
+        <p>Que los embalses bajen no es solo un dato. Tiene consecuencias que se notan.</p>
+        <p>En 2008, durante la sequía de Cataluña, el Gobierno catalán llegó a traer agua en barco hasta el puerto de Barcelona como medida de emergencia: el primer buque llegó el 13 de mayo de 2008 desde Tarragona y el segundo, el 21, desde Marsella. Un tercero se canceló cuando las lluvias de aquella primavera llenaron buena parte de los embalses (<a href="https://naciodigital.cat/societat/15-anys-de-larribada-de-vaixells-amb-aigua-potable-al-port-de-barcelona.html">Nació Digital, «15 anys de l'arribada de vaixells amb aigua potable al port de Barcelona»</a>). Fue un episodio local de una cuenca concreta: los datos nacionales de esta web no lo reflejan por sí solos.</p>
+        <p>Es un ejemplo de lo que dijimos en el primer paso: la reserva baja es una pista, pero lo que decide si hay restricciones es cada sistema, con sus demandas y su gestión.</p>
+      </div>
+    </article>
+
+    <!-- Paso 5 -->
+    <article class="paso" style="--n:5" aria-labelledby="p5">
+      <figure class="visual" data-paso="5">
+        <div class="ex-mapa">
+          <svg class="ex-svg" viewBox={`0 0 1000 ${alto}`} role="img" aria-label={etiquetaMapa}>
+            {zonas.filter((z: any) => z.r).map((z: any) => { const v = tiempoMin(z.codigo); return <path class={v == null ? 'sin' : `c${clase(v)}`} d={z.d}></path>; })}
+            {marcas.map((m) => <g class="ex-marca"><circle cx={m.cx} cy={m.cy} r="34"></circle><text x={m.cx} y={m.cy} dy=".35em" text-anchor="middle">{m.l}</text></g>)}
+          </svg>
+          <Leyenda />
+        </div>
+        <figcaption class="peq"><b>A</b>: {Q.cMin.nombre}. <b>B</b>: {Q.cMax.nombre}. Semana del {Q.min.fechaLarga}.</figcaption>
+      </figure>
+      <div class="paso-t" data-paso="5">
+        <p class="ex-kicker">Paso 5 de {N}</p>
+        <h2 class="q h2" id="p5">No todas las cuencas lo viven igual</h2>
+        <p>La sequía nacional es una media. Cada cuenca tiene su propio ritmo, y el agua de una no pasa a otra.</p>
+        <p>En la semana del mínimo nacional más bajo ({Q.min.fechaLarga}), la cuenca más vacía era <b>{Q.cMin.nombre}</b> (A), al {f(Q.cMin.pct)} %, y la más llena, <b>{Q.cMax.nombre}</b> (B), al {f(Q.cMax.pct)} %. Entre ambas había {f(Q.rangoCuencas)} puntos de diferencia.</p>
+        {Q.pctNorteMin != null && Q.pctSurMin != null && <p>Si miramos por zonas: en esa semana el grupo del norte estaba al {f(Q.pctNorteMin)} % y el del sur y este, al {f(Q.pctSurMin)} %. {sNorteSur < 0 ? 'El norte estaba peor que el sur y este.' : sNorteSur > 0 ? 'El sur y este estaban peor que el norte.' : 'Ambas zonas estaban igual.'}</p>}
+        {Q.caidasLista && <p>Y cada cuenca tuvo su propio peor momento, que no siempre coincide con el nacional. Las que más cayeron desde su nivel habitual fueron {Q.caidasLista}.</p>}
+        <details><summary>Ver los datos en tabla</summary>
+          <div class="tabla-w"><table><caption>Cuencas en el mínimo nacional y su mínimo propio.</caption>
+            <thead><tr><th scope="col">Cuenca</th><th scope="col">En el mínimo nacional</th><th scope="col">Su mínimo</th><th scope="col">Semana del</th></tr></thead>
+            <tbody>{tablaCuencas.map((c) => <tr><th scope="row">{c.nombre}</th><td>{c.pctMin == null ? '—' : `${f(c.pctMin)} %`}</td><td>{c.propio == null ? '—' : `${f(c.propio)} %`}</td><td>{c.fechaPropia ? fechaCorta(c.fechaPropia) : '—'}</td></tr>)}</tbody></table></div>
+        </details>
+      </div>
+    </article>
+
+    <!-- Paso 6 -->
+    <article class="paso" style="--n:6" aria-labelledby="p6">
+      <figure class="visual" data-paso="6">
+        <Fragment set:html={vRecuperacion()} />
+        <figcaption class="peq">En azul, cada recuperación: del mínimo a la vuelta a la media de la serie (raya de puntos).</figcaption>
+      </figure>
+      <div class="paso-t" data-paso="6">
+        <p class="ex-kicker">Paso 6 de {N}</p>
+        <h2 class="q h2" id="p6">La recuperación</h2>
+        <p>Las sequías terminan, pero casi nunca de golpe. Las lluvias vuelven, los ríos suben y los embalses van subiendo semana a semana.</p>
+        <p>Tras el mínimo de {Q.anioMinAbs}, la reserva {Q.min.semanasRec != null ? `tardó ${Q.min.semanasRec} semanas en volver a la media de la serie.` : 'todavía no ha vuelto a la media de la serie.'} {lenta && `La recuperación más lenta de las que hemos detectado fue la de la sequía de ${lenta.anio}, con ${lenta.semanasRec} semanas.`}</p>
+        <p>Los años que lo hicieron posible fueron años de mucha lluvia. En esos periodos la reserva nacional llegó a subir hasta el {f(Q.pctMaxTrasMin)} %, y el máximo de toda la serie fue en {Q.anioMaxAbs}, con el {f(Q.pctMaxAbs)} %.</p>
+        {Q.recNorte != null && Q.recSur != null && Q.ultimaRecup && <p>Y los embalses pequeños y grandes no se recuperan igual. Lo comprobamos con los datos: en la última recuperación detectada (la de {Q.ultimaRecup.anio}), el norte tardó {Q.recNorte} semanas en volver a su media y el sur y este, {Q.recSur}.</p>}
+        <details><summary>Ver los datos en tabla</summary>
+          <div class="tabla-w"><table><caption>Semanas hasta volver a la media de la serie.</caption>
+            <thead><tr><th scope="col">Sequía</th><th scope="col">Semanas</th></tr></thead>
+            <tbody>{sequias.filter((s) => s.j != null).map((s) => <tr><th scope="row">{s.anio}</th><td>{s.semanasRec}</td></tr>)}
+              {Q.recNorte != null && Q.recSur != null && Q.ultimaRecup && <><tr><th scope="row">{Q.ultimaRecup.anio}, norte</th><td>{Q.recNorte}</td></tr><tr><th scope="row">{Q.ultimaRecup.anio}, sur y este</th><td>{Q.recSur}</td></tr></>}</tbody></table></div>
+        </details>
+      </div>
+    </article>
+
+    <!-- Paso 7 -->
+    <article class="paso" style="--n:7" aria-labelledby="p7">
+      <figure class="visual" data-paso="7">
+        <Fragment set:html={vHoy()} />
+        <figcaption class="peq">Reserva nacional desde {Q.primerAnio}. Raya ocre: umbral de reserva baja.</figcaption>
+      </figure>
+      <div class="paso-t" data-paso="7">
+        <p class="ex-kicker">Paso 7 de {N}</p>
+        <h2 class="q h2" id="p7">¿Y hoy?</h2>
+        <p>La última semana, {Q.fechaDato}, los embalses están al <b>{f(nac)} %</b>. {sMedia > 0 ? `Es más que la media de la serie (${Q.mediaSerieTxt} %).` : sMedia < 0 ? `Es menos que la media de la serie (${Q.mediaSerieTxt} %).` : 'Es prácticamente la media de la serie.'}</p>
+        <p>{nac < Q.umbral ? `Está por debajo del umbral de reserva baja (${Q.umbralTxt} %).` : `Está por encima del umbral de reserva baja (${Q.umbralTxt} %).`} {hayMin && `Para comparar: el mínimo de la sequía más profunda, la de ${Q.anioMinAbs}, fue del ${f(Q.pctMinAbs)} %. Hoy hay ${Q.difMinHoyAbs} puntos ${nac > Q.pctMinAbs ? 'más' : 'menos'} que entonces.`}</p>
+        <p>Puedes viajar a la semana de cualquiera de estas sequías en la <a href={`/tiempo?semana=${Q.min.fechaIso}`}>máquina del tiempo</a> y comparar el mapa con el de hoy. Si quieres saber si lo de hoy es grave, lee <a href="/explicadores/es-grave">¿Es grave la situación de los embalses?</a>.</p>
+        <details><summary>Ver los datos en tabla</summary>
+          <div class="tabla-w"><table><caption>Hoy frente a la serie completa.</caption>
+            <thead><tr><th scope="col">Referencia</th><th scope="col">Reserva</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">Hoy ({fechaCorta(resumen.fecha)})</th><td>{f(nac)} %</td></tr>
+              <tr><th scope="row">Media de la serie</th><td>{Q.mediaSerieTxt} %</td></tr>
+              <tr><th scope="row">Mínimo de la serie ({Q.anioMinAbs})</th><td>{f(Q.pctMinAbs)} %</td></tr>
+            </tbody></table></div>
+        </details>
+      </div>
+    </article>
+
+    <!-- Paso 8 -->
+    <article class="paso" style="--n:8" aria-labelledby="p8">
+      <figure class="visual" data-paso="8">
+        <div class="ex-sello"><b>Datos provisionales</b><span>Semana del {Q.fechaDato}</span></div>
+        <Fragment set:html={vHoy(true)} />
+        <figcaption class="peq">Líneas finas ocres: semanas con pocos embalses con dato (cobertura baja), excluidas de los cálculos.</figcaption>
+      </figure>
+      <div class="paso-t" data-paso="8">
+        <p class="ex-kicker">Paso 8 de {N}</p>
+        <h2 class="q h2" id="p8">Lo que estos datos no dicen</h2>
+        <p>Antes de sacar conclusiones, cuatro avisos.</p>
+        <p><b>El conjunto de embalses cambia con los años.</b> Los porcentajes de esta historia son los que salen de sumar los embalses que tenían dato cada semana, <b>tal como se publicó</b>. Con el tiempo se han ido incorporando o dejando de medir embalses, así que comparar dos años lejanos tiene un margen de error. Es válido para ver la forma de las rachas, no para afirmar con exactitud «había X puntos más de agua que en tal año».</p>
+        <p><b>Solo cuentan los embalses peninsulares que recoge el boletín.</b> Faltan las islas, Ceuta y Melilla, y los embalses pequeños.</p>
+        <p><b>Son datos provisionales.</b> El MITECO los publica «sujetos a revisión y validación». Si corrige una semana ya publicada, aquí también cambiará. Último dato: semana del {Q.fechaDato}.</p>
+        <p><b>Las sequías y los umbrales son de cálculo propio.</b> Nuestro umbral de reserva baja y la detección de mínimos no son los de los planes oficiales de sequía. La situación oficial de sequía y de escasez se publica en el <a href="https://www.miteco.gob.es/es/agua/temas/observatorio-nacional-de-la-sequia/informes-mapas-seguimiento.html">informe de seguimiento del MITECO</a>. <a href="#metodo">Cómo lo calculamos</a>.</p>
+      </div>
+    </article>
+  </div>
+
+  <section class="ex-fuentes" id="metodo" aria-labelledby="fu">
+    <h2 class="q h2" id="fu">Fuentes y método</h2>
+    <ul>
+      <li>Reserva de los embalses: <a href="https://www.miteco.gob.es/es/agua/temas/evaluacion-de-los-recursos-hidricos/boletin-hidrologico.html">Boletín Hidrológico semanal, MITECO</a>. Datos provisionales. Detección de sequías, umbral y recuperación: cálculo propio. Agregación «tal como se publicó» (ADR 0008).</li>
+      <li>Definición de sequía prolongada y escasez: <a href="https://www.miteco.gob.es/es/agua/temas/observatorio-nacional-de-la-sequia/informes-mapas-seguimiento.html">Informes y mapas de seguimiento, Observatorio Nacional de la Sequía, MITECO</a>.</li>
+      <li>Episodio de los barcos en Barcelona (2008): <a href="https://naciodigital.cat/societat/15-anys-de-larribada-de-vaixells-amb-aigua-potable-al-port-de-barcelona.html">Nació Digital, «15 anys de l'arribada de vaixells amb aigua potable al port de Barcelona»</a>.</li>
+      <li>Marco: <a href="https://www.miteco.gob.es/es/agua/temas/observatorio-nacional-de-la-sequia.html">Observatorio Nacional de la Sequía, MITECO</a>.</li>
+    </ul>
+    <h3>Cómo lo calculamos</h3>
+    <ul class="peq">
+      <li>Serie: reserva nacional semanal desde {Q.primerAnio}. Se excluyen las {bajaIdx.length} semanas de cobertura baja (menos embalses con dato de lo normal alrededor de esa semana).</li>
+      <li>Sequía: el mínimo de cada año natural que es menor que el del año anterior y el del siguiente (como en la máquina del tiempo) y que queda por debajo del umbral. Se muestran como máximo las {MAX_SEQUIAS} más profundas.</li>
+      <li>Umbral de reserva baja: percentil {PERCENTIL_SECO} de la serie (interpolación lineal): {Q.umbralTxt} %.</li>
+      <li>Racha bajo umbral: semanas consecutivas por debajo del umbral alrededor del mínimo. Recuperación: semanas hasta que la reserva vuelve a la media de la serie ({Q.mediaSerieTxt} %).</li>
+      <li>Norte y sur y este: demarcaciones agrupadas y ponderadas por su capacidad, como en <a href="/explicadores/es-grave">¿Es grave?</a>. Cuencas citadas por mayor caída: las {N_CAIDA} que más bajaron respecto a su propia media.</li>
+    </ul>
+    <p class="peq">Este proyecto es independiente y no está respaldado por el MITECO.</p>
+  </section>
+
+  <script>
+    import '../../scripts/explicador';
+  </script>
+</main>
+</Base>

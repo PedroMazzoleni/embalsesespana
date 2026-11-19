@@ -14,6 +14,7 @@ const paginas = [
   { nombre: 'cuenca', ruta: '/cuenca/duero/' },
   { nombre: 'explicadores', ruta: '/explicadores/' },
   { nombre: 'explicador es-grave', ruta: '/explicadores/es-grave/' },
+  { nombre: 'explicador sequias', ruta: '/explicadores/sequias/' },
 ];
 
 for (const p of paginas) {
@@ -112,4 +113,17 @@ test('explicador es-grave: scrollama activa el visual del paso', async ({ page }
   await page.locator('#p5').scrollIntoViewIfNeeded();
   await page.locator('#p5').evaluate((el) => el.scrollIntoView({ block: 'center' }));
   await expect(page.locator('.visual.activo')).toHaveAttribute('data-paso', '5');
+});
+
+test('explicador sequias: sin undefined/NaN y el enlace a /tiempo abre en esa semana', async ({ page }) => {
+  await page.goto('/explicadores/sequias/');
+  await expect(page.locator('.paso')).toHaveCount(8);
+  const texto = (await page.locator('.paso-t, .ex-intro, .ex-fuentes').allTextContents()).join(' ');
+  expect(texto).not.toMatch(/undefined|NaN|object Object/);
+  const enlace = page.locator('a[href^="/tiempo?semana="]').first();
+  const href = (await enlace.getAttribute('href')) as string;
+  const iso = href.split('=')[1];
+  const largo = new Date(iso + 'T00:00:00Z').toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
+  await page.goto(href);
+  await expect(page.locator('#t-et')).toHaveText(largo);
 });

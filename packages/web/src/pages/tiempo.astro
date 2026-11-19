@@ -132,6 +132,9 @@ const etiqueta = (i: number) => `${fechaLarga(T.fechas[i])}: ${f(nac[i])} %`;
     $('t-anio').addEventListener('change', function (e) { parar(); ir(+e.target.value); });
     $('t-hoy').addEventListener('click', function () { parar(); ir(ult); });
     [].forEach.call(sec.querySelectorAll('.mom button'), function (b) { b.addEventListener('click', function () { parar(); ir(+b.getAttribute('data-i')); }); });
+    // ?semana=AAAA-MM-DD: abre en la semana publicada más cercana (si no hay parámetro válido, la última)
+    var q = /[?&]semana=(\d{4}-\d{2}-\d{2})/.exec(location.search), t0 = q ? Date.parse(q[1] + 'T00:00:00Z') : NaN;
+    if (!isNaN(t0)) { var mejor = 0; T.fechas.forEach(function (f, k) { if (Math.abs(Date.parse(f + 'T00:00:00Z') - t0) < Math.abs(Date.parse(T.fechas[mejor] + 'T00:00:00Z') - t0)) mejor = k; }); sl.value = mejor; }
     pinta(+sl.value);
   }
   fetch('/data/tiempo/demarcaciones.json').then(function (r) { return r.json(); }).then(function (d) { T = d; init(); }).catch(function () { $('t-ctl').hidden = true; });

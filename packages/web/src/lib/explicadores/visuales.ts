@@ -8,7 +8,7 @@ import { M, equiv, secos, bandaAnios, norte, sureste, tiempo } from './es-grave'
 
 export const W = 360;               // viewBox; el texto de 13 px se queda en >= 12 px en un móvil de 375
 const FUENTE = { fontFamily: 'var(--f-cifras)', fontSize: '13px', color: 'var(--tinta-2)', background: 'transparent', overflow: 'visible' };
-const HALO = { stroke: 'var(--fondo)', strokeWidth: 4, paintOrder: 'stroke' } as const;
+export const HALO = { stroke: 'var(--fondo)', strokeWidth: 4, paintOrder: 'stroke' } as const;
 const { document } = parseHTML('<html><body></body></html>');
 
 function limpio(chart: Element, etiqueta: string, h: number) {
@@ -19,7 +19,7 @@ function limpio(chart: Element, etiqueta: string, h: number) {
   chart.setAttribute('role', 'img'); chart.setAttribute('aria-label', etiqueta); chart.setAttribute('class', 'ex-svg');
   return chart.outerHTML;
 }
-const plot = (h: number, opts: any, etiqueta: string) =>
+export const plot = (h: number, opts: any, etiqueta: string) =>
   limpio(Plot.plot({ document: document as any, width: W, height: h, style: FUENTE, ...opts }) as unknown as Element, etiqueta, h);
 
 // ---- 1. depósito nacional ----
