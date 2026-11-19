@@ -18,21 +18,21 @@
   Modo claro: más lleno = más oscuro. Modo oscuro: más lleno = más claro.
 
   Contraste de la clase frente al fondo (WCAG 1.4.11, >= 3:1):
-    claro  (#fbfaf5): clase 0 = 1,22 (EXCEPCION, lleva borde); clases 1 a 5 = 3,15 / 4,33 / 6,34 / 10,43 / 16,52
+    claro  (#e3eff9): clase 0 = 1,09 (EXCEPCION, lleva borde); clases 1 a 5 = 3,19 / 4,59 / 6,81 / 11,03 / 16,35
     oscuro (#0b1e30): clase 0 = 1,60 (EXCEPCION, lleva borde); clases 1 a 5 = 3,38 / 5,05 / 7,14 / 10,59 / 15,60
   La clase 0 lleva SIEMPRE borde de 1 px con --agua-borde cuando se pintan como relleno.
   --agua-texto-N: color de texto con >= 4,5:1 sobre --agua-N (ratios exactos: el script).
 */
 :root {
-  --agua-0: #f7e2ae;  /* arena; borde obligatorio, 1,22:1 con el fondo */
-  --agua-1: #c57e26;  /* ocre */
-  --agua-2: #15838a;  /* verde azulado */
-  --agua-3: #165ea4;  /* azul */
-  --agua-4: #173c72;  /* azul profundo */
-  --agua-5: #021747;  /* azul noche */
+  --agua-0: #f7e2ae;  /* arena; borde obligatorio, 1,09:1 con el fondo */
+  --agua-1: #b97520;  /* ocre (3,19:1 con el fondo) */
+  --agua-2: #12767d;  /* verde azulado */
+  --agua-3: #125291;  /* azul */
+  --agua-4: #12315f;  /* azul profundo */
+  --agua-5: #010d2f;  /* azul noche */
   --agua-texto-0: #181818;  /* 13,9:1 */
-  --agua-texto-1: #181818;  /*  5,4:1 */
-  --agua-texto-2: #ffffff;  /*  4,5:1 */
+  --agua-texto-1: #181818;  /*  4,8:1 */
+  --agua-texto-2: #ffffff;  /*  5,4:1 */
   --agua-texto-3: #ffffff;
   --agua-texto-4: #ffffff;
   --agua-texto-5: #ffffff;

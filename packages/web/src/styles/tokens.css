@@ -74,15 +74,15 @@
   --foco-offset: 2px;
 
   /* ---------- Color (claro) ----------
-     Ratios WCAG 2.x calculados con script sobre --fondo (#fbfaf5). */
-  --fondo: #fbfaf5;
-  --tinta: #181818;      /* 17,0:1 */
-  --tinta-2: #4a4a46;    /* 8,5:1 */
-  --linea: #d8d5c8;      /* 1,4:1 — decorativa, nunca para texto ni info esencial */
+     Ratios WCAG 2.x calculados con script sobre --fondo (#e3eff9, azul cielo pálido). */
+  --fondo: #e3eff9;
+  --tinta: #181818;      /* 15,2:1 */
+  --tinta-2: #4a4a46;    /* 7,6:1 */
+  --linea: #b8cada;      /* 1,4:1 — decorativa, nunca para texto ni info esencial */
   --marca: #ffe14d;      /* resaltador (fondo); --tinta-marca encima: 13,6:1 */
   --tinta-marca: #181818;
-  --rio: #1c4e80;        /* datos / enlaces: 8,2:1 */
-  --alerta: #a2400b;     /* 6,1:1 */
+  --rio: #1c4e80;        /* datos / enlaces: 7,3:1 */
+  --alerta: #a2400b;     /* 5,5:1 */
   --foco: var(--rio);
 
   /* Escala divergente (explicadores): diferencia con la media de la cuenca. Reutiliza la escala

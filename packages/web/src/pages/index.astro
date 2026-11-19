@@ -35,7 +35,11 @@ const frase = (p: number, m: number | null) => m == null ? 'Sin media comparable
     <h2 class="q" id="q2">¿es grave?</h2>
     <div class="a">
       <p class="si">{grave}.</p>
-      <p>Esta semana, en {anios.length - peores} de los últimos {anios.length} años había más agua que ahora; en {peores}, menos. El mínimo fue {f(aMin)} % y el máximo {f(aMax)} %.</p>
+      <p>{peores === anios.length
+        ? `Ninguno de los últimos ${anios.length} años tenía tanta agua como ahora en esta semana.`
+        : peores === 0
+          ? `En los ${anios.length} últimos años, por estas fechas siempre hubo más agua que ahora.`
+          : `Esta semana, en ${anios.length - peores} de los últimos ${anios.length} años había más agua que ahora; en ${peores}, menos.`} El mínimo fue {f(aMin)} % y el máximo {f(aMax)} %.</p>
       <ol class="anios" aria-label="Reserva peninsular en la misma semana de cada uno de los últimos años y ahora">
         {barras.map((b) => <li class={b.hoy ? 'hoy' : ''} aria-label={`${b.et}: ${f(b.v)} %`}><span class="v">{f(b.v, 0)}</span><span class="b" style={`height:${b.v / tope * 80}%`}></span></li>)}
       </ol>
