@@ -1,0 +1,26 @@
+---
+import Base from '../../layouts/Base.astro';
+import { f, fechaDatos } from '../../lib/datos';
+import { M } from '../../lib/explicadores/es-grave';
+---
+<Base title="Explicadores: los embalses de España, contados paso a paso" description={`Historias cortas con los datos del MITECO para entender los embalses. La primera: ¿es grave la situación? Reserva peninsular al ${f(M.pct)} % (boletín del ${fechaDatos}).`} pag="explicadores">
+<main class="col ancha" id="main">
+  <section class="qa" aria-labelledby="q1">
+    <h1 class="q" id="q1"><span>Explicadores</span><span class="vh">. </span>¿qué quieres entender?</h1>
+    <div class="a">
+      <p>Cada explicador responde una pregunta con los datos de esta semana, comparados con otros años.</p>
+      <ul class="ex-lista">
+        <li>
+          <h2><a href="/explicadores/es-grave">¿Es grave la situación de los embalses?</a></h2>
+          <p>Hoy la reserva peninsular está al <b class="cifra">{f(M.pct)} %</b>. Mira cómo se compara con la media, con los años secos y con cada cuenca.</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+</main>
+<style>
+  .ex-lista { list-style: none; margin: var(--s-6) 0 0; padding: 0; }
+  .ex-lista li { border-top: var(--filete) solid var(--tinta); padding-top: var(--s-3); max-width: var(--medida); }
+  .ex-lista h2 { font: var(--peso-titulo) var(--t-3)/var(--lh-titulo) var(--f-titulos); letter-spacing: -.02em; margin: 0 0 var(--s-2); }
+</style>
+</Base>

@@ -12,6 +12,8 @@ const paginas = [
   { nombre: 'maquina del tiempo', ruta: '/tiempo/' },
   { nombre: 'ficha de embalse', ruta: '/embalse/yesa/' },
   { nombre: 'cuenca', ruta: '/cuenca/duero/' },
+  { nombre: 'explicadores', ruta: '/explicadores/' },
+  { nombre: 'explicador es-grave', ruta: '/explicadores/es-grave/' },
 ];
 
 for (const p of paginas) {
@@ -81,4 +83,33 @@ test('tiempo: el deslizador cambia el porcentaje mostrado', async ({ page }) => 
   await expect(pct).not.toHaveText(antes!);
   await expect(slider).toHaveAttribute('aria-valuetext', /1988/);
   await expect(page.locator('#t-tabla tbody tr').first().locator('.pc')).toContainText('%');
+});
+
+test('explicador es-grave: la cifra nacional coincide con resumen.json y todos los pasos existen', async ({ page }) => {
+  await page.goto('/explicadores/es-grave/');
+  await expect(page.locator('h1')).toContainText('¿es grave la situación de los embalses?', { ignoreCase: true });
+  await expect(page.locator(".paso-t").first()).toContainText(`${pctNacional} %`);
+  await expect(page.locator('.paso')).toHaveCount(9);
+  await expect(page.locator('svg[role="img"]').first()).toHaveAttribute('aria-label', new RegExp(pctNacional));
+  const texto = (await page.locator(".paso-t, .ex-intro").allTextContents()).join(" ");
+  expect(texto).not.toMatch(/undefined|NaN|object Object/);
+});
+
+test.describe('explicador es-grave sin JavaScript', () => {
+  test.use({ javaScriptEnabled: false });
+  test('todos los visuales se ven en orden', async ({ page }) => {
+    await page.goto('/explicadores/es-grave/');
+    const visuales = page.locator('.visual');
+    expect(await visuales.count()).toBe(9);
+    for (let i = 0; i < 9; i++) await expect(visuales.nth(i)).toBeVisible();
+  });
+});
+
+test('explicador es-grave: scrollama activa el visual del paso', async ({ page }) => {
+  await page.goto('/explicadores/es-grave/');
+  await expect(page.locator('.ex-js .visual.activo')).toHaveCount(1);
+  await expect(page.locator('.visual.activo')).toHaveAttribute('data-paso', '1');
+  await page.locator('#p5').scrollIntoViewIfNeeded();
+  await page.locator('#p5').evaluate((el) => el.scrollIntoView({ block: 'center' }));
+  await expect(page.locator('.visual.activo')).toHaveAttribute('data-paso', '5');
 });

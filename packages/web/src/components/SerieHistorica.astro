@@ -3,13 +3,14 @@
 // SVG de Observable Plot generado en build con linkedom: cero JS en el cliente.
 import * as Plot from '@observablehq/plot';
 import { parseHTML } from 'linkedom';
-import type { Embalse } from 'schema';
+import type { Embalse, PuntoSerie } from 'schema';
 import { serieDe, f, fechaCorta } from '../lib/datos';
 import { serieHistorica, etiquetaAnio, INICIO_MES, MESES, N_MEDIA, MIN_MEDIA } from '../lib/serieHistorica';
 
-interface Props { e: Embalse; nombre: string; }
-const { e, nombre } = Astro.props;
-const h = e.capacidad_hm3 > 0 ? serieHistorica(serieDe(e.id)) : null;
+interface Props { e?: Embalse; serie?: PuntoSerie[]; nombre: string; }
+const { e, serie, nombre } = Astro.props;
+const datos = serie ?? (e && e.capacidad_hm3 > 0 ? serieDe(e.id) : null);
+const h = datos ? serieHistorica(datos) : null;
 
 const W = 480, WN = 340, H = 320, GAP = 17;
 let svg = '';

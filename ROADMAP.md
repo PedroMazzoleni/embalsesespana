@@ -75,7 +75,7 @@ Objetivo: lo que nadie más tiene.
 - [x] Máquina del tiempo v1 en 2D: deslizador semana a semana desde 1988 [mapas + dataviz]
 - [ ] Máquina del tiempo v2 con deck.gl: columnas de agua 3D animadas (con alternativa 2D) [mapas]
 - [ ] Vista técnica 3D de cada embalse con deck.gl: relieve real del vaso (modelo de elevación recortado al polígono del Inventario) lleno hasta un nivel aproximado a partir del volumen, rotulado como aproximación; carga diferida y alternativa 2D [mapas]
-- [ ] Primer explicador con scrollama: "¿Es grave la situación?" [editorial + frontend]
+- [x] Primer explicador con scrollama: "¿Es grave la situación?" [editorial + frontend]
 - [ ] Explicadores siguientes: sequías históricas, y un tercero que salga de nuestros datos (p. ej. por qué unas cuencas tienen más agua que otras, o usos: regar, beber, luz). Se descarta "de dónde viene el agua de tu ciudad" por falta de fuente unificada [editorial]
 - [ ] Comparador de años y cuencas con DuckDB-WASM [dataviz]
 - [ ] (Idea, fuera de la Fase 3) Red de trasvases con react-force-graph — requiere buscar fuente de datos [datos]

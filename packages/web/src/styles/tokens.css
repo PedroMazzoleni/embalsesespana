@@ -85,6 +85,16 @@
   --alerta: #a2400b;     /* 6,1:1 */
   --foco: var(--rio);
 
+  /* Escala divergente (explicadores): diferencia con la media de la cuenca. Reutiliza la escala
+     del agua (ocre = por debajo, azul = por encima) para no meter otra paleta; se lee también por
+     luminosidad y por texto, nunca solo por tono. */
+  --dif-0: var(--agua-1);   /* muy por debajo */
+  --dif-1: var(--agua-0);   /* por debajo (lleva borde) */
+  --dif-2: var(--agua-2);   /* por encima */
+  --dif-3: var(--agua-4);   /* muy por encima */
+  --grupo-norte: var(--rio);
+  --grupo-sur: var(--alerta);
+
   /* Reservado para `dataviz`: escala de color del agua --agua-0 … --agua-N
      (se define en su propio fichero/bloque; no añadir aquí). */
 }

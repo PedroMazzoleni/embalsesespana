@@ -9,7 +9,7 @@ const { actual = '' } = Astro.props;
       <a href="/mapa" aria-current={actual === 'mapa' ? 'page' : undefined}>Mapa</a>
       <a href="/tiempo" aria-current={actual === 'tiempo' ? 'page' : undefined}>Máquina del tiempo</a>
       <a href="/embalses" aria-current={actual === "embalses" || actual === "embalse" ? "page" : undefined}>Embalses</a>
-      <span class="prox">Explicadores (próximamente)</span>
+      <a href="/explicadores" aria-current={actual === 'explicadores' ? 'page' : undefined}>Explicadores</a>
     </nav>
   </div>
 </header>

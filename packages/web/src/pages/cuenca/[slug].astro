@@ -1,7 +1,8 @@
 ---
 import Base from '../../layouts/Base.astro';
 import Leyenda from '../../components/Leyenda.astro';
-import { demarcaciones, embalses, estadoDe, resumen, slugCuenca, f, fechaDatos, fechaDiaMes, NA, NOMBRES, clase, rel } from '../../lib/datos';
+import SerieHistorica from '../../components/SerieHistorica.astro';
+import { demarcaciones, embalses, estadoDe, serieDe, resumen, slugCuenca, f, fechaDatos, fechaDiaMes, NA, NOMBRES, clase, rel } from '../../lib/datos';
 import { zonas } from '../../lib/mapa';
 
 export function getStaticPaths() {
@@ -22,6 +23,7 @@ const filas = embalses.filter((e) => e.demarcacion_codigo === r.codigo).map((e) 
 const conDato = filas.filter((x) => x.pct != null).length;
 const sube = r.var_pts == null || r.var_pts === 0 ? 'Sin cambios esta semana.' : `${r.var_pts > 0 ? 'Sube' : 'Baja'} ${f(Math.abs(r.var_pts))} puntos frente a la semana anterior (${f(r.pct_previa)} %).`;
 const normal = r.media10 == null ? 'No podemos decirlo: sin media comparable.' : dif > 1 ? 'Más llena de lo habitual.' : dif < -1 ? 'Más vacía de lo habitual.' : 'Sí, está en su media.';
+const serieCuenca = serieDe('cuenca-' + slugCuenca(r.nombre));
 const otras = demarcaciones.filter((d) => d.codigo !== r.codigo).sort((a, b) => a.nombre.localeCompare(b.nombre, 'es'));
 ---
 <Base title={`Demarcación ${r.nombre}: ¿cómo están sus embalses?`} description={`Los ${r.n_embalses} embalses de la demarcación ${r.nombre} están al ${f(r.pct)} % de su capacidad de ${f(r.capacidad, 0)} hm³ (boletín del ${fechaDatos}), ${r.media10 != null ? `${f(Math.abs(dif))} puntos ${rel(dif)} su media de ${NA} años. ` : ''}Lista de todos sus embalses.`} pag="cuenca">
@@ -51,6 +53,8 @@ const otras = demarcaciones.filter((d) => d.codigo !== r.codigo).sort((a, b) => 
     <div class="a">
       <p class="si">{normal}</p>
       {r.media10 != null && <div class="mini" role="img" aria-label={`De 0 a 100 %: ahora ${f(r.pct)} %, media ${f(r.media10)} %`}><i style={`width:${Math.min(r.pct, 100)}%`}></i><u style={`left:${Math.min(r.media10, 100)}%`}></u></div>}
+      <SerieHistorica serie={serieCuenca} nombre={r.nombre} />
+      <p class="peq">Suma de los embalses con dato cada semana. El conjunto de embalses cambia con los años (ADR 0006), así que la comparación con años lejanos es orientativa.</p>
       <p class="peq">{r.media10 != null ? `Ahora ${f(r.pct)} %; media de la misma semana en los ${NA} años anteriores, ${f(r.media10)} % (raya de la media): ${f(Math.abs(dif))} puntos ${dif >= 0 ? 'por encima' : 'por debajo'}.` : 'Sin media comparable para esta época.'}</p>
     </div>
   </section>

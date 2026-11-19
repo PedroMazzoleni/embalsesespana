@@ -1,0 +1,291 @@
+---
+// Explicador "¿Es grave la situación de los embalses?" (borrador: src/content/explicadores/es-grave.mdx).
+// Texto y cifras se calculan en build desde src/lib/explicadores/es-grave.ts; no hay cifras literales.
+import Base from '../../layouts/Base.astro';
+import Leyenda from '../../components/Leyenda.astro';
+import '../../styles/explicador.css';
+import { resumen, demarcaciones, f, fechaCorta, clase, slugCuenca } from '../../lib/datos';
+import { zonas, alto } from '../../lib/mapa';
+import { M, signo, equiv, secos, norte, sureste, claseDif, UMBRAL_DIF, MARGEN_CERCANIA, SEMANAS_SOSTENIDAS, IGUAL_PTS } from '../../lib/explicadores/es-grave';
+import { visual1, visual2, visual3, visual4, visual6 } from '../../lib/explicadores/visuales';
+
+const N = 9;
+const sg = (x: number) => `${x > 0 ? '+' : x < 0 ? '−' : ''}${f(Math.abs(x))}`;
+const sobre = (d: number) => (d > 0 ? 'por encima' : 'por debajo');
+const top3 = secos.slice(0, 3);
+const hayMedia = M.media10 != null;
+const sMedia = signo(M.difMedia);
+const sVar = signo(M.varPts);
+const sDifSeco = M.pct > M.seco1.pct;
+const pasosDebajoDeMedia = hayMedia && M.pct < (M.media10 as number);
+const cercaDelPeor = M.pct <= M.seco1.pct + MARGEN_CERCANIA;
+const bajaSostenida = M.semanasBajando >= SEMANAS_SOSTENIDAS;
+const gruposOk = norte.dif != null && sureste.dif != null;
+const dn = norte.dif ?? 0, ds = sureste.dif ?? 0;
+const mejorDif = M.mejor.dif_media_pts as number, peorDif = M.peor.dif_media_pts as number;
+
+// Mapa del paso 5 (colores por % absoluto y por diferencia con la media) y mapa pequeño del paso 6
+const marcas = [{ l: 'A', d: M.mejor }, { l: 'B', d: M.peor }].map((m) => {
+  const z = zonas.find((x: any) => x.codigo === m.d.codigo);
+  return { ...m, cx: z ? (z.caja[0] + z.caja[2]) / 2 : 0, cy: z ? (z.caja[1] + z.caja[3]) / 2 : 0 };
+});
+const filasCuenca = [...demarcaciones].sort((a, b) => (b.dif_media_pts ?? -999) - (a.dif_media_pts ?? -999));
+const etiquetaMapa = `Mapa de las demarcaciones coloreadas por su diferencia con la media de ${M.nAnios} años. La mejor parada es ${M.mejor.nombre} (A) y la peor, ${M.peor.nombre} (B).`;
+const grupoDe = (c: string) => (norte.codigos.includes(c) ? 'gn' : sureste.codigos.includes(c) ? 'gs' : 'go');
+const nombres = (cods: string[]) => cods.map((c) => demarcaciones.find((d) => d.codigo === c)?.nombre).filter(Boolean).join(', ');
+
+const titulo = '¿Es grave la situación de los embalses?';
+const descripcion = `La reserva de agua de los embalses peninsulares, al ${M.pctTxt} % el ${M.fechaLarga}, comparada con la media de los últimos ${M.nAnios} años y con los años más secos desde ${M.primerAnio}.`;
+---
+<Base title={`${titulo} Reserva frente a otros años`} description={descripcion} pag="explicadores">
+<main class="col ancha ex" id="main">
+  <header class="ex-intro">
+    <p class="fecha">Explicador · datos del {M.fechaLarga}, provisionales.</p>
+    <h1 class="q">{titulo}</h1>
+    <p class="ex-lede">Es la pregunta que más se repite cuando el agua sale en las noticias. Aquí la respondemos con los datos del MITECO, comparando siempre la reserva de hoy con la de otros años.</p>
+    <p class="peq">{N} pasos. Baja con el dedo o la rueda y el gráfico cambia con el texto.</p>
+  </header>
+
+  <div class="ex-scroll" style={`--np:${N}`}>
+    <script is:inline>document.currentScript.parentElement.classList.add('ex-js');</script>
+
+    <!-- Paso 1 -->
+    <article class="paso" style="--n:1" aria-labelledby="p1">
+      <figure class="visual" data-paso="1">
+        <Fragment set:html={visual1()} />
+        <figcaption class="peq">Reserva peninsular el {M.fechaLarga}.</figcaption>
+      </figure>
+      <div class="paso-t" data-paso="1">
+        <p class="ex-kicker">Paso 1 de {N}</p>
+        <h2 class="q h2" id="p1">Dónde estamos esta semana</h2>
+        <p>Los embalses de la Península están al <b>{M.pctTxt} %</b> de su capacidad. Es el dato de la semana del {M.fechaLarga}: {M.hm3Txt} de agua almacenada ({M.km3Txt}), de un máximo de {M.capacidadTxt}.</p>
+        <p>
+          {sVar > 0 && `Respecto a la semana anterior, la reserva ha subido ${M.varAbs} puntos.`}
+          {sVar < 0 && `Respecto a la semana anterior, la reserva ha bajado ${M.varAbs} puntos.`}
+          {sVar === 0 && 'Respecto a la semana anterior, la reserva casi no ha cambiado.'}
+        </p>
+        <p>Para imaginarlo: {M.hm3Txt} equivalen a {M.piscinasTxt} de piscinas olímpicas. Pero un número suelto no dice si es mucho o poco. Para eso hace falta compararlo.</p>
+      </div>
+    </article>
+
+    <!-- Paso 2 -->
+    <article class="paso" style="--n:2" aria-labelledby="p2">
+      <figure class="visual" data-paso="2">
+        {hayMedia ? <Fragment set:html={visual2()} /> : <p class="peq">No hay media comparable para esta semana.</p>}
+        <figcaption class="peq">Año hidrológico (de octubre a septiembre): línea azul, este año; raya ocre, la media; banda gris, el rango de los {M.nAnios} años anteriores.</figcaption>
+      </figure>
+      <div class="paso-t" data-paso="2">
+        <p class="ex-kicker">Paso 2 de {N}</p>
+        <h2 class="q h2" id="p2">Frente a lo habitual</h2>
+        {hayMedia ? <>
+          <p>¿Es normal para esta época? Hemos mirado la misma semana de los {M.nAnios} años anteriores ({M.primerAnioMedia}–{M.ultimoAnioMedia}). De media, los embalses estaban entonces al <b>{M.media10Txt} %</b>.</p>
+          <p>
+            {sMedia > 0 && <>Hoy están {M.difMediaAbs} puntos <b>por encima</b> de esa media. Es una reserva mejor que la habitual en esta época.</>}
+            {sMedia < 0 && <>Hoy están {M.difMediaAbs} puntos <b>por debajo</b> de esa media. Es una reserva peor que la habitual en esta época.</>}
+            {sMedia === 0 && 'Hoy están prácticamente en la media.'}
+          </p>
+          <p>La media la calculamos nosotros con los datos del MITECO, usando solo los embalses que existen hoy, para que la comparación sea justa. El boletín del ministerio puede dar una cifra algo distinta.</p>
+          <details><summary>Ver los datos en tabla</summary>
+            <div class="tabla-w"><table><caption>Reserva nacional hoy y media de la misma semana.</caption>
+              <thead><tr><th scope="col">Referencia</th><th scope="col">Reserva</th></tr></thead>
+              <tbody>
+                <tr><th scope="row">Hoy ({fechaCorta(resumen.fecha)})</th><td>{M.pctTxt} %</td></tr>
+                <tr><th scope="row">Media de {M.nAnios} años</th><td>{M.media10Txt} %</td></tr>
+                <tr><th scope="row">Diferencia</th><td>{sg(M.difMedia as number)} puntos</td></tr>
+              </tbody></table></div>
+          </details>
+        </> : <p>Todavía no hay histórico suficiente para calcular una media de esta semana.</p>}
+      </div>
+    </article>
+
+    <!-- Paso 3 -->
+    <article class="paso" style="--n:3" aria-labelledby="p3">
+      <figure class="visual" data-paso="3">
+        <Fragment set:html={visual3()} />
+        <figcaption class="peq">Cada punto es un año, en la misma semana del calendario. Raya ocre: la media de esos años.</figcaption>
+      </figure>
+      <div class="paso-t" data-paso="3">
+        <p class="ex-kicker">Paso 3 de {N}</p>
+        <h2 class="q h2" id="p3">Cómo ha sido cada año por estas fechas</h2>
+        <p>Cada punto de este gráfico es un año, a la misma altura del calendario que hoy. Así se ve dónde estamos dentro del grupo.</p>
+        <p>De esos {M.nAnios} años, en {M.nPorDebajoHoy} la reserva estaba por debajo de la de hoy y en {M.nPorEncimaHoy === 0 ? "ninguno" : M.nPorEncimaHoy} por encima. El año con más agua fue {M.humedoReciente.anio}, con un {f(M.humedoReciente.pct)} %. El de menos, {M.secoReciente.anio}, con un {f(M.secoReciente.pct)} %.</p>
+        <details><summary>Ver los datos en tabla</summary>
+          <div class="tabla-w"><table><caption>Reserva nacional en la misma semana de cada año, de menos a más.</caption>
+            <thead><tr><th scope="col">Año</th><th scope="col">Reserva</th></tr></thead>
+            <tbody>{[...M.anios].sort((a, b) => a.pct - b.pct).map((a) => <tr><th scope="row">{a.anio}</th><td>{f(a.pct)} %</td></tr>)}</tbody></table></div>
+        </details>
+      </div>
+    </article>
+
+    <!-- Paso 4 -->
+    <article class="paso" style="--n:4" aria-labelledby="p4">
+      <figure class="visual" data-paso="4">
+        <Fragment set:html={visual4()} />
+        <figcaption class="peq">Reserva nacional semana a semana desde {M.primerAnio}. Puntos ocres: los tres años más secos en esta misma semana.</figcaption>
+      </figure>
+      <div class="paso-t" data-paso="4">
+        <p class="ex-kicker">Paso 4 de {N}</p>
+        <h2 class="q h2" id="p4">Frente a los años secos de verdad</h2>
+        <p>Los {M.nAnios} años anteriores son pocos para hablar de sequía. Desde {M.primerAnio} el MITECO tiene datos semanales, así que podemos mirar más atrás.</p>
+        <p>En la misma semana del año, el peor registro desde {M.primerAnio} es el de <b>{M.seco1.anio}</b>: los embalses estaban al {f(M.seco1.pct)} %. {sDifSeco ? `Hoy hay ${M.difSeco1Abs} puntos más que entonces.` : `Hoy hay ${M.difSeco1Abs} puntos menos que entonces.`} Otros años secos recordados son {M.seco2.anio} ({f(M.seco2.pct)} %) y {M.seco3.anio} ({f(M.seco3.pct)} %).</p>
+        <p>Hoy, por esta fecha, en {M.nAniosPeoresQueHoy} de los {M.nAniosSerie} años de la serie hubo menos reserva que ahora.</p>
+        <p class="peq">Esta serie suma los embalses que había cada semana; el conjunto cambia con los años, así que es una comparación orientativa.</p>
+        <details><summary>Ver los datos en tabla</summary>
+          <div class="tabla-w"><table><caption>Los tres años con menos reserva en esta semana del año, y hoy.</caption>
+            <thead><tr><th scope="col">Año</th><th scope="col">Semana del</th><th scope="col">Reserva</th></tr></thead>
+            <tbody>
+              {top3.map((s) => <tr><th scope="row">{s.anio}</th><td>{fechaCorta(s.fecha)}</td><td>{f(s.pct)} %</td></tr>)}
+              <tr><th scope="row">Hoy</th><td>{fechaCorta(resumen.fecha)}</td><td>{M.pctTxt} %</td></tr>
+            </tbody></table></div>
+        </details>
+      </div>
+    </article>
+
+    <!-- Paso 5 -->
+    <article class="paso" style="--n:5" aria-labelledby="p5">
+      <figure class="visual" data-paso="5">
+        <div class="ex-mapa" data-fase="dif" id="ex-mapa">
+          <svg class="ex-svg" viewBox={`0 0 1000 ${alto}`} role="img" aria-label={etiquetaMapa}>
+            {zonas.filter((z: any) => z.r).map((z: any) => <path class={`c${clase(z.r.pct)} dn${claseDif(z.r.dif_media_pts)}`} d={z.d}></path>)}
+            {marcas.map((m) => <g class="ex-marca"><circle cx={m.cx} cy={m.cy} r="34"></circle><text x={m.cx} y={m.cy} dy=".35em" text-anchor="middle">{m.l}</text></g>)}
+          </svg>
+          <div class="ex-leyenda-abs"><Leyenda /></div>
+          <ul class="leyenda ex-leyenda-dif" aria-label="Leyenda: diferencia con la media">
+            <li><i class="dn0"></i>{UMBRAL_DIF} o más puntos por debajo</li>
+            <li><i class="dn1"></i>por debajo</li>
+            <li><i class="dn2"></i>por encima</li>
+            <li><i class="dn3"></i>{UMBRAL_DIF} o más puntos por encima</li>
+          </ul>
+        </div>
+        <figcaption class="peq"><b>A</b>: {M.mejor.nombre}. <b>B</b>: {M.peor.nombre}.</figcaption>
+      </figure>
+      <div class="paso-t" data-paso="5">
+        <p class="ex-kicker">Paso 5 de {N}</p>
+        <h2 class="q h2" id="p5">No todas las cuencas están igual</h2>
+        <p>La media nacional esconde diferencias. España tiene cuencas con realidades muy distintas, y el agua de una no pasa a otra.</p>
+        <p>La cuenca mejor parada, comparada con su propia media, es <b>{M.mejor.nombre}</b> (A): está al {f(M.mejor.pct)} %, {f(Math.abs(mejorDif))} puntos {sobre(mejorDif)} de lo habitual. La que peor está respecto a la suya es <b>{M.peor.nombre}</b> (B), al {f(M.peor.pct)} %, {f(Math.abs(peorDif))} puntos {sobre(peorDif)} de lo habitual.</p>
+        <p>{M.nCuencasPorDebajo > 0 ? `Ahora mismo, ${M.nCuencasPorDebajo} de las ${M.nCuencas} cuencas están por debajo de su media.` : `Ahora mismo, ninguna de las ${M.nCuencas} cuencas está por debajo de su media.`}</p>
+        <details><summary>Ver los datos en tabla</summary>
+          <div class="tabla-w"><table><caption>Demarcaciones: reserva, media de {M.nAnios} años y diferencia.</caption>
+            <thead><tr><th scope="col">Cuenca</th><th scope="col">Reserva</th><th scope="col">Media</th><th scope="col">Diferencia</th></tr></thead>
+            <tbody>{filasCuenca.map((d) => <tr><th scope="row"><a href={`/cuenca/${slugCuenca(d.nombre)}`}>{d.nombre}</a></th><td>{f(d.pct)} %</td><td>{d.media10 == null ? '—' : `${f(d.media10)} %`}</td><td>{d.dif_media_pts == null ? '—' : `${sg(d.dif_media_pts)} pts`}</td></tr>)}</tbody></table></div>
+        </details>
+      </div>
+    </article>
+
+    <!-- Paso 6 -->
+    <article class="paso" style="--n:6" aria-labelledby="p6">
+      <figure class="visual" data-paso="6">
+        {gruposOk ? <div class="ex-dos">
+          <Fragment set:html={visual6()} />
+          <svg class="ex-mini" viewBox={`0 0 1000 ${alto}`} aria-hidden="true">
+            {zonas.filter((z: any) => z.r).map((z: any) => <path class={grupoDe(z.codigo)} d={z.d}></path>)}
+          </svg>
+        </div> : <p class="peq">No hay media comparable para estas zonas.</p>}
+        <figcaption class="peq">Azul: norte. Ocre: sur y este. Raya de puntos: la media de cada zona en esta semana.</figcaption>
+      </figure>
+      <div class="paso-t" data-paso="6">
+        <p class="ex-kicker">Paso 6 de {N}</p>
+        <h2 class="q h2" id="p6">Norte y sur, dos historias</h2>
+        <p>Fíjate en la comparación entre el norte y el sur. Las cuencas del norte ({nombres(norte.codigos)}) reciben más lluvia y sus embalses son pequeños: se llenan y se vacían rápido. Las del sur y el este ({nombres(sureste.codigos)}) dependen de embalses grandes y de lluvias irregulares: se recuperan despacio.</p>
+        {gruposOk && <p>Hoy el grupo del norte está al {f(norte.pct)} % (media {f(norte.media10 as number)} %) y el del sur y este al {f(sureste.pct)} % (media {f(sureste.media10 as number)} %). {dn < 0 && ds > 0 ? 'El norte está peor que lo habitual y el sur mejor.' : dn > 0 && ds < 0 ? 'El norte está mejor que lo habitual y el sur peor.' : 'Ambas zonas van en la misma dirección respecto a su media.'}</p>}
+        {gruposOk && <details><summary>Ver los datos en tabla</summary>
+          <div class="tabla-w"><table><caption>Reserva de cada zona frente a su media de {M.nAnios} años.</caption>
+            <thead><tr><th scope="col">Zona</th><th scope="col">Reserva</th><th scope="col">Media</th><th scope="col">Diferencia</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">Norte</th><td>{f(norte.pct)} %</td><td>{f(norte.media10 as number)} %</td><td>{sg(dn)} pts</td></tr>
+              <tr><th scope="row">Sur y este</th><td>{f(sureste.pct)} %</td><td>{f(sureste.media10 as number)} %</td><td>{sg(ds)} pts</td></tr>
+            </tbody></table></div>
+        </details>}
+      </div>
+    </article>
+
+    <!-- Paso 7 -->
+    <article class="paso" style="--n:7" aria-labelledby="p7">
+      <figure class="visual" data-paso="7">
+        <ul class="ex-int" aria-label="Tres preguntas de cálculo propio">
+          {hayMedia && <li class={pasosDebajoDeMedia ? 'si' : 'no'}><span class="ex-led" aria-hidden="true"></span><span>¿Por debajo de su media de {M.nAnios} años?</span><b>{pasosDebajoDeMedia ? 'Sí' : 'No'}</b></li>}
+          <li class={cercaDelPeor ? 'si' : 'no'}><span class="ex-led" aria-hidden="true"></span><span>¿Cerca de los peores años?</span><b>{cercaDelPeor ? 'Sí' : 'No'}</b></li>
+          <li class={bajaSostenida ? 'si' : 'no'}><span class="ex-led" aria-hidden="true"></span><span>¿Muchas semanas bajando?</span><b>{bajaSostenida ? 'Sí' : 'No'}</b></li>
+        </ul>
+        <figcaption class="peq">Criterios propios, no oficiales.</figcaption>
+      </figure>
+      <div class="paso-t" data-paso="7">
+        <p class="ex-kicker">Paso 7 de {N}</p>
+        <h2 class="q h2" id="p7">Entonces, ¿qué significa «grave»?</h2>
+        <p>No existe un único número que marque cuándo una situación es grave. En España, la respuesta oficial la dan los <b>planes especiales de sequía</b> que cada cuenca tiene aprobados (la revisión vigente se aprobó en la <a href="https://www.boe.es/buscar/doc.php?id=BOE-A-2026-13006">Orden TED/601/2026</a>). Esos planes distinguen dos cosas que en la calle se mezclan:</p>
+        <ul>
+          <li><b>Sequía prolongada.</b> Es la falta de lluvia durante un periodo largo, y se mide con indicadores de precipitación y aportaciones acumuladas en cada zona. Esta web no tiene esos datos, así que no puede calcularla.</li>
+          <li><b>Escasez.</b> Es el riesgo de no poder atender la demanda de agua (riego, abastecimiento, industria) en un sistema concreto. Se clasifica por zonas en cuatro escenarios: normalidad, prealerta, alerta y emergencia. Cada zona usa sus propios indicadores, que combinan reservas con otras variables, y sus propios umbrales.</li>
+        </ul>
+        <p><b>Importante:</b> el % de reserva que ves aquí <b>no equivale</b> a ninguno de esos escenarios. Un mismo % puede ser tranquilo en una cuenca y preocupante en otra, porque depende de la demanda y de cómo se gestione cada sistema. Por eso no ponemos etiquetas oficiales a nuestras cifras.</p>
+        <p>La situación oficial se publica cada mes en el <a href="https://www.miteco.gob.es/es/agua/temas/observatorio-nacional-de-la-sequia/informes-mapas-seguimiento.html">informe de seguimiento de sequía y escasez del MITECO</a>, con un mapa de sequía y otro de escasez. Es el sitio donde mirar si se ha declarado alguna situación en tu zona.</p>
+        <p>Lo que sí podemos hacer es ayudarte a situarte con nuestros propios datos. Son tres preguntas <b>de cálculo propio</b>, no oficiales:</p>
+        <ul>
+          {hayMedia && <li>¿Está por debajo de su media de los últimos {M.nAnios} años? {pasosDebajoDeMedia ? 'Sí.' : 'No.'}</li>}
+          <li>¿Está cerca de los peores años de la serie? {cercaDelPeor ? `Sí, a ${M.difSeco1Abs} puntos del peor registro.` : `No, a ${M.difSeco1Abs} puntos del peor registro.`}</li>
+          <li>¿Lleva muchas semanas bajando? {bajaSostenida ? `Lleva ${M.semanasBajando} semanas seguidas bajando.` : 'No de forma sostenida.'}</li>
+        </ul>
+        <p>Esta web no declara situaciones de sequía ni de escasez: te da el contexto para entender las que declaran las administraciones.</p>
+      </div>
+    </article>
+
+    <!-- Paso 8 -->
+    <article class="paso" style="--n:8" aria-labelledby="p8">
+      <figure class="visual" data-paso="8">
+        <div class="ex-sello"><b>Datos provisionales</b><span>Semana del {M.fechaLarga}</span></div>
+        <div class="ex-dentro">
+          <div><h3>Dentro</h3><ul><li>{M.nEmbalses} embalses peninsulares del boletín</li></ul></div>
+          <div><h3>Fuera</h3><ul><li>Islas, Ceuta y Melilla</li><li>Embalses pequeños</li><li>Acuíferos</li><li>Ríos</li><li>Nieve acumulada</li></ul></div>
+        </div>
+      </figure>
+      <div class="paso-t" data-paso="8">
+        <p class="ex-kicker">Paso 8 de {N}</p>
+        <h2 class="q h2" id="p8">Lo que estos datos no dicen</h2>
+        <p>Antes de sacar conclusiones, tres avisos.</p>
+        <p><b>Son datos provisionales.</b> El MITECO los publica cada semana «sujetos a revisión y validación». Si corrige una semana ya publicada, aquí también cambiará. Último dato: semana del {M.fechaLarga}.</p>
+        <p><b>Solo cuentan los embalses peninsulares que recoge el boletín:</b> {M.nEmbalses} embalses. Faltan los de las islas, Ceuta y Melilla, y los pequeños.</p>
+        <p><b>La reserva no es todo el agua.</b> No incluye acuíferos, ríos ni nieve acumulada. Tampoco dice cuánta se gasta ni cuánta lluvia viene. Un embalse lleno no garantiza que haya agua suficiente, y uno bajo no siempre significa restricciones.</p>
+        <p>Las cifras comparativas (medias, años secos, diferencias) son <b>cálculo propio</b> a partir de los datos del MITECO; no son cifras oficiales. <a href="#metodo">Cómo lo calculamos</a>.</p>
+      </div>
+    </article>
+
+    <!-- Paso 9 -->
+    <article class="paso" style="--n:9" aria-labelledby="p9">
+      <figure class="visual" data-paso="9">
+        <div class="ex-enlaces">
+          <a class="ex-enlace" href="/mapa"><span>Mapa de embalses</span><b>{M.pctTxt} %</b><small>reserva peninsular hoy</small></a>
+          <a class="ex-enlace" href="/tiempo"><span>Máquina del tiempo</span><b>{M.seco1.anio}</b><small>el año más seco en esta semana: {f(M.seco1.pct)} %</small></a>
+        </div>
+      </figure>
+      <div class="paso-t" data-paso="9">
+        <p class="ex-kicker">Paso 9 de {N}</p>
+        <h2 class="q h2" id="p9">Sigue explorando</h2>
+        <p>Si quieres ver tu zona, abre el <a href="/mapa">mapa de embalses</a>: puedes buscar por nombre o por provincia y ver cada embalse frente a su propia media.</p>
+        <p>Si te interesa el pasado, la <a href="/tiempo">máquina del tiempo</a> te deja recorrer la reserva semana a semana desde {M.primerAnio} y ver cómo estaban los embalses en una fecha concreta, por ejemplo en {M.seco1.anio}.</p>
+      </div>
+    </article>
+  </div>
+
+  <section class="ex-fuentes" id="metodo" aria-labelledby="fu">
+    <h2 class="q h2" id="fu">Fuentes y método</h2>
+    <ul>
+      <li>Reserva de los embalses: <a href="https://www.miteco.gob.es/es/agua/temas/evaluacion-de-los-recursos-hidricos/boletin-hidrologico.html">Boletín Hidrológico semanal, MITECO</a>. Datos provisionales. Medias, años secos y diferencias: cálculo propio.</li>
+      <li>Situación oficial de sequía prolongada y escasez: <a href="https://www.miteco.gob.es/es/agua/temas/observatorio-nacional-de-la-sequia/informes-mapas-seguimiento.html">Informes y mapas de seguimiento, Observatorio Nacional de la Sequía, MITECO</a>.</li>
+      <li>Planes especiales de sequía vigentes: <a href="https://www.boe.es/buscar/doc.php?id=BOE-A-2026-13006">Orden TED/601/2026, de 1 de junio (BOE-A-2026-13006)</a>. Los indicadores y umbrales de cada zona están en cada plan, en la web de su organismo de cuenca.</li>
+      <li>Marco: <a href="https://www.miteco.gob.es/es/agua/temas/observatorio-nacional-de-la-sequia.html">Observatorio Nacional de la Sequía, MITECO</a>.</li>
+    </ul>
+    <h3>Cómo lo calculamos</h3>
+    <ul class="peq">
+      <li>Media de {M.nAnios} años (pasos 2, 5, 6): la misma semana de cada año anterior, con los embalses que hay hoy (ADR 0006). Una diferencia menor de {f(IGUAL_PTS)} puntos se cuenta como «igual».</li>
+      <li>Años secos (paso 4): la semana publicada más cercana al mismo día del año, a ±3 días, en la serie nacional semanal desde {M.primerAnio} ({equiv.length} años). Suma los embalses de cada semana, así que el conjunto cambia con los años.</li>
+      <li>Norte y sur y este (paso 6): demarcaciones agrupadas y ponderadas por su capacidad. «Cerca de los peores años» (paso 7): a {MARGEN_CERCANIA} puntos o menos del peor registro. «Muchas semanas bajando»: {SEMANAS_SOSTENIDAS} o más seguidas.</li>
+    </ul>
+    <p class="peq">Este proyecto es independiente y no está respaldado por el MITECO.</p>
+  </section>
+
+  <script>
+    import '../../scripts/explicador';
+  </script>
+</main>
+</Base>

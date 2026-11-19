@@ -1,0 +1,127 @@
+/* Explicadores (scrollytelling). Solo variables de tokens.css y agua.css.
+   Sin JS: cada paso lleva su visual encima del texto, en orden.
+   Con JS (clase .ex-js, puesta por un script en línea antes del contenido): el visual es sticky y cambia con el paso. */
+@layer base, componentes, utilidades;
+
+@layer componentes {
+  .ex-intro { padding: var(--s-8) 0 var(--s-6); }
+  .ex-intro .q { font-size: var(--t-4); margin-top: var(--s-4); max-width: 18ch; }
+  .ex-lede { font-size: var(--t-2); line-height: 1.35; max-width: var(--medida); margin: 0 0 var(--s-3); }
+
+  .ex-scroll { --vis-h: 46svh; }
+  .paso { margin: 0 0 var(--s-12); }
+  .paso-t { max-width: var(--medida); }
+  .paso-t > p, .paso-t > ul { margin: 0 0 var(--s-3); }
+  .paso-t ul { padding-left: var(--s-5); }
+  .paso-t li { margin-bottom: var(--s-2); }
+  .ex-kicker { font: 600 var(--t-0)/1.2 var(--f-cifras); color: var(--tinta-2); margin: 0 0 var(--s-2); text-transform: uppercase; letter-spacing: .06em; }
+  .paso-t .q { font-size: var(--t-3); line-height: var(--lh-titulo); margin: 0 0 var(--s-4); }
+  .paso-t b { font-weight: var(--peso-negrita); }
+
+  /* ---- visual (común) ---- */
+  .visual { margin: 0 0 var(--s-5); display: flex; flex-direction: column; gap: var(--s-2); max-width: 36rem; }
+  .visual figcaption { margin: 0; }
+  .ex-svg { display: block; width: 100%; height: auto; max-width: 36rem; }
+  .ex-banda { fill: color-mix(in srgb, var(--tinta-2) 22%, transparent); }
+
+  /* ---- mapa del paso 5 ---- */
+  .ex-mapa svg { max-height: 60svh; }
+  .ex-mapa path { fill: var(--c); stroke: var(--fondo); stroke-width: 2; stroke-linejoin: round; transition: fill .7s ease; }
+  .ex-mapa path.c0 { stroke: var(--agua-borde); stroke-width: 1.5; }
+  .ex-mapa[data-fase="dif"] path.dn0 { fill: var(--dif-0); }
+  .ex-mapa[data-fase="dif"] path.dn1 { fill: var(--dif-1); stroke: var(--agua-borde); stroke-width: 1.5; }
+  .ex-mapa[data-fase="dif"] path.dn2 { fill: var(--dif-2); }
+  .ex-mapa[data-fase="dif"] path.dn3 { fill: var(--dif-3); }
+  .ex-marca circle { fill: var(--tinta); stroke: var(--fondo); stroke-width: 4; }
+  .ex-marca text { fill: var(--fondo); font: 700 38px var(--f-cifras); }
+  .ex-mapa[data-fase="dif"] .ex-leyenda-abs, .ex-mapa[data-fase="abs"] .ex-leyenda-dif { display: none; }
+  .ex-leyenda-dif i { background: var(--c); border-color: var(--c); }
+  .ex-leyenda-dif i.dn0 { --c: var(--dif-0); } .ex-leyenda-dif i.dn1 { --c: var(--dif-1); border-color: var(--agua-borde); }
+  .ex-leyenda-dif i.dn2 { --c: var(--dif-2); } .ex-leyenda-dif i.dn3 { --c: var(--dif-3); }
+
+  /* ---- paso 6: gráfico + mapa pequeño ---- */
+  .ex-dos { display: flex; gap: var(--s-4); align-items: flex-start; }
+  .ex-dos .ex-svg { flex: 1 1 0; min-width: 0; }
+  .ex-mini { display: none; width: 7rem; flex: none; }
+  .ex-mini path { stroke: var(--fondo); stroke-width: 2; fill: var(--linea); }
+  .ex-mini path.gn { fill: var(--grupo-norte); }
+  .ex-mini path.gs { fill: var(--grupo-sur); }
+
+  /* ---- paso 7: tres interruptores ---- */
+  .ex-int { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s-3); }
+  .ex-int li { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: var(--s-3); padding: var(--s-3) var(--s-4); border: var(--filete) solid var(--tinta); font-size: var(--t-1); }
+  .ex-int b { font: 800 var(--t-2)/1 var(--f-titulos); }
+  .ex-led { width: var(--s-5); height: var(--s-5); border: var(--filete-grueso) solid var(--tinta); border-radius: 50%; }
+  .ex-int li.si .ex-led { background: var(--tinta); }
+  .ex-int li.si b { background: var(--marca); color: var(--tinta-marca); padding: 0 var(--s-2); }
+
+  /* ---- paso 8 ---- */
+  .ex-sello { display: inline-flex; flex-direction: column; align-self: flex-start; border: var(--filete-grueso) solid var(--alerta); color: var(--alerta); padding: var(--s-2) var(--s-4); rotate: -2deg; margin-bottom: var(--s-4); }
+  .ex-sello b { font: 800 var(--t-2)/1.1 var(--f-titulos); text-transform: uppercase; }
+  .ex-dentro { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-4); }
+  .ex-dentro > div { border-top: var(--filete) solid var(--tinta); padding-top: var(--s-2); }
+  .ex-dentro h3 { font: 800 var(--t-1)/1.2 var(--f-titulos); margin: 0 0 var(--s-2); }
+  .ex-dentro ul { margin: 0; padding-left: var(--s-4); font-size: var(--t-0); }
+
+  /* ---- paso 9 ---- */
+  .ex-enlaces { display: grid; gap: var(--s-4); }
+  .ex-enlace { display: grid; gap: var(--s-1); padding: var(--s-4); text-decoration: none; color: var(--tinta); border: var(--filete) solid var(--tinta); }
+  .ex-enlace:first-child { border-left-width: var(--filete-grueso); }
+  .ex-enlace:last-child { border-bottom-width: var(--filete-grueso); }
+  .ex-enlace span { font: 800 var(--t-1)/1.2 var(--f-titulos); text-decoration: underline; text-underline-offset: .2em; color: var(--rio); }
+  .ex-enlace b { font: 700 var(--t-4)/1 var(--f-cifras); letter-spacing: -.03em; }
+  .ex-enlace small { font-size: var(--t-0); color: var(--tinta-2); }
+  .ex-enlace:hover span { text-decoration-thickness: var(--filete-grueso); }
+
+  .ex-fuentes { border-top: var(--filete) solid var(--tinta); padding-top: var(--s-6); max-width: var(--medida); }
+  .ex-fuentes .q { font-size: var(--t-3); margin-bottom: var(--s-3); }
+  .ex-fuentes h3 { font: 800 var(--t-1)/1.2 var(--f-titulos); margin: var(--s-5) 0 var(--s-2); }
+  .ex-fuentes li { margin-bottom: var(--s-2); }
+
+  /* ---- con JS: visual sticky que cambia con el paso ---- */
+  .ex-js {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: var(--vis-h) repeat(var(--np), auto);
+    & .paso { display: contents; }
+    & .visual {
+      grid-column: 1; grid-row: 1 / -1; align-self: start; position: sticky; top: 0; z-index: 2;
+      height: var(--vis-h); margin: 0; max-width: none; padding: var(--s-2) 0 var(--s-3); overflow: hidden;
+      background: var(--fondo); border-bottom: var(--filete-fino) solid var(--linea);
+      opacity: 0; visibility: hidden;
+      & .ex-svg { flex: 1 1 0; min-height: 0; max-height: 100%; margin-inline: auto; }
+      & figcaption { display: none; }
+      &.activo { opacity: 1; visibility: visible; }
+    }
+    & .paso-t {
+      grid-column: 1; grid-row: calc(var(--n) + 1); min-height: 62svh; padding: var(--s-6) 0 var(--s-8);
+      border-left: var(--filete-grueso) solid transparent; padding-left: var(--s-4);
+      &.activo { border-left-color: var(--tinta); }
+    }
+    & .paso-t:last-child { min-height: 0; }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .ex-js .visual { transition: opacity .35s ease, visibility .35s; }
+    .ex-js .paso-t { transition: border-color .35s ease; }
+    .ex-js .visual.activo .ex-int li { animation: ex-entra .5s ease both; }
+    .ex-js .visual.activo .ex-int li:nth-child(2) { animation-delay: .35s; }
+    .ex-js .visual.activo .ex-int li:nth-child(3) { animation-delay: .7s; }
+  }
+  @keyframes ex-entra { from { opacity: 0; translate: 0 var(--s-3); } }
+
+  @media (min-width: 48rem) {
+    .ex-mini { display: block; }
+    .ex-enlaces { grid-template-columns: 1fr 1fr; }
+  }
+
+  @media (min-width: 64rem) {
+    .ex-js {
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+      grid-template-rows: repeat(var(--np), auto);
+      column-gap: var(--s-12);
+      & .visual { top: var(--s-8); height: min(36rem, 82svh); padding: 0; border-bottom: 0; background: transparent; }
+      & .visual figcaption { display: block; }
+      & .paso-t { grid-column: 2; grid-row: var(--n); min-height: 90svh; display: flex; flex-direction: column; justify-content: center; padding: var(--s-8) 0 var(--s-8) var(--s-4); }
+    }
+  }
+}
