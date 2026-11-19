@@ -1,0 +1,191 @@
+---
+titulo: "Las grandes sequías vistas desde los embalses"
+descripcion: "Cuándo han estado más bajos los embalses desde {primer_anio}, cuánto duró cada bajón, cómo lo vivió cada cuenca y cuánto tardó en recuperarse la reserva."
+estado: borrador
+fuente: "MITECO, Boletín Hidrológico (datos provisionales). Cálculos propios."
+---
+
+{/*
+BORRADOR DE CONTENIDO. Mismas convenciones que es-grave.mdx:
+- {marcador}  = valor importado de los datos. Nunca se escribe a mano. Definiciones en la tabla final.
+- {si cond}...{si no}...{fin} = variante condicional resuelta al construir la página.
+- {para cada s en sequias}...{fin} = bloque repetido por cada sequía detectada (ordenadas de más antigua a más reciente). Dentro, los marcadores llevan el prefijo `s.`.
+- <!-- visual: ... --> = qué muestra el gráfico/mapa fijo mientras el paso está activo.
+- Los años, fechas y cifras son SIEMPRE marcadores. Este texto no sabe qué años fueron las sequías: lo dicen los datos.
+- Cada paso lleva "alt:" con el resumen en texto del visual.
+*/}
+
+<!-- intro (fuera del scroll) -->
+
+# Las grandes sequías vistas desde los embalses
+
+Los embalses guardan el agua de los años buenos para los malos. Mirando cuánto han bajado desde {primer_anio}, se pueden ver las peores rachas secas de la serie y cómo se salió de ellas. Aquí las repasamos con los datos del MITECO, sin dramatizar y sin olvidar lo que estos datos no pueden decir.
+
+<!-- /intro -->
+
+---
+
+## Paso 1 · Qué es una sequía y qué miden estos datos
+
+"Sequía" se usa para cosas distintas. Para el ministerio, la **sequía prolongada** es la que se produce directamente por la falta de lluvia. La **escasez**, que también llama sequía hidrológica, es la que tiene que ver con los problemas para atender las demandas de agua. Suele llegar con retraso respecto a la falta de lluvia, o ni siquiera llegar, según cómo se gestionen los sistemas y cuánta agua se pida ([Observatorio Nacional de la Sequía, MITECO](https://www.miteco.gob.es/es/agua/temas/observatorio-nacional-de-la-sequia/informes-mapas-seguimiento.html)).
+
+Nuestros datos miden otra cosa, más sencilla: **cuánta agua hay guardada en los embalses cada semana**. Es una pista muy buena de lo seco que ha sido un periodo, pero no es la definición oficial. Cuando aquí decimos "sequía", queremos decir "una racha en la que la reserva estuvo anormalmente baja". Es un criterio **de cálculo propio**.
+
+<!-- visual: Fondo neutro. Dos columnas rotuladas: "Lo que mide el MITECO en sus planes (lluvia, caudales, demandas)" y "Lo que mide esta web (agua en los embalses)". Sin datos todavía. alt: la misma comparación en dos frases. -->
+
+---
+
+## Paso 2 · Cómo buscamos las sequías en los datos
+
+Hemos recorrido la serie nacional semana a semana desde {primer_anio}. Para cada año hemos anotado el momento en que la reserva tocó fondo. Después nos hemos quedado con los años en los que ese fondo fue **más bajo que el del año anterior y el del siguiente**: son los grandes mínimos, no simples malos años dentro de una racha.
+
+Además fijamos un **umbral de reserva baja**: el {umbral_seco_pct} % de la serie, es decir, el nivel por debajo del cual ha estado solo una de cada {umbral_seco_inverso} semanas desde {primer_anio}. Hoy ese umbral queda en el **{umbral_seco} %** de la capacidad.
+
+Salen {n_sequias_mostradas} grandes sequías. Las vemos una a una.
+
+<!-- visual: Línea nacional semanal {primer_anio}–hoy (tiempo/demarcaciones.json, serie nacional). Línea horizontal punteada en {umbral_seco} % rotulada "umbral de reserva baja". Puntos en cada mínimo detectado, sin etiquetar aún. Eje Y 0–100 %. Semanas de baja cobertura en gris más claro. alt: tabla con año, fecha del mínimo y % de cada sequía detectada. -->
+
+---
+
+## Paso 3 · Las sequías, una a una
+
+{para cada s en sequias}
+
+**La sequía de {s.anio}.** La reserva llegó a su punto más bajo la semana del {s.fecha_min_larga}, con un **{s.pct_min} %**. {si s.semanas_bajo_umbral > 0}Estuvo por debajo del umbral de reserva baja durante {s.semanas_bajo_umbral} semanas seguidas.{si no}No llegó a bajar del umbral de reserva baja.{fin} {si s.recuperada}Hasta volver a la media de la serie ({media_serie} %) pasaron {s.semanas_recuperacion} semanas, hasta la semana del {s.fecha_recuperacion_larga}.{si no}Todavía no ha vuelto a la media de la serie.{fin}
+
+{fin}
+
+{si hay_minimo_absoluto}El mínimo más bajo de toda la serie es el de {anio_min_abs}, con un {pct_min_abs} %.{fin}
+
+<!-- visual: Línea nacional completa en gris. Al avanzar el paso, se resalta cada sequía una tras otra: tramo entre el inicio de la racha bajo el umbral y la recuperación a la media, punto en el mínimo rotulado con "{s.anio} · {s.pct_min} %". alt: tabla de {n_sequias_mostradas} filas: año, fecha del mínimo, % mínimo, semanas bajo umbral, semanas hasta recuperar la media. -->
+
+---
+
+## Paso 4 · Lo que vivió la gente
+
+Que los embalses bajen no es solo un dato. Tiene consecuencias que se notan.
+
+En 2008, durante la sequía de Cataluña, el Gobierno catalán llegó a traer agua en barco hasta el puerto de Barcelona como medida de emergencia: el primer buque llegó el 13 de mayo de 2008 desde Tarragona y el segundo, el 21, desde Marsella. Un tercero se canceló cuando las lluvias de aquella primavera llenaron buena parte de los embalses ([Nació Digital, "15 anys de l'arribada de vaixells amb aigua potable al port de Barcelona"](https://naciodigital.cat/societat/15-anys-de-larribada-de-vaixells-amb-aigua-potable-al-port-de-barcelona.html)). Fue un episodio local de una cuenca concreta: los datos nacionales de esta web no lo reflejan por sí solos.
+
+Es un ejemplo de lo que dijimos en el primer paso: la reserva baja es una pista, pero lo que decide si hay restricciones es cada sistema, con sus demandas y su gestión.
+
+<!-- visual: Fondo neutro con una cita visual sobria (sin foto sensacionalista). A un lado, mini línea de la demarcación de Cuencas Internas de Cataluña (ES0xx, código por confirmar) en torno a esa fecha, con la fecha del barco marcada. Solo si el marcador `cuenca_cataluna_codigo` existe; si no, omitir el gráfico y dejar el texto. alt: el párrafo. -->
+
+---
+
+## Paso 5 · No todas las cuencas lo viven igual
+
+La sequía nacional es una media. Cada cuenca tiene su propio ritmo, y el agua de una no pasa a otra.
+
+En la semana del mínimo nacional más bajo ({fecha_min_abs_larga}), la cuenca más vacía era **{cuenca_min_nombre}**, al {cuenca_min_pct} %, y la más llena, **{cuenca_max_nombre}**, al {cuenca_max_pct} %. Entre ambas había {rango_cuencas_abs} puntos de diferencia.
+
+Si miramos por zonas: en esa semana el grupo del norte estaba al {pct_norte_min} % y el del sur y este, al {pct_surest_min} %. {si pct_norte_min < pct_surest_min}El norte estaba peor que el sur y este.{si no, si pct_norte_min > pct_surest_min}El sur y este estaban peor que el norte.{fin}
+
+Y cada cuenca tuvo su propio peor momento, que no siempre coincide con el nacional. Las que más cayeron desde su nivel habitual fueron {cuencas_mas_caida_lista}.
+
+<!-- visual: Mapa de la península con las demarcaciones coloreadas por su % en la semana {fecha_min_abs_larga} (escala de agua accesible, no rojo/verde). Rotular {cuenca_min_nombre} y {cuenca_max_nombre}. Deslizador de dos posiciones: "mínimo nacional" / "hoy". alt: tabla de {n_cuencas} filas: cuenca, % en el mínimo nacional, mínimo propio y su fecha. -->
+
+---
+
+## Paso 6 · La recuperación
+
+Las sequías terminan, pero casi nunca de golpe. Las lluvias vuelven, los ríos suben y los embalses van subiendo semana a semana.
+
+Tras el mínimo de {anio_min_abs}, la reserva tardó {semanas_recuperacion_min_abs} semanas en volver a la media de la serie. {si hay_recuperacion_lenta}La recuperación más lenta de las que hemos detectado fue la de la sequía de {anio_recuperacion_lenta}, con {semanas_recuperacion_lenta} semanas.{fin}
+
+Los años que lo hicieron posible fueron años de mucha lluvia. En esos periodos la reserva nacional llegó a subir hasta el {pct_max_tras_min} %, y el máximo de toda la serie fue en {anio_max_abs}, con el {pct_max_abs} %.
+
+Y los embalses pequeños y grandes no se recuperan igual: los del norte, más pequeños, suelen llenarse antes; los del sur y este, más grandes y con lluvias más irregulares, tardan más. Lo comprobamos con los datos: en la última recuperación detectada, el norte tardó {semanas_recup_norte} semanas y el sur y este, {semanas_recup_surest}.
+
+<!-- visual: Línea nacional con las recuperaciones sombreadas (del mínimo a la vuelta a la media). Etiquetas directas "{s.semanas_recuperacion} semanas". Debajo, dos mini-líneas norte vs. sur-este de la última recuperación, con las semanas rotuladas. alt: tabla año / semanas de recuperación nacional, norte y sur-este. -->
+
+---
+
+## Paso 7 · ¿Y hoy?
+
+La última semana, {fecha_dato_larga}, los embalses están al **{pct_nacional} %**. {si pct_nacional > media_serie}Es más que la media de la serie ({media_serie} %).{si no, si pct_nacional < media_serie}Es menos que la media de la serie ({media_serie} %).{si no}Es prácticamente la media de la serie.{fin}
+
+{si pct_nacional < umbral_seco}Está por debajo del umbral de reserva baja ({umbral_seco} %).{si no}Está por encima del umbral de reserva baja ({umbral_seco} %).{fin} {si n_sequias_mostradas > 0}Para comparar: el mínimo de la sequía más profunda, la de {anio_min_abs}, fue del {pct_min_abs} %. Hoy hay {dif_min_abs_hoy_abs} puntos {si pct_nacional > pct_min_abs}más{si no}menos{fin} que entonces.{fin}
+
+Puedes viajar a la semana de cualquiera de estas sequías en la [máquina del tiempo](/tiempo?semana={fecha_min_abs_iso}) y comparar el mapa con el de hoy. Si quieres saber si lo de hoy es grave, lee [¿Es grave la situación de los embalses?](/explicadores/es-grave).
+
+<!-- visual: Misma línea nacional completa, con el punto de hoy destacado, el umbral punteado y la banda del mínimo más bajo. Dos tarjetas de enlace debajo: máquina del tiempo (con la fecha del mínimo precargada) y explicador "¿Es grave?". alt: tabla de 3 filas: hoy, media de la serie, mínimo de la serie. -->
+
+---
+
+## Paso 8 · Lo que estos datos no dicen
+
+Antes de sacar conclusiones, cuatro avisos.
+
+**El conjunto de embalses cambia con los años.** Los porcentajes de esta historia son los que salen de sumar los embalses que tenían dato cada semana, **tal como se publicó**. Con el tiempo se han ido incorporando o dejando de medir embalses, así que comparar dos años lejanos tiene un margen de error. Es válido para ver la forma de las rachas, no para afirmar con exactitud "había X puntos más de agua que en tal año".
+
+**Solo cuentan los embalses peninsulares de más de {umbral_capacidad_hm3} hm³.** Faltan las islas, Ceuta y Melilla, y los embalses pequeños.
+
+**Son datos provisionales.** El MITECO los publica "sujetos a revisión y validación". Si corrige una semana ya publicada, aquí también cambiará. Último dato: semana del {fecha_dato_larga}.
+
+**Las sequías y los umbrales son de cálculo propio.** Nuestro umbral de reserva baja y la detección de mínimos no son los de los planes oficiales de sequía. La situación oficial de sequía y de escasez se publica en el [informe de seguimiento del MITECO](https://www.miteco.gob.es/es/agua/temas/observatorio-nacional-de-la-sequia/informes-mapas-seguimiento.html). [Cómo lo calculamos](/fuentes#metodo).
+
+<!-- visual: Fondo neutro con etiqueta "Datos provisionales" y una línea nacional muy suave con las semanas de baja cobertura sombreadas (`baja_cobertura.nacional`). alt: la lista de avisos en texto. -->
+
+---
+
+## Marcadores necesarios
+
+Todos se importan. Si un dato no existe, se pide a `datos` (columna "Origen"). Convenciones: `_abs` = valor absoluto; `_larga` = fecha "10 de noviembre de 2026"; `_iso` = AAAA-MM-DD; `_txt` = formato es-ES con un decimal para los %.
+
+**Base común** (para no distinguir criterios con `tiempo.astro`): sea `T = tiempo/demarcaciones.json`, `nac = T.series.nacional`, `baja = T.baja_cobertura.nacional`, `validos` = índices con `nac[i] != null` y fuera de `baja`.
+
+| Marcador | Definición exacta | Origen / cálculo |
+|---|---|---|
+| `primer_anio` | Año de `T.fechas[0]` | `tiempo/demarcaciones.json` |
+| `media_serie` | Media aritmética de `nac[i]` para `i` en `validos` | Cálculo. "Media de la serie", no media de 10 años |
+| `umbral_seco` | Percentil `percentil_umbral_seco` de `nac[i]` para `i` en `validos` (interpolación lineal) | Cálculo |
+| `percentil_umbral_seco`, `umbral_seco_pct`, `umbral_seco_inverso` | Percentil usado (constante de config; no se escribe en texto), su valor en % y su inverso (1/fracción, redondeado) | Config del pipeline/web, publicada en `/fuentes#metodo`. Propuesta de editorial: percentil 10 |
+| `minAnio` | Para cada año natural, el índice `i` de `validos` con `nac[i]` mínimo | Mismo criterio que `tiempo.astro` |
+| `sequias` | Años de `minAnio` cuyo mínimo es **menor que el del año anterior y el del siguiente** (el primer y el último año solo se comparan con el vecino que existe) **y** cuyo `nac[i] < umbral_seco`. Se ordenan de más antigua a más reciente | Cálculo. Mismo criterio de "mínimo local" que `momentos` de `tiempo.astro` (aquí se añade el filtro por umbral y no se limita a 2 sequías) |
+| `n_sequias_mostradas` | Longitud de `sequias` (máximo `max_sequias_mostradas`, constante de config; se descartan las menos profundas) | Cálculo |
+| `s.anio` | Año de `T.fechas[s.i]` | `sequias[k].i` |
+| `s.fecha_min_larga`, `s.fecha_min_iso` | Fecha de `T.fechas[s.i]` | Ídem |
+| `s.pct_min` | `nac[s.i]` | Ídem |
+| `s.semanas_bajo_umbral` | Nº de semanas **consecutivas** con `nac[i] < umbral_seco` en torno a `s.i` (se expande a izquierda y derecha mientras se cumple; las semanas de `baja` no cortan la racha, no cuentan) | Cálculo |
+| `s.recuperada`, `s.semanas_recuperacion`, `s.fecha_recuperacion_larga` | Primer índice `j > s.i` en `validos` con `nac[j] >= media_serie`. `semanas_recuperacion = j - s.i`; `recuperada` = existe `j` | Cálculo |
+| `hay_minimo_absoluto`, `anio_min_abs`, `pct_min_abs`, `fecha_min_abs_larga`, `fecha_min_abs_iso` | El mínimo de `nac` sobre `validos` (el `iMin` de `tiempo.astro`) | Cálculo; mismo criterio que `tiempo.astro` |
+| `anio_max_abs`, `pct_max_abs` | El máximo de `nac` sobre `validos` (el `iMax` de `tiempo.astro`) | Ídem |
+| `semanas_recuperacion_min_abs` | `s.semanas_recuperacion` de la sequía cuyo mínimo es `iMin` | Cálculo |
+| `hay_recuperacion_lenta`, `anio_recuperacion_lenta`, `semanas_recuperacion_lenta` | La sequía con mayor `s.semanas_recuperacion` entre las `recuperada` | Cálculo |
+| `pct_max_tras_min` | Máximo de `nac` entre `iMin` y la fecha de la siguiente sequía (o el final de la serie) | Cálculo |
+| `cuenca_min_nombre`, `cuenca_min_pct` | Demarcación con menor `T.series[cod][iMin]` (excluyendo `nacional` y `null`) | `tiempo/demarcaciones.json` + `resumen.json > demarcaciones[].nombre` para el nombre |
+| `cuenca_max_nombre`, `cuenca_max_pct` | Ídem con mayor valor | Ídem |
+| `rango_cuencas_abs` | `cuenca_max_pct - cuenca_min_pct` | Cálculo |
+| `n_cuencas` | Nº de series de `T.series` distintas de `nacional` | `tiempo/demarcaciones.json` |
+| `pct_norte_min`, `pct_surest_min` | % agregado de cada grupo en `iMin`. Grupos y códigos como en `es-grave.mdx` (norte: ES010, ES014, ES017, ES018; sur y este: Guadalquivir, Cuencas Mediterráneas Andaluzas, Guadalete y Barbate, Tinto-Odiel-Piedras, Segura, Júcar). **Agregación**: media de los `pct` ponderada por capacidad (`resumen.json > demarcaciones[].capacidad`), o suma de volúmenes si `datos` lo expone | Cálculo. Mejor que lo calcule `datos` por consistencia con es-grave. Códigos exactos por confirmar |
+| `cuencas_mas_caida_lista` | Las 2 o 3 demarcaciones con mayor `media_cuenca - T.series[cod][iMin]`, donde `media_cuenca` = media de su propia serie sobre `validos`. Lista con "y" antes de la última | Cálculo; nº fijo en constante de config |
+| `semanas_recup_norte`, `semanas_recup_surest` | Para la última sequía `recuperada`: primer `j > s.i` con el `pct` del grupo `>=` su propia media de serie; `j - s.i` | Cálculo |
+| `cuenca_cataluna_codigo` | Código de la demarcación de Cuencas Internas de Cataluña | `resumen.json > demarcaciones[]` (confirmar) |
+| `pct_nacional`, `fecha_dato_larga` | Último valor y fecha de `nac` / `T.fechas` (o `resumen.json > nacional.pct`, `fecha`) | Ídem es-grave |
+| `dif_min_abs_hoy_abs` | `abs(pct_nacional - pct_min_abs)` | Cálculo |
+| `umbral_capacidad_hm3` | Umbral de capacidad del conjunto de embalses | Config del pipeline / contrato |
+
+### Condicionales usados
+
+`s.semanas_bajo_umbral > 0` y `s.recuperada` (paso 3) · `pct_norte_min` vs `pct_surest_min` (paso 5) · `hay_recuperacion_lenta` (paso 6) · `pct_nacional` vs `media_serie`, vs `umbral_seco` y vs `pct_min_abs` (paso 7). La variante "igual" (diferencia < 0,5 puntos) usa una constante de config.
+
+### Enlace con la máquina del tiempo
+
+Se propone que `/tiempo` acepte `?semana=AAAA-MM-DD`: si la fecha existe en `T.fechas` (o es la más cercana, ±3 días), precarga el deslizador en ese índice; si no, ignora el parámetro y abre en la última semana. Los enlaces del explicador usan `{fecha_min_abs_iso}` o `{s.fecha_min_iso}`.
+
+### Reglas de redacción al implementar
+
+- No escribir ningún año ni % a mano. Los hechos históricos externos (barcos en Barcelona) llevan fecha en el texto porque proceden de la fuente citada, no de nuestros datos; no se calculan ni se comparan con ellos.
+- Redondear los % a un decimal con coma (es-ES).
+- Evitar "crisis" y "colapso". Para la subida de la reserva usar "recuperarse" solo con el criterio definido (volver a la media de la serie).
+- Si falta algún marcador de un paso (p. ej. `cuenca_cataluna_codigo`), omitir la frase y su `visual`, no dejar un hueco.
+- Cada semana de `baja_cobertura` excluida de los cálculos se menciona en `/fuentes#metodo`.
+
+## Fuentes (pie del explicador)
+
+- Reserva de los embalses: [Boletín Hidrológico semanal, MITECO](https://www.miteco.gob.es/es/agua/temas/evaluacion-de-los-recursos-hidricos/boletin-hidrologico.html). Datos provisionales. Detección de sequías, umbral y recuperación: cálculo propio. Agregación "tal como se publicó" (ADR 0008).
+- Definición de sequía prolongada y escasez: [Informes y mapas de seguimiento, Observatorio Nacional de la Sequía, MITECO](https://www.miteco.gob.es/es/agua/temas/observatorio-nacional-de-la-sequia/informes-mapas-seguimiento.html). Verificada.
+- Episodio de los barcos en Barcelona (2008): [Nació Digital, "15 anys de l'arribada de vaixells amb aigua potable al port de Barcelona"](https://naciodigital.cat/societat/15-anys-de-larribada-de-vaixells-amb-aigua-potable-al-port-de-barcelona.html). Verificada: fechas del 13 y 21 de mayo de 2008, orígenes Tarragona y Marsella, tercer barco cancelado por las lluvias.
+- Marco: [Observatorio Nacional de la Sequía, MITECO](https://www.miteco.gob.es/es/agua/temas/observatorio-nacional-de-la-sequia.html).
+- Pie legal: este proyecto es independiente y no está respaldado por el MITECO.
