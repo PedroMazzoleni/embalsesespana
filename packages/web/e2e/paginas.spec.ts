@@ -9,6 +9,7 @@ const paginas = [
   { nombre: 'portada', ruta: '/' },
   { nombre: 'mapa', ruta: '/mapa/' },
   { nombre: 'embalses', ruta: '/embalses/' },
+  { nombre: 'maquina del tiempo', ruta: '/tiempo/' },
   { nombre: 'ficha de embalse', ruta: '/embalse/yesa/' },
   { nombre: 'cuenca', ruta: '/cuenca/duero/' },
 ];
@@ -65,4 +66,19 @@ test('mapa: aparece el canvas (WebGL) o queda el SVG', async ({ page }) => {
   const canvas = page.locator('canvas');
   const svg = page.locator('svg');
   await expect.poll(async () => (await canvas.count()) + (await svg.count())).toBeGreaterThan(0);
+});
+
+test('tiempo: el deslizador cambia el porcentaje mostrado', async ({ page }) => {
+  const res = await page.goto('/tiempo/');
+  expect(res?.status()).toBe(200);
+  await expect(page.locator('h1')).toBeVisible();
+  const slider = page.locator('#t-slider');
+  await expect(slider).toBeVisible();
+  const pct = page.locator('#t-pct');
+  const antes = await pct.textContent();
+  await slider.focus();
+  await page.keyboard.press('Home');
+  await expect(pct).not.toHaveText(antes!);
+  await expect(slider).toHaveAttribute('aria-valuetext', /1988/);
+  await expect(page.locator('#t-tabla tbody tr').first().locator('.pc')).toContainText('%');
 });

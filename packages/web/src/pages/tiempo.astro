@@ -1,0 +1,158 @@
+---
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
+import Base from '../layouts/Base.astro';
+import Leyenda from '../components/Leyenda.astro';
+import { f, fechaLarga, clase, NOMBRES } from '../lib/datos';
+import { zonas, alto } from '../lib/mapa';
+
+const T = JSON.parse(readFileSync(join(process.cwd(), 'public', 'data', 'tiempo', 'demarcaciones.json'), 'utf8')) as {
+  fechas: string[]; series: Record<string, (number | null)[]>; baja_cobertura: Record<string, number[]>; datos_hasta: string;
+};
+const n = T.fechas.length, ult = n - 1;
+const nac = T.series.nacional as number[];
+const baja = new Set(T.baja_cobertura.nacional ?? []);
+const anio = (i: number) => T.fechas[i].slice(0, 4);
+
+// Momentos notables, calculados de la serie nacional (se excluyen semanas de cobertura baja)
+const validos = nac.map((_, i) => i).filter((i) => !baja.has(i) && nac[i] != null);
+const iMin = validos.reduce((a, b) => (nac[b] < nac[a] ? b : a));
+const iMax = validos.reduce((a, b) => (nac[b] > nac[a] ? b : a));
+// minimo de cada anio natural; sequias = minimos anuales que son minimo local (menores que el anio anterior y el siguiente)
+const minAnio = new Map<string, number>();
+for (const i of validos) { const y = anio(i); const c = minAnio.get(y); if (c === undefined || nac[i] < nac[c]) minAnio.set(y, i); }
+const ys = [...minAnio.keys()].sort();
+const locales = ys.map((y) => ({ y, i: minAnio.get(y)! })).filter((o, k, a) => (k === 0 || nac[o.i] < nac[a[k - 1].i]) && (k === a.length - 1 || nac[o.i] < nac[a[k + 1].i]));
+const sequias = locales.filter((o) => anio(o.i) !== anio(iMin)).sort((a, b) => nac[a.i] - nac[b.i]).slice(0, 2).map((o) => o.i);
+const momentos = [
+  { i: iMin, t: 'El mínimo histórico' }, ...sequias.map((i) => ({ i, t: `Sequía de ${anio(i)}` })),
+  { i: iMax, t: 'El máximo histórico' },
+].sort((a, b) => a.i - b.i);
+
+const anios = [...new Set(T.fechas.map((_, i) => anio(i)))].map((y) => ({ y, i: T.fechas.findIndex((_, i) => anio(i) === y) }));
+
+// Mini grafico nacional
+const W = 1000, H = 150, X = (i: number) => (i / ult) * W, Y = (p: number) => H - (p / 100) * H;
+const trazo = nac.map((p, i) => `${i ? 'L' : 'M'}${X(i).toFixed(1)} ${Y(p).toFixed(1)}`).join('');
+const ticks = anios.filter((a) => Number(a.y) % 5 === 0);
+const val = (cod: string, i: number) => T.series[cod]?.[i] ?? null;
+const etiqueta = (i: number) => `${fechaLarga(T.fechas[i])}: ${f(nac[i])} %`;
+---
+<Base title="Máquina del tiempo: ¿cómo estaban los embalses en…? Desde 1988" description={`Los embalses de España semana a semana desde 1988: desliza la fecha y mira el mapa, el porcentaje nacional y cada demarcación (hasta ${fechaLarga(T.datos_hasta)}).`} pag="tiempo">
+<main class="col ancha" id="main">
+  <p class="fecha">Datos del MITECO desde {fechaLarga(T.fechas[0])} hasta {fechaLarga(T.fechas[ult])}. Provisionales.</p>
+  <section class="qa plena tiempo" aria-labelledby="q1" id="tiempo" data-n={n}>
+    <h1 class="q" id="q1">¿cómo estaban los embalses en… <b id="t-fecha">{fechaLarga(T.fechas[ult])}</b>?</h1>
+    <div class="a">
+      <p class="si"><span class="gran-t"><mark id="t-pct">{f(nac[ult])} %</mark></span> <span id="t-nivel">{NOMBRES[clase(nac[ult])]}</span></p>
+      <p id="t-comp">Es la semana más reciente de la serie.</p>
+      <p class="peq" data-sinjs>El deslizador necesita JavaScript. Sin él, aquí ves la última semana: {fechaLarga(T.fechas[ult])}.</p>
+    </div>
+
+    <div class="ctl" hidden id="t-ctl">
+      <label for="t-slider" class="et">Semana: <span id="t-et">{fechaLarga(T.fechas[ult])}</span></label>
+      <input type="range" id="t-slider" min="0" max={ult} value={ult} step="1" aria-valuetext={etiqueta(ult)}>
+      <div class="fila">
+        <button type="button" id="t-play" aria-pressed="false">Reproducir</button>
+        <label>Ir al año <select id="t-anio">{anios.map((a) => <option value={a.i} selected={a.i === anios[anios.length - 1].i}>{a.y}</option>)}</select></label>
+        <button type="button" id="t-hoy">Volver a hoy</button>
+      </div>
+      <p class="peq mom-t">Momentos para mirar:</p>
+      <ul class="mom">{momentos.map((m) => <li><button type="button" data-i={m.i}>{m.t}: {fechaLarga(T.fechas[m.i])}, {f(nac[m.i])} %</button></li>)}</ul>
+    </div>
+
+    <div class="lay">
+      <figure class="mapa">
+        <svg id="t-mapa" viewBox={`0 0 1000 ${alto}`} role="img" aria-labelledby="t-mapa-d">
+          <desc id="t-mapa-d">Mapa de la España peninsular por demarcación, coloreado según el porcentaje de llenado de la semana elegida. Los valores están en la tabla de debajo.</desc>
+          {zonas.map((z) => { const v = val(z.codigo, ult); return <path class={v == null ? 'sin' : `c${clase(v)}`} data-c={z.codigo} d={z.d}></path>; })}
+        </svg>
+        <figcaption><Leyenda /></figcaption>
+      </figure>
+      <figure class="serie">
+        <svg viewBox={`0 0 ${W} ${H + 22}`} role="img" aria-label="Porcentaje de llenado nacional desde 1988 hasta hoy. La línea vertical marca la semana elegida.">
+          <path d={trazo} fill="none" stroke="var(--tinta)" stroke-width="2" vector-effect="non-scaling-stroke"></path>
+          {ticks.map((a) => <g><line x1={X(a.i)} x2={X(a.i)} y1={H} y2={H + 5} stroke="var(--tinta-2)"></line><text x={X(a.i)} y={H + 18} text-anchor="middle" font-size="13" fill="var(--tinta-2)">{a.y}</text></g>)}
+          <line id="t-marca" x1={X(ult)} x2={X(ult)} y1="0" y2={H} stroke="var(--agua-2)" stroke-width="4"></line>
+        </svg>
+        <figcaption class="peq">Reserva nacional semana a semana (0 a 100 %). El conjunto de embalses con dato cambia con los años: es la cifra tal como se publicó, no una media sobre embalses fijos.</figcaption>
+      </figure>
+    </div>
+
+    <p id="t-aviso" class="solo-lector" aria-live="polite"></p>
+
+    <details open>
+      <summary>Porcentaje por demarcación en la semana elegida</summary>
+      <div class="tabla-w"><table id="t-tabla">
+        <caption>Llenado de cada demarcación en <span id="t-cap">{fechaLarga(T.fechas[ult])}</span>.</caption>
+        <thead><tr><th scope="col">Demarcación</th><th scope="col">Nivel</th><th scope="col">Llenado</th></tr></thead>
+        <tbody>{[...zonas].sort((a, b) => a.nombre.localeCompare(b.nombre, 'es')).map((z) => { const p = val(z.codigo, ult); return (
+          <tr data-c={z.codigo}><th scope="row">{z.nombre}</th><td><span class={`sw c${clase(p ?? 0)}`}></span><span class="nv">{p == null ? 'sin dato' : NOMBRES[clase(p)]}</span></td><td class="pc">{p == null ? 'sin dato' : `${f(p)} %`}</td></tr>); })}</tbody>
+      </table></div>
+    </details>
+  </section>
+</main>
+<script is:inline>
+(function () {
+  var sec = document.getElementById('tiempo'), $ = function (id) { return document.getElementById(id); };
+  var sl = $('t-slider'), ult = +sl.max, T = null, reducido = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var CORTES = [20, 35, 50, 65, 80], NOM = ['Casi seco', 'Muy bajo', 'Bajo', 'Medio', 'Alto', 'Muy alto'];
+  var nf = new Intl.NumberFormat('es-ES', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+  var fl = new Intl.DateTimeFormat('es-ES', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
+  function clase(p) { for (var i = 0; i < 5; i++) if (p < CORTES[i]) return i; return 5; }
+  function fecha(i) { return fl.format(new Date(T.fechas[i] + 'T00:00:00Z')); }
+  var paths = [].slice.call($('t-mapa').querySelectorAll('path[data-c]')), filas = [].slice.call($('t-tabla').querySelectorAll('tr[data-c]'));
+  var timer = null, play = null, deb = null, marca = $('t-marca');
+  function pinta(i) {
+    var nac = T.series.nacional, p = nac[i], d = fecha(i), txt = d + ': ' + nf.format(p) + ' %';
+    $('t-fecha').textContent = d; $('t-et').textContent = d; $('t-cap').textContent = d;
+    $('t-pct').textContent = nf.format(p) + ' %'; $('t-nivel').textContent = NOM[clase(p)];
+    sl.setAttribute('aria-valuetext', txt);
+    var dif = p - nac[ult], x = (i / ult) * 1000; marca.setAttribute('x1', x); marca.setAttribute('x2', x);
+    $('t-comp').textContent = i === ult ? 'Es la semana más reciente de la serie.' :
+      'Hoy (' + fecha(ult) + ') están al ' + nf.format(nac[ult]) + ' %: ' + (Math.abs(dif) < 0.5 ? 'prácticamente igual.' : nf.format(Math.abs(dif)) + ' puntos ' + (dif > 0 ? 'menos' : 'más') + ' que en esa semana.');
+    paths.forEach(function (el) { var v = T.series[el.getAttribute('data-c')]; v = v && v[i]; el.setAttribute('class', v == null ? 'sin' : 'c' + clase(v)); });
+    filas.forEach(function (tr) { var v = T.series[tr.getAttribute('data-c')]; v = v && v[i]; tr.querySelector('.pc').textContent = v == null ? 'sin dato' : nf.format(v) + ' %';
+      tr.querySelector('.nv').textContent = v == null ? 'sin dato' : NOM[clase(v)]; tr.querySelector('.sw').setAttribute('class', 'sw c' + (v == null ? 0 : clase(v))); });
+    $('t-anio').value = T.fechas.findIndex(function (f) { return f.slice(0, 4) === T.fechas[i].slice(0, 4); });
+    clearTimeout(deb); deb = setTimeout(function () { $('t-aviso').textContent = txt + '. Hoy: ' + nf.format(nac[ult]) + ' %.'; }, 500);
+  }
+  function ir(i) { i = Math.max(0, Math.min(ult, i)); sl.value = i; pinta(i); }
+  function parar() { clearInterval(timer); timer = null; play.textContent = 'Reproducir'; play.setAttribute('aria-pressed', 'false'); }
+  function init() {
+    sec.querySelectorAll('[data-sinjs]').forEach(function (e) { e.hidden = true; }); $('t-ctl').hidden = false;
+    play = $('t-play');
+    sl.addEventListener('input', function () { pinta(+sl.value); });
+    play.addEventListener('click', function () {
+      if (timer) return parar();
+      if (+sl.value >= ult) ir(0);
+      play.textContent = 'Pausa'; play.setAttribute('aria-pressed', 'true');
+      timer = setInterval(function () { if (+sl.value >= ult) return parar(); ir(+sl.value + 1); }, reducido ? 400 : 60);
+    });
+    $('t-anio').addEventListener('change', function (e) { parar(); ir(+e.target.value); });
+    $('t-hoy').addEventListener('click', function () { parar(); ir(ult); });
+    [].forEach.call(sec.querySelectorAll('.mom button'), function (b) { b.addEventListener('click', function () { parar(); ir(+b.getAttribute('data-i')); }); });
+    pinta(+sl.value);
+  }
+  fetch('/data/tiempo/demarcaciones.json').then(function (r) { return r.json(); }).then(function (d) { T = d; init(); }).catch(function () { $('t-ctl').hidden = true; });
+})();
+</script>
+<style is:global>
+.tiempo .gran-t { font: 700 var(--t-5)/var(--lh-apretado) var(--f-cifras); }
+.tiempo .ctl { margin-top: var(--s-6); max-width: var(--medida-ancha); }
+.tiempo .ctl[hidden] { display: none; }
+.tiempo .et { display: block; font-weight: var(--peso-negrita); margin-bottom: var(--s-2); }
+.tiempo input[type="range"] { width: 100%; min-height: 2.75rem; accent-color: var(--tinta); }
+.tiempo .fila { display: flex; flex-wrap: wrap; gap: var(--s-3) var(--s-4); align-items: center; margin-top: var(--s-2); }
+.tiempo button, .tiempo select { font: inherit; min-height: 2.75rem; padding: 0 var(--s-3); background: var(--fondo); color: var(--tinta); border: 2px solid var(--tinta); cursor: pointer; }
+.tiempo button:focus-visible, .tiempo select:focus-visible, .tiempo input:focus-visible { outline: var(--foco-anchura) solid var(--foco); outline-offset: var(--foco-offset); }
+.tiempo .mom { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: var(--s-2); }
+.tiempo .mom-t { margin: var(--s-4) 0 var(--s-2); }
+.tiempo .serie { margin: 0; min-width: 0; }
+.tiempo .serie svg { display: block; width: 100%; height: auto; }
+.tiempo .solo-lector { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; margin: 0; }
+.tiempo .lay { display: grid; gap: var(--s-6); margin-top: var(--s-6); }
+.tiempo .lay .mapa { margin: 0; min-width: 0; }
+@media (min-width: 60rem) { .tiempo .lay { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: start; gap: var(--s-8); } }
+</style>
+</Base>

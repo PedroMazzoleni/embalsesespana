@@ -7,6 +7,7 @@ const { actual = '' } = Astro.props;
     <p class="marca"><a href="/">Embalses de España</a></p>
     <nav aria-label="Principal">
       <a href="/mapa" aria-current={actual === 'mapa' ? 'page' : undefined}>Mapa</a>
+      <a href="/tiempo" aria-current={actual === 'tiempo' ? 'page' : undefined}>Máquina del tiempo</a>
       <a href="/embalses" aria-current={actual === "embalses" || actual === "embalse" ? "page" : undefined}>Embalses</a>
       <span class="prox">Explicadores (próximamente)</span>
     </nav>

@@ -72,7 +72,7 @@ Objetivo: primera versión en internet con datos reales que se actualizan solos.
 
 Objetivo: lo que nadie más tiene.
 
-- [ ] Máquina del tiempo v1 en 2D: deslizador semana a semana desde 1988 [mapas + dataviz]
+- [x] Máquina del tiempo v1 en 2D: deslizador semana a semana desde 1988 [mapas + dataviz]
 - [ ] Máquina del tiempo v2 con deck.gl: columnas de agua 3D animadas (con alternativa 2D) [mapas]
 - [ ] Vista técnica 3D de cada embalse con deck.gl: relieve real del vaso (modelo de elevación recortado al polígono del Inventario) lleno hasta un nivel aproximado a partir del volumen, rotulado como aproximación; carga diferida y alternativa 2D [mapas]
 - [ ] Primer explicador con scrollama: "¿Es grave la situación?" [editorial + frontend]
