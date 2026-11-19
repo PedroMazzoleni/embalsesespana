@@ -1,0 +1,201 @@
+---
+titulo: "¿Es grave la situación de los embalses?"
+descripcion: "La reserva de agua de esta semana, comparada con la media de los últimos años y con los años más secos desde {primer_anio}."
+estado: borrador
+fuente: "MITECO, Boletín Hidrológico (datos provisionales). Cálculos propios."
+---
+
+{/*
+BORRADOR DE CONTENIDO. Convenciones:
+- {marcador}  = valor que se importa de los datos. Nunca se escribe a mano. Definiciones en la tabla final.
+- {si cond}...{si no}...{fin} = variante condicional; frontend la resuelve al construir la página.
+- <!-- visual: ... --> = qué debe mostrar el gráfico/mapa fijo mientras ese paso está activo (para frontend/dataviz).
+- Todas las cifras de los textos son marcadores. Los años de calendario también.
+- Cada paso lleva "alt:" con el resumen en texto del visual, para la alternativa accesible.
+*/}
+
+<!-- intro (fuera del scroll) -->
+
+# ¿Es grave la situación de los embalses?
+
+Es la pregunta que más se repite cuando el agua sale en las noticias. Aquí la respondemos con los datos del MITECO, comparando siempre la reserva de hoy con la de otros años.
+
+<!-- /intro -->
+
+---
+
+## Paso 1 · Dónde estamos esta semana
+
+Los embalses de la Península están al **{pct_nacional} %** de su capacidad. Es el dato de la semana del {fecha_dato_larga}: {hm3_nacional_txt} de agua almacenada, de un máximo de {capacidad_nacional_txt}.
+
+{si var_pts_nacional > 0}Respecto a la semana anterior, la reserva ha subido {var_pts_abs} puntos.{si no, si var_pts_nacional < 0}Respecto a la semana anterior, la reserva ha bajado {var_pts_abs} puntos.{si no}Respecto a la semana anterior, la reserva casi no ha cambiado.{fin}
+
+Para imaginarlo: {hm3_nacional_txt} equivalen a {piscinas_nacional_txt} piscinas olímpicas. Pero un número suelto no dice si es mucho o poco. Para eso hace falta compararlo.
+
+<!-- visual: Medidor/depósito nacional (el componente de la portada) lleno hasta {pct_nacional} %, con la etiqueta de la fecha del dato. Sin comparaciones todavía. Eje del % desde 0. alt: "Reserva peninsular al {pct_nacional} % el {fecha_dato_larga}." -->
+
+---
+
+## Paso 2 · Frente a lo habitual
+
+¿Es normal para esta época? Hemos mirado la misma semana de los {anios_media_larga} años anteriores ({primer_anio_media}–{ultimo_anio_media}). De media, los embalses estaban entonces al **{media10_nacional} %**.
+
+{si pct_nacional > media10_nacional}Hoy están {dif_media_abs} puntos **por encima** de esa media. Es una reserva mejor que la habitual en esta época.{si no, si pct_nacional < media10_nacional}Hoy están {dif_media_abs} puntos **por debajo** de esa media. Es una reserva peor que la habitual en esta época.{si no}Hoy están prácticamente en la media.{fin}
+
+La media la calculamos nosotros con los datos del MITECO, usando solo los embalses que existen hoy, para que la comparación sea justa. El boletín del ministerio puede dar una cifra algo distinta.
+
+<!-- visual: Línea del % nacional del último año hidrológico (octubre a hoy) sobre la banda de los {anios_media_larga} años anteriores (mín-máx en gris suave, media en línea fina). Marcar con punto el valor de hoy y rotular "{pct_nacional} %" y "media {media10_nacional} %". alt: tabla de 3 filas: hoy, media {anios_media_larga} años, diferencia en puntos. -->
+
+---
+
+## Paso 3 · Cómo ha sido cada año por estas fechas
+
+Cada línea de este gráfico es un año, a la misma altura del calendario que hoy. Así se ve dónde estamos dentro del grupo.
+
+De esos {anios_media_larga} años, en {n_anios_por_debajo_hoy} la reserva estaba por debajo de la de hoy y en {n_anios_por_encima_hoy} por encima. El año con más agua fue {anio_mas_humedo_reciente}, con un {pct_anio_mas_humedo_reciente} %. El de menos, {anio_mas_seco_reciente}, con un {pct_anio_mas_seco_reciente} %.
+
+<!-- visual: Puntos (strip plot / dot plot) con el % de la semana equivalente de cada uno de los {anios_media_larga} años anteriores, ordenados de menos a más, etiquetados con el año. Hoy ({pct_nacional} %) como marca destacada de otro color. Línea vertical de la media. alt: tabla año / % ordenada, usando resumen.json > anios[]. -->
+
+---
+
+## Paso 4 · Frente a los años secos de verdad
+
+Diez años son pocos para hablar de sequía. Desde {primer_anio} el MITECO tiene datos semanales, así que podemos mirar más atrás.
+
+En la misma semana del año, el peor registro desde {primer_anio} es el de **{anio_mas_seco}**: los embalses estaban al {pct_anio_mas_seco} %. {si pct_nacional > pct_anio_mas_seco}Hoy hay {dif_anio_mas_seco_abs} puntos más que entonces.{si no}Hoy hay {dif_anio_mas_seco_abs} puntos menos que entonces.{fin} Otros años secos recordados son {anio_seco_2} ({pct_anio_seco_2} %) y {anio_seco_3} ({pct_anio_seco_3} %).
+
+Hoy, por esta fecha, solo en {n_anios_peores_que_hoy} de los {n_anios_serie} años de la serie hubo menos reserva que ahora.
+
+<!-- visual: Línea nacional semanal {primer_anio}–hoy (de tiempo/demarcaciones.json, serie nacional). Resaltar con anotación directa los 3 mínimos de la semana equivalente ({anio_mas_seco}, {anio_seco_2}, {anio_seco_3}) y el punto de hoy. Resto de la línea en gris. Eje Y 0–100 %. alt: tabla con los 3 años más secos en la misma semana + hoy. -->
+
+---
+
+## Paso 5 · No todas las cuencas están igual
+
+La media nacional esconde diferencias. España tiene cuencas con realidades muy distintas, y el agua de una no pasa a otra.
+
+La cuenca mejor parada, comparada con su propia media, es **{cuenca_mejor_nombre}**: está al {cuenca_mejor_pct} %, {cuenca_mejor_dif_abs} puntos {si cuenca_mejor_dif > 0}por encima{si no}por debajo{fin} de lo habitual. La que peor está respecto a la suya es **{cuenca_peor_nombre}**, al {cuenca_peor_pct} %, {cuenca_peor_dif_abs} puntos {si cuenca_peor_dif > 0}por encima{si no}por debajo{fin} de lo habitual.
+
+{si n_cuencas_por_debajo_media > 0}Ahora mismo, {n_cuencas_por_debajo_media} de las {n_cuencas} cuencas están por debajo de su media.{si no}Ahora mismo, ninguna de las {n_cuencas} cuencas está por debajo de su media.{fin}
+
+<!-- visual: Mapa de la península con las demarcaciones coloreadas por diferencia respecto a su media de {anios_media_larga} años (escala divergente, apta para daltonismo, no solo rojo/verde). Rotular las dos cuencas citadas ({cuenca_mejor_nombre}, {cuenca_peor_nombre}). Animación: al entrar el paso, el mapa pasa del color por % absoluto al color por diferencia con la media. alt: tabla de {n_cuencas} filas: cuenca, %, media, diferencia (ya existe en resumen.json > demarcaciones[]). -->
+
+---
+
+## Paso 6 · Norte y sur, dos historias
+
+Fíjate en la comparación entre el norte y el sur. Las cuencas del norte (Miño-Sil, Galicia-Costa y las del Cantábrico) reciben más lluvia y sus embalses son pequeños: se llenan y se vacían rápido. Las del sur y el este (Guadalquivir, Segura, Júcar) dependen de embalses grandes y de lluvias irregulares: se recuperan despacio.
+
+Hoy el grupo del norte está al {pct_norte} % (media {media10_norte} %) y el del sur y este al {pct_surest} % (media {media10_surest} %). {si dif_norte < 0 y dif_surest > 0}El norte está peor que lo habitual y el sur mejor.{si no, si dif_norte > 0 y dif_surest < 0}El norte está mejor que lo habitual y el sur peor.{si no}Ambas zonas van en la misma dirección respecto a su media.{fin}
+
+<!-- visual: Dos líneas de los últimos {anios_media_larga} años (norte vs. sur-este, % agregado de sus demarcaciones) con sus medias punteadas. Mapa fijo a un lado con las dos zonas resaltadas. Definición de grupos: ver tabla de marcadores (pct_norte / pct_surest). alt: tabla de dos filas (zona, %, media, diferencia). -->
+
+---
+
+## Paso 7 · Entonces, ¿qué significa "grave"?
+
+No existe un único número que marque cuándo una situación es grave. En España, la respuesta oficial la dan los **planes especiales de sequía** que cada cuenca tiene aprobados (la revisión vigente se aprobó en la [Orden TED/601/2026](https://www.boe.es/buscar/doc.php?id=BOE-A-2026-13006)). Esos planes distinguen dos cosas que en la calle se mezclan:
+
+- **Sequía prolongada.** Es la falta de lluvia durante un periodo largo, y se mide con indicadores de precipitación y aportaciones acumuladas en cada zona. Esta web no tiene esos datos, así que no puede calcularla.
+- **Escasez.** Es el riesgo de no poder atender la demanda de agua (riego, abastecimiento, industria) en un sistema concreto. Se clasifica por zonas en cuatro escenarios: normalidad, prealerta, alerta y emergencia. Cada zona usa sus propios indicadores, que combinan reservas con otras variables, y sus propios umbrales.
+
+**Importante:** el % de reserva que ves aquí **no equivale** a ninguno de esos escenarios. Un mismo % puede ser tranquilo en una cuenca y preocupante en otra, porque depende de la demanda y de cómo se gestione cada sistema. Por eso no ponemos etiquetas oficiales a nuestras cifras.
+
+La situación oficial se publica cada mes en el [informe de seguimiento de sequía y escasez del MITECO](https://www.miteco.gob.es/es/agua/temas/observatorio-nacional-de-la-sequia/informes-mapas-seguimiento.html), con un mapa de sequía y otro de escasez. Es el sitio donde mirar si se ha declarado alguna situación en tu zona.
+Lo que sí podemos hacer es ayudarte a situarte con nuestros propios datos. Son tres preguntas **de cálculo propio**, no oficiales:
+
+- ¿Está por debajo de su media de los últimos {anios_media_larga} años? {si pct_nacional < media10_nacional}Sí.{si no}No.{fin}
+- ¿Está cerca de los peores años de la serie? {si pct_nacional <= pct_anio_mas_seco + margen_cercania}Sí, a {dif_anio_mas_seco_abs} puntos del peor registro.{si no}No, a {dif_anio_mas_seco_abs} puntos del peor registro.{fin}
+- ¿Lleva muchas semanas bajando? {si semanas_bajando >= 4}Lleva {semanas_bajando} semanas seguidas bajando.{si no}No de forma sostenida.{fin}
+
+Esta web no declara situaciones de sequía ni de escasez: te da el contexto para entender las que declaran las administraciones.
+
+<!-- visual: Tres "interruptores" (sí/no) que se encienden uno a uno, cada uno enlazado visualmente con el gráfico de los pasos anteriores (media, años secos, tendencia). Sin semáforo rojo/verde: usar relleno/vacío y texto. alt: la propia lista de tres preguntas. -->
+
+<!-- NOTA: no se reproduce ningún umbral oficial. Los umbrales de los escenarios son propios de cada unidad territorial de escasez y están en cada plan (webs de los organismos de cuenca); no los hemos podido leer en esta fase y no se copian cifras. Los "3 interruptores" son criterios nuestros, no oficiales; decirlo en /fuentes#metodo. -->
+
+---
+
+## Paso 8 · Lo que estos datos no dicen
+
+Antes de sacar conclusiones, tres avisos.
+
+**Son datos provisionales.** El MITECO los publica cada semana "sujetos a revisión y validación". Si corrige una semana ya publicada, aquí también cambiará. Último dato: semana del {fecha_dato_larga}, actualizado por el MITECO el {fecha_actualizacion_fuente}.
+
+**Solo cuentan los embalses peninsulares de más de {umbral_capacidad_hm3} hm³:** {n_embalses} embalses. Faltan los de las islas, Ceuta y Melilla, y los pequeños. {umbral_capacidad_hm3} hm³ son {umbral_capacidad_litros_txt} de agua; para que te hagas una idea, algo más de {umbral_capacidad_piscinas_txt} piscinas olímpicas.
+
+**La reserva no es todo el agua.** No incluye acuíferos, ríos ni nieve acumulada. Tampoco dice cuánta se gasta ni cuánta lluvia viene. Un embalse lleno no garantiza que haya agua suficiente, y uno bajo no siempre significa restricciones.
+
+Las cifras comparativas (medias, años secos, diferencias) son **cálculo propio** a partir de los datos del MITECO; no son cifras oficiales. [Cómo lo calculamos](/fuentes#metodo).
+
+<!-- visual: Fondo neutro, sin gráfico protagonista. Mostrar un sello/etiqueta "Datos provisionales" y un diagrama muy simple de qué está dentro (embalses peninsulares > {umbral_capacidad_hm3} hm³) y qué queda fuera (islas, pequeños, acuíferos, ríos, nieve). alt: la lista en texto. -->
+
+---
+
+## Paso 9 · Sigue explorando
+
+Si quieres ver tu zona, abre el [mapa de embalses](/mapa): puedes buscar por nombre o por provincia y ver cada embalse frente a su propia media.
+
+Si te interesa el pasado, la [máquina del tiempo](/tiempo) te deja recorrer la reserva semana a semana desde {primer_anio} y ver cómo estaban los embalses en una fecha concreta, por ejemplo en {anio_mas_seco}.
+
+Fuente de todos los datos: [Boletín Hidrológico del MITECO](https://www.miteco.gob.es/es/agua/temas/evaluacion-de-los-recursos-hidricos/boletin-hidrologico.html). Este proyecto es independiente y no está respaldado por el ministerio.
+
+<!-- visual: Dos tarjetas de enlace (no idénticas, con identidad propia): una con miniatura del mapa en el estado actual, otra con el slider de la máquina del tiempo posicionado en {anio_mas_seco}. -->
+
+---
+
+## Marcadores necesarios
+
+Todos se importan. Si un dato no existe todavía, se pide a `datos` (columna "Origen"). Convenciones: `_abs` = valor absoluto de la diferencia; `_txt` = formateado para lectura (separadores es-ES, redondeo definido abajo); "semana equivalente" = la fecha publicada más cercana al mismo día del año (±3 días), como en ADR 0006.
+
+| Marcador | Definición exacta | Origen / cálculo |
+|---|---|---|
+| `pct_nacional` | % de reserva peninsular en la última semana | `resumen.json` > `nacional.pct` |
+| `fecha_dato_larga` | Fecha del último dato, en "10 de noviembre de 2026" | `resumen.json` > `fecha` (o `datos_hasta`), formateada |
+| `hm3_nacional_txt` | Volumen almacenado, redondeado y con su traducción ("31.000 hm³, es decir X km³ o X mil millones de metros cúbicos") | `nacional.hm3`. Redondeo a definir con `datos`; la traducción se calcula |
+| `capacidad_nacional_txt` | Capacidad total peninsular | `nacional.capacidad` |
+| `piscinas_nacional_txt` | hm³ almacenados / volumen de una piscina olímpica | Cálculo: `nacional.hm3 * 1e6 / 2500` (piscina olímpica = 2.500 m³; la constante va en config con su fuente, no en el texto) |
+| `var_pts_nacional`, `var_pts_abs` | Variación semanal en puntos y su valor absoluto | `nacional.var_pts` (y su `abs`) |
+| `media10_nacional` | Media del % nacional en la semana equivalente de los años anteriores, mismo conjunto de embalses | `nacional.media10` (ADR 0006) |
+| `anios_media_larga` | Nº de años de la media larga (10) | Config del pipeline; `resumen.json` > `fechas_media.length` |
+| `primer_anio_media`, `ultimo_anio_media` | Primer y último año de `fechas_media` | `resumen.json` > `fechas_media` (año del primero y del último) |
+| `dif_media_abs` | `abs(nacional.dif_media_pts)` | `nacional.dif_media_pts` |
+| `n_anios_por_debajo_hoy`, `n_anios_por_encima_hoy` | De los años de `anios[]`, cuántos tienen `pct` < o > `pct_nacional` | `resumen.json` > `anios[]` |
+| `anio_mas_humedo_reciente`, `pct_anio_mas_humedo_reciente` | Año y % máximo de `anios[]` | `resumen.json` > `anios[]` |
+| `anio_mas_seco_reciente`, `pct_anio_mas_seco_reciente` | Año y % mínimo de `anios[]` | `resumen.json` > `anios[]` |
+| `primer_anio` | Primer año con dato en el histórico | Pedido a `datos` (campo `primer_anio` del anexo de `docs/reutilizacion-atribucion.md`); o mínimo de la serie nacional |
+| `anio_mas_seco`, `pct_anio_mas_seco` | Año con el % nacional mínimo en la semana equivalente a la última, en toda la serie desde `primer_anio` (excluyendo el año actual) | Serie nacional semanal de `tiempo/demarcaciones.json` (pendiente de crear por `datos`). Cálculo propio, mismo criterio de emparejamiento de semanas que ADR 0006 |
+| `anio_seco_2`, `pct_anio_seco_2`, `anio_seco_3`, `pct_anio_seco_3` | Segundo y tercer mínimo, con el mismo criterio | Ídem |
+| `dif_anio_mas_seco_abs` | `abs(pct_nacional - pct_anio_mas_seco)` | Cálculo |
+| `n_anios_serie` | Años de la serie con dato en la semana equivalente | Cálculo sobre la serie nacional |
+| `n_anios_peores_que_hoy` | Años de la serie, en la semana equivalente, con % menor que `pct_nacional` | Cálculo sobre la serie nacional |
+| `n_cuencas`, `n_cuencas_por_debajo_media` | Nº de demarcaciones; cuántas con `dif_media_pts < 0` | `resumen.json` > `demarcaciones[]` |
+| `cuenca_mejor_nombre`, `cuenca_mejor_pct`, `cuenca_mejor_dif`, `cuenca_mejor_dif_abs` | Demarcación con mayor `dif_media_pts` (y sus valores) | `resumen.json` > `demarcaciones[]` (`nombre`, `pct`, `dif_media_pts`) |
+| `cuenca_peor_nombre`, `cuenca_peor_pct`, `cuenca_peor_dif`, `cuenca_peor_dif_abs` | Demarcación con menor `dif_media_pts` | Ídem |
+| `pct_norte`, `media10_norte`, `dif_norte` | % agregado (suma hm³ / suma capacidad) y media10 del grupo norte: Miño-Sil (ES010), Galicia-Costa (ES014), Cantábrico Oriental (ES017), Cantábrico Occidental (ES018) | Cálculo sobre `demarcaciones[]` (`hm3`, `capacidad`) y su `media10` ponderada por capacidad. Mejor: que `datos` lo calcule en el pipeline para respetar el conjunto común del ADR 0006 |
+| `pct_surest`, `media10_surest`, `dif_surest` | Ídem para el grupo sur y este: Guadalquivir (ES040), Cuencas Mediterráneas Andaluzas, Guadalete y Barbate, Tinto-Odiel-Piedras, Segura, Júcar | Ídem. Códigos exactos por confirmar en `resumen.json` |
+| `margen_cercania` | Margen en puntos para decir "cerca de los peores años" | Constante de config (editorial propone una; definir y publicarla en /fuentes#metodo). No se escribe en texto |
+| `semanas_bajando` | Nº de semanas consecutivas, hasta la última, con `var_pts` < 0 en la serie nacional | Cálculo sobre la serie nacional semanal |
+| `fecha_actualizacion_fuente` | Fecha de actualización publicada por el MITECO | Pedido a `datos` (anexo de `docs/reutilizacion-atribucion.md`) |
+| `umbral_capacidad_hm3` | Umbral de capacidad del conjunto de embalses | Config del pipeline / contrato (pedido a `datos`) |
+| `umbral_capacidad_litros_txt`, `umbral_capacidad_piscinas_txt` | Traducción de `umbral_capacidad_hm3` a litros y a piscinas olímpicas | Cálculo |
+| `n_embalses` | Nº de embalses de la reserva peninsular | `nacional.n_embalses` |
+
+### Condicionales usados
+
+`pct_nacional` vs `media10_nacional` (paso 2, 7) · signo de `var_pts_nacional` (paso 1) · `pct_nacional` vs `pct_anio_mas_seco` (paso 4) · signo de `dif_media_pts` de cada cuenca (paso 5) · `n_cuencas_por_debajo_media` = 0 (paso 5) · signos de `dif_norte` y `dif_surest` (paso 6) · tres preguntas del paso 7. Las variantes "igual" (diferencia < 0,5 puntos) usan una constante de config, no un número escrito en el texto.
+
+### Reglas de redacción a respetar al implementar
+
+- Redondear los % a un decimal con coma (es-ES). No mezclar 55,3 y 55 en la misma pantalla.
+- No usar "crisis", "colapso" ni "recuperación" en las variantes condicionales; solo "por encima/por debajo de lo habitual".
+- Si falta cualquier marcador (p. ej. `media10` = null), omitir la frase entera y su `visual`, no mostrar un hueco.
+- No hay umbrales oficiales citados ni cifras copiadas de los informes de seguimiento.
+
+## Fuentes (pie del explicador)
+
+- Reserva de los embalses: [Boletín Hidrológico semanal, MITECO](https://www.miteco.gob.es/es/agua/temas/evaluacion-de-los-recursos-hidricos/boletin-hidrologico.html). Datos provisionales. Medias, años secos y diferencias: cálculo propio.
+- Situación oficial de sequía prolongada y escasez (mapas e informe mensual): [Informes y mapas de seguimiento, Observatorio Nacional de la Sequía, MITECO](https://www.miteco.gob.es/es/agua/temas/observatorio-nacional-de-la-sequia/informes-mapas-seguimiento.html). Verificada: define la sequía prolongada como la causada directamente por la falta de precipitaciones y la escasez como la relacionada con los problemas para atender las demandas.
+- Planes especiales de sequía vigentes: [Orden TED/601/2026, de 1 de junio (BOE-A-2026-13006)](https://www.boe.es/buscar/doc.php?id=BOE-A-2026-13006), que aprueba su revisión. Sustituye a la Orden TEC/1399/2018. Los indicadores y umbrales de cada zona están en cada plan, en la web de su organismo de cuenca.
+- Marco: [Observatorio Nacional de la Sequía, MITECO](https://www.miteco.gob.es/es/agua/temas/observatorio-nacional-de-la-sequia.html).
+- Pie legal: este proyecto es independiente y no está respaldado por el MITECO.
