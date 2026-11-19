@@ -125,3 +125,6 @@
     }
   }
 }
+
+/* explainer titles are written in sentence case and contain proper nouns (Júcar, DANA) */
+.ex-intro .q { text-transform: none; }

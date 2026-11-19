@@ -1,0 +1,247 @@
+---
+// Explicador "Los embalses del Júcar durante la DANA de octubre de 2024" (borrador: src/content/explicadores/dana-2024.mdx).
+// Cifras y frases condicionales calculadas en build (src/lib/explicadores/dana-2024.ts). Los únicos hechos escritos a mano
+// son los externos con su fuente enlazada: fecha del episodio, "más de 200 personas" (AEMET) y 771 l/m² en 24 h (MITECO/AEMET).
+// Tema sensible: sin valoraciones de gestión, sin colores de alarma ni animaciones.
+import Base from '../../layouts/Base.astro';
+import '../../styles/explicador.css';
+import { f, fechaCorta } from '../../lib/datos';
+import { Q, embalsesDana, tablaDemarcaciones, ventana, umbralCambio, COD_JUCAR } from '../../lib/explicadores/dana-2024';
+import { vMapa, vSemanas, vAnios, vJucar, vEmbalses, vEsquema } from '../../lib/explicadores/visuales-dana';
+
+const N = 8;
+const titulo = 'Los embalses del Júcar durante la DANA de octubre de 2024';
+const descripcion = `Qué se ve (y qué no) en los datos semanales de los embalses valencianos antes y después de la DANA del 29 de octubre de ${Q.anioEp}: la reserva del Júcar pasó del ${f(Q.jPctPre)} % al ${f(Q.jPctPost)} % en una semana.`;
+const sobreMedia = Q.jPctPre > Q.jMedia;
+const sinCambioPrevio = Q.jSinCambioPrevio;
+const filaNac = (x: { c: string }) => x.c === COD_JUCAR;
+const dm = (iso: string) => fechaCorta(iso);
+---
+<Base title={`${titulo}: qué dicen los datos semanales`} description={descripcion} pag="explicadores">
+<main class="col ancha ex dana" id="main">
+  <header class="ex-intro">
+    <p class="fecha">Explicador · datos del {Q.fechaDato}, provisionales.</p>
+    <h1 class="q">{titulo}</h1>
+    <p class="ex-lede">El 29 de octubre de 2024 una DANA dejó lluvias torrenciales en la provincia de Valencia. Murieron más de 200 personas, la mayoría en esa provincia (<a href="https://aemetblog.es/2024/12/03/informe-operativo-semanal-del-28-de-octubre-al-3-de-noviembre-de-2024/">AEMET</a>). Este texto no es una crónica de aquello ni valora lo que se hizo. Es una pregunta pequeña y concreta: <b>¿qué se ve en los datos semanales de los embalses de la zona y qué no se ve?</b></p>
+    <p class="peq">{N} pasos. Baja con el dedo o la rueda y el gráfico cambia con el texto.</p>
+  </header>
+
+  <div class="ex-scroll" style={`--np:${N}`}>
+    <script is:inline>document.currentScript.parentElement.classList.add('ex-js');</script>
+
+    <!-- Paso 1 -->
+    <article class="paso" style="--n:1" aria-labelledby="p1">
+      <figure class="visual" data-paso="1">
+        <Fragment set:html={vMapa()} />
+        <figcaption class="peq">Demarcación del Júcar (en azul). 29 de octubre de {Q.anioEp}.</figcaption>
+      </figure>
+      <div class="paso-t" data-paso="1">
+        <p class="ex-kicker">Paso 1 de {N}</p>
+        <h2 class="q h2" id="p1">Qué ocurrió</h2>
+        <p>Una <b>DANA</b> es una «depresión aislada en niveles altos»: una bolsa de aire frío en las capas altas de la atmósfera que se separa de la corriente general y se queda dando vueltas. Es el término que usa la AEMET en lugar de «gota fría» (<a href="https://aemetblog.es/2023/06/03/que-es-una-dana-y-como-se-formapor-que-es-mas-adecuado-usar-este-termino-que-gota-fria/">AEMET, blog</a>). Una DANA no siempre llueve mucho. Esta sí.</p>
+        <p>El 29 de octubre de 2024, una DANA situada sobre el estrecho de Gibraltar provocó precipitaciones muy intensas en Valencia, Cuenca, Albacete y Murcia. En Turís (Valencia) cayeron 771 litros por metro cuadrado en 24 horas, un récord de España en ese periodo (<a href="https://www.miteco.gob.es/es/prensa/ultimas-noticias/2024/noviembre/octubre-de-2024-fue-el-mas-lluvioso-de-la-serie-historica.html">MITECO, 8 de noviembre de 2024, a partir del balance de la AEMET</a>). La AEMET habla de «impactos muy graves, especialmente en la provincia de Valencia» en su <a href="https://www.aemet.es/en/conocermas/recursos_en_linea/publicaciones_y_estudios/estudios/detalles/episodio_dana_oct_nov24">estudio del episodio</a>.</p>
+        <p>Las lluvias de esos días no se limitaron al Júcar. Según la AEMET, afectaron sobre todo a las provincias mediterráneas, a las vecinas de Castilla-La Mancha y Aragón y a parte del suroeste peninsular.</p>
+      </div>
+    </article>
+
+    <!-- Paso 2 -->
+    <article class="paso" style="--n:2" aria-labelledby="p2">
+      <figure class="visual" data-paso="2">
+        <Fragment set:html={vSemanas()} />
+        <figcaption class="peq">Cada punto es una semana publicada. Entre dos puntos no sabemos qué pasó.</figcaption>
+      </figure>
+      <div class="paso-t" data-paso="2">
+        <p class="ex-kicker">Paso 2 de {N}</p>
+        <h2 class="q h2" id="p2">Qué miden estos datos y qué no</h2>
+        <p>Nuestros datos son los del <b>Boletín Hidrológico del MITECO</b>: una foto por embalse <b>cada martes</b>, con cuántos hectómetros cúbicos (hm³) tiene guardados. Un hm³ son mil millones de litros: {f(Q.piscinas1hm3, 0)} piscinas olímpicas.</p>
+        <p>Eso tiene una consecuencia importante para este episodio:</p>
+        <ul>
+          <li><b>No vemos las horas.</b> Una crecida se juega en horas y nuestros datos son semanales. Un embalse puede subir mucho un día y bajar al siguiente, y entre dos martes solo vemos el saldo.</li>
+          <li><b>Reserva no es caudal.</b> Los datos dicen cuánta agua hay almacenada, no cuánta entra ni cuánta sale.</li>
+          <li><b>No vemos lo que no es embalse.</b> Barrancos, ramblas y ríos sin embalse no salen aquí.</li>
+          <li><b>Son datos provisionales.</b> El MITECO los publica «sujetos a revisión y validación».</li>
+        </ul>
+        <p>Lo que sí podemos hacer es comparar <b>la semana del {Q.fechaPre} con la siguiente, la del {Q.fechaPost}</b>, y contar lo que cambió.</p>
+      </div>
+    </article>
+
+    <!-- Paso 3 -->
+    <article class="paso" style="--n:3" aria-labelledby="p3">
+      <figure class="visual" data-paso="3">
+        <Fragment set:html={vAnios()} />
+        <figcaption class="peq">Reserva del Júcar en la misma semana de cada año. Raya de puntos: media de la serie.</figcaption>
+      </figure>
+      <div class="paso-t" data-paso="3">
+        <p class="ex-kicker">Paso 3 de {N}</p>
+        <h2 class="q h2" id="p3">Cómo estaba el Júcar antes</h2>
+        <p>La semana del {Q.fechaPre} (la del día del episodio), los embalses de la demarcación del Júcar guardaban <b>{f(Q.jHm3Pre, 0)} hm³</b>, el <b>{f(Q.jPctPre)} %</b> de su capacidad. {sinCambioPrevio ? 'Esa semana no muestra ningún cambio relevante respecto a la anterior, así que la tomamos como la foto del «antes».' : `Ojo: esa semana ya mostraba un cambio de ${Q.jVarPreviaAbs} puntos respecto a la anterior, así que no es una foto limpia del «antes».`}</p>
+        <p>¿Era poco o mucho? Depende con qué se compare:</p>
+        <ul>
+          <li>{Q.aniosPrevios3.map((a) => `En la misma semana de ${a.anio}, el Júcar estaba al ${f(a.pct)} %.`).join(' ')} {Q.jBajoUltimos3 ? 'Es decir, estaba por debajo de los tres años anteriores.' : 'Es decir, no estaba por debajo de los tres años anteriores.'}</li>
+          <li>En esa semana del año, de los {Q.nAniosSerie} años anteriores de la serie desde {Q.primerAnio}, en {Q.nAniosPeores} hubo menos reserva que en {Q.anioEp}.</li>
+          <li>La media del Júcar en toda la serie es del {Q.jMediaTxt} %. {sobreMedia ? 'Estaba por encima de esa media.' : 'Estaba por debajo de esa media.'} El mínimo de la serie fue el {f(Q.jMinPct)} % en {Q.jMinAnio}.</li>
+        </ul>
+        {Q.jBajoUltimos3 && sobreMedia && <p>Resumiendo: <b>estaba más bajo que en los tres años anteriores, pero lejos de los mínimos de su historia</b>. Los datos de reserva de la cuenca no muestran una sequía extrema en ese momento.</p>}
+        <p>Pero la cuenca es una media. Algunos embalses concretos estaban mucho más bajos. Lo vemos más abajo, uno a uno.</p>
+        <details><summary>Ver los datos en tabla</summary>
+          <div class="tabla-w"><table><caption>Reserva del Júcar en la semana equivalente de cada año (±3 días).</caption>
+            <thead><tr><th scope="col">Año</th><th scope="col">Reserva</th></tr></thead>
+            <tbody>
+              {Q.aniosPrevios.map((a) => <tr><th scope="row">{a.anio}</th><td>{f(a.pct)} %</td></tr>)}
+              <tr class="dato-clave"><th scope="row">{Q.anioEp}</th><td>{f(Q.jPctPre)} %</td></tr>
+            </tbody></table></div>
+        </details>
+      </div>
+    </article>
+
+    <!-- Paso 4 -->
+    <article class="paso" style="--n:4" aria-labelledby="p4">
+      <figure class="visual" data-paso="4">
+        <Fragment set:html={vJucar()} />
+        <figcaption class="peq">Reserva del Júcar de septiembre a diciembre de {Q.anioEp}. Raya discontinua: día del episodio.</figcaption>
+      </figure>
+      <div class="paso-t" data-paso="4">
+        <p class="ex-kicker">Paso 4 de {N}</p>
+        <h2 class="q h2" id="p4">Qué cambió en una semana</h2>
+        <p>Entre la semana del {Q.fechaPre} y la del {Q.fechaPost}, la reserva del Júcar pasó de {f(Q.jHm3Pre, 0)} a <b>{f(Q.jHm3Post, 0)} hm³</b>. Son {f(Q.jSubeHm3, 0)} hm³ más, unas {f(Q.jSubePiscinas, 0)} piscinas olímpicas. En porcentaje, de {f(Q.jPctPre)} % a <b>{f(Q.jPctPost)} %</b>: {f(Q.jSubePts)} puntos.</p>
+        <p>{Q.jEsLaMayor ? `De las ${Q.nCuencas} demarcaciones, el Júcar fue la que más subió en puntos esa semana.` : `De las ${Q.nCuencas} demarcaciones, el Júcar fue la número ${Q.rankJ} en subida de puntos esa semana.`} Pero no fue la única: {Q.nCuencasSuben} de las {Q.nCuencas} demarcaciones subieron. Las lluvias de aquellos días llegaron a más sitios, como decíamos arriba.</p>
+        <p>A escala nacional, la reserva peninsular pasó de {f(Q.nacPre)} % a {f(Q.nacPost)} %.{Q.jParteSubidaNacPct != null && Q.jParteCapacidadPct != null ? ` El Júcar aportó el ${f(Q.jParteSubidaNacPct)} % del agua que se sumó en toda España esa semana, y tiene el ${f(Q.jParteCapacidadPct)} % de la capacidad nacional.` : ''}</p>
+        <p>Esto es lo que <b>sí</b> muestran los datos: una subida clara y concentrada en esa semana. Lo que <b>no</b> muestran es cuánta agua llegó en total a los embalses, ni cuánta se soltó mientras tanto, ni a qué hora. Solo el saldo del martes siguiente.</p>
+        <details><summary>Ver los datos en tabla</summary>
+          <div class="tabla-w"><table><caption>Cambio de reserva por demarcación entre el {Q.fechaPre} y el {Q.fechaPost}, de más a menos.</caption>
+            <thead><tr><th scope="col">Demarcación</th><th scope="col">Antes</th><th scope="col">Después</th><th scope="col">Diferencia (puntos)</th></tr></thead>
+            <tbody>{tablaDemarcaciones.map((x) => <tr class={filaNac(x) ? 'dato-clave' : undefined}><th scope="row">{x.nombre}</th><td>{f(x.pctPre as number)} %</td><td>{f(x.pctPost as number)} %</td><td>{x.sube > 0 ? '+' : ''}{f(x.sube)}</td></tr>)}</tbody></table></div>
+          <div class="tabla-w"><table><caption>Reserva semanal del Júcar de septiembre a diciembre de {Q.anioEp}.</caption>
+            <thead><tr><th scope="col">Semana del</th><th scope="col">Reserva</th></tr></thead>
+            <tbody>{ventana.map((v) => <tr class={v.i === Q.iPre ? 'dato-clave' : undefined}><th scope="row">{dm(v.fecha)}</th><td>{f(v.pct)} %</td></tr>)}</tbody></table></div>
+        </details>
+      </div>
+    </article>
+
+    <!-- Paso 5 -->
+    <article class="paso" style="--n:5" aria-labelledby="p5">
+      <figure class="visual" data-paso="5">
+        <Fragment set:html={vEmbalses()} />
+        <figcaption class="peq">Cada panel, un embalse: % de su capacidad de septiembre a diciembre. Raya discontinua: día del episodio.</figcaption>
+      </figure>
+      <div class="paso-t" data-paso="5">
+        <p class="ex-kicker">Paso 5 de {N}</p>
+        <h2 class="q h2" id="p5">Los embalses, uno a uno</h2>
+        <p>Estos son los embalses del Júcar que más se citaron aquellos días, junto con otros que no se movieron. Los datos son los de la semana del {Q.fechaPre} y la del {Q.fechaPost}.</p>
+        {embalsesDana.map((e) => <p><b><a href={`/embalse/${e.slug}`}>{e.nombre}</a></b> ({f(e.capacidad, 0)} hm³ de capacidad). {e.casiNoSeMovio ? `Casi no se movió: de ${f(e.hm3Pre, 0)} a ${f(e.hm3Post, 0)} hm³ (${f(e.pctPre)} % → ${f(e.pctPost)} %).` : `Pasó de ${f(e.hm3Pre, 0)} a ${f(e.hm3Post, 0)} hm³ (${f(e.pctPre)} % → ${f(e.pctPost)} %), ${f(e.subeHm3, 0)} hm³ más.`} Antes del episodio le quedaban {f(e.hueco, 0)} hm³ libres. {e.hm3Cierre == null ? '' : e.hm3Cierre < e.hm3Post ? `Al cerrar el año tenía ${f(e.hm3Cierre, 0)} hm³: había bajado desde la semana siguiente al episodio.` : e.hm3Cierre > e.hm3Post ? `Al cerrar el año tenía ${f(e.hm3Cierre, 0)} hm³: siguió subiendo.` : `Al cerrar el año tenía los mismos ${f(e.hm3Cierre, 0)} hm³.`}</p>)}
+        {Q.masSubenLista && <p>Entre los {Q.nEmbalsesJucar} embalses del Júcar con dato esa semana, los que más hectómetros ganaron fueron {Q.masSubenLista}.</p>}
+        <p>Hay dos lecturas que conviene evitar. La primera: que un embalse «casi no se moviera» no quiere decir que no recibiera agua. Puede haber recibido mucha y haberla soltado antes del siguiente martes, y nuestros datos no lo distinguen. La segunda: que otro «subiera mucho» no significa que «evitara» algo concreto. Solo dice cuánta más agua tenía una semana después.</p>
+        <details><summary>Ver los datos en tabla</summary>
+          <div class="tabla-w"><table><caption>Embalses citados, en hm³. «Casi no se movió»: menos de {f(umbralCambio)} % de su capacidad.</caption>
+            <thead><tr><th scope="col">Embalse</th><th scope="col">Capacidad</th><th scope="col">Antes</th><th scope="col">Después</th><th scope="col">Diferencia</th><th scope="col">Cierre de {Q.anioEp}</th></tr></thead>
+            <tbody>{embalsesDana.map((e) => <tr><th scope="row"><a href={`/embalse/${e.slug}`}>{e.nombre}</a></th><td>{f(e.capacidad, 0)}</td><td>{f(e.hm3Pre, 0)}</td><td>{f(e.hm3Post, 0)}</td><td>{e.subeHm3 > 0 ? '+' : ''}{f(e.subeHm3, 0)}</td><td>{e.hm3Cierre == null ? '—' : f(e.hm3Cierre, 0)}</td></tr>)}</tbody></table></div>
+        </details>
+      </div>
+    </article>
+
+    <!-- Paso 6 -->
+    <article class="paso" style="--n:6" aria-labelledby="p6">
+      <figure class="visual" data-paso="6">
+        <Fragment set:html={vEsquema()} />
+        <figcaption class="peq">Esquema, no son datos: un embalse con espacio libre guarda parte de la crecida y la suelta más despacio.</figcaption>
+      </figure>
+      <div class="paso-t" data-paso="6">
+        <p class="ex-kicker">Paso 6 de {N}</p>
+        <h2 class="q h2" id="p6">Qué es «laminar» una avenida</h2>
+        <p>Cuando se habla de embalses y riadas aparece la palabra <b>laminación</b>. Explicada sin tecnicismos: una crecida llega al río de golpe, con mucha agua en poco tiempo. Un embalse con espacio libre puede <b>guardar una parte de esa agua de golpe y soltarla después más despacio</b>, de modo que el pico aguas abajo sea más bajo y más largo. Esa es la idea, y es una explicación nuestra: no es una cita.</p>
+        <p>El MITECO reconoce «el gran papel que juegan las presas en la laminación de avenidas» (<a href="https://www.miteco.gob.es/es/agua/temas/seguridad-de-presas-y-embalses/presas-y-seguridad-hidrica.html">MITECO, Presas y seguridad hídrica</a>). Pero hay tres límites que explican por qué esto no se puede resolver con una gráfica semanal:</p>
+        <ol>
+          <li><b>Depende del espacio libre.</b> Un embalse solo puede guardar el agua que le cabe. Antes del episodio, los embalses de la lista tenían entre {f(Q.huecoMin, 0)} y {f(Q.huecoMax, 0)} hm³ libres. Es un dato nuestro; cuánto sirve ese espacio depende de cuánta agua llegue y cuándo.</li>
+          <li><b>Se decide en horas.</b> Cuánta agua se guarda y cuánta se suelta en cada momento se decide en tiempo real. Eso no está en un boletín semanal.</li>
+          <li><b>Un hm³ más en el embalse no es «un hm³ menos en el río».</b> Hay que saber qué habría pasado sin él, y eso es un cálculo de ingeniería hidráulica, no un dato del boletín.</li>
+        </ol>
+        <p>Según el Poder Judicial, en febrero de 2025 un juzgado de Catarroja investigaba lo ocurrido (<a href="https://www.poderjudicial.es/cgpj/es/Poder-Judicial/Tribunales-Superiores-de-Justicia/TSJ-Comunidad-Valenciana/Oficina-de-Comunicacion/Archivo-de-notas-de-prensa/La-juez-de-Catarroja-que-investiga-la-gestion-de-la-Dana-encarga-a-la-Guardia-Civil-la-confeccion-de-un-informe-sobre-la-cronologia-del-29-de-octubre">Poder Judicial, TSJ de la Comunidad Valenciana, nota del 27 de febrero de 2025</a>). No entramos en ello: aquí solo mostramos lo que dicen los datos de reserva.</p>
+        <details><summary>Ver los datos en tabla</summary>
+          <div class="tabla-w"><table><caption>Espacio libre antes del episodio (capacidad menos reserva), en hm³.</caption>
+            <thead><tr><th scope="col">Embalse</th><th scope="col">Espacio libre</th></tr></thead>
+            <tbody>{embalsesDana.map((e) => <tr><th scope="row">{e.nombre}</th><td>{f(e.hueco, 0)}</td></tr>)}</tbody></table></div>
+        </details>
+      </div>
+    </article>
+
+    <!-- Paso 7 -->
+    <article class="paso" style="--n:7" aria-labelledby="p7">
+      <figure class="visual" data-paso="7">
+        <Fragment set:html={vJucar(true)} />
+        <figcaption class="peq">Reserva del Júcar desde septiembre de {Q.anioEp} hasta hoy. Raya discontinua: día del episodio; de puntos: la semana siguiente.</figcaption>
+      </figure>
+      <div class="paso-t" data-paso="7">
+        <p class="ex-kicker">Paso 7 de {N}</p>
+        <h2 class="q h2" id="p7">Después: ¿qué pasó con la reserva?</h2>
+        <p>{Q.jCierreMasAltoQuePost ? `Tras el salto de la primera semana, la reserva del Júcar no volvió atrás: ${Q.jSeguidas > 0 ? `siguió subiendo ${Q.jSeguidas} semanas seguidas y ` : ''}cerró ${Q.anioEp} en el ` : `Tras el salto de la primera semana, la reserva del Júcar bajó algo y cerró ${Q.anioEp} en el `}<b>{f(Q.jPctCierre)} %</b>, {f(Math.abs(Q.jSubeTotalPts))} puntos {Q.jSubeTotalPts >= 0 ? 'más' : 'menos'} que antes del episodio. Nuestros datos no permiten decir de dónde salió cada hectómetro cúbico de esas semanas.</p>
+        {Q.jPctUnAnio != null && Q.jPctMaxSig != null && <p>Un año después, la semana del {Q.fechaUnAnio}, estaba al {f(Q.jPctUnAnio)} %. El máximo de {Q.anioSig} fue el {f(Q.jPctMaxSig)} %, la semana del {Q.fechaMaxSig}. En ese tiempo entraron y salieron muchas otras aguas (lluvias, consumo, sueltas), así que <b>no se puede atribuir esa reserva a la DANA</b>.{Q.jSubeTotalPts > 0 ? ' Solo se puede decir que la cuenca cerró el año más llena de lo que estaba en octubre.' : ''}</p>}
+        <p>Hoy (semana del {Q.fechaDato}) el Júcar está al <b>{f(Q.jPctHoy)} %</b>.</p>
+        <p>Puedes ver cómo estaban los embalses esas dos semanas en la <a href={`/tiempo?semana=${Q.fechaPreIso}`}>máquina del tiempo</a> y en la <a href={`/tiempo?semana=${Q.fechaPostIso}`}>de la semana siguiente</a>. La <a href="/cuenca/jucar">página de la cuenca del Júcar</a> tiene la serie completa.</p>
+        <details><summary>Ver los datos en tabla</summary>
+          <div class="tabla-w"><table><caption>Reserva del Júcar en cinco momentos.</caption>
+            <thead><tr><th scope="col">Momento</th><th scope="col">Reserva</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">Antes ({dm(Q.fechaPreIso)})</th><td>{f(Q.jPctPre)} %</td></tr>
+              <tr><th scope="row">Después ({dm(Q.fechaPostIso)})</th><td>{f(Q.jPctPost)} %</td></tr>
+              <tr><th scope="row">Cierre de {Q.anioEp} ({dm(Q.fechas[Q.iCierre])})</th><td>{f(Q.jPctCierre)} %</td></tr>
+              {Q.jPctUnAnio != null && <tr><th scope="row">Un año después ({dm(Q.fechas[Q.iUnAnio as number])})</th><td>{f(Q.jPctUnAnio)} %</td></tr>}
+              <tr><th scope="row">Hoy ({dm(Q.fechas[Q.ult])})</th><td>{f(Q.jPctHoy)} %</td></tr>
+            </tbody></table></div>
+        </details>
+      </div>
+    </article>
+
+    <!-- Paso 8 -->
+    <article class="paso" style="--n:8" aria-labelledby="p8">
+      <figure class="visual" data-paso="8">
+        <div class="ex-sello"><b>Datos provisionales</b><span>Semana del {Q.fechaDato}</span></div>
+        <div class="ex-enlaces">
+          <a class="ex-enlace" href="/explicadores/es-grave"><span>¿Es grave la situación de los embalses?</span></a>
+          <a class="ex-enlace" href="/explicadores/sequias"><span>Las grandes sequías vistas desde los embalses</span></a>
+          <a class="ex-enlace" href={`/tiempo?semana=${Q.fechaPreIso}`}><span>Máquina del tiempo, semana del {Q.fechaPre}</span></a>
+        </div>
+      </figure>
+      <div class="paso-t" data-paso="8">
+        <p class="ex-kicker">Paso 8 de {N}</p>
+        <h2 class="q h2" id="p8">Lo que estos datos no dicen</h2>
+        <p>Antes de sacar conclusiones, cuatro avisos.</p>
+        <p><b>Son datos semanales.</b> No se ve el pico ni la hora. Si quieres conocer lo que pasó cada hora en los ríos, la fuente son los sistemas de medida de la Confederación Hidrográfica del Júcar y de la AEMET, no este boletín.</p>
+        <p><b>Reserva no es caudal.</b> Que un embalse suba no mide cuánta agua pasaba por el río ni cuánto daño hizo.</p>
+        <p><b>Son datos provisionales.</b> El MITECO los revisa, así que alguna de las cifras de este texto puede cambiar. Último dato: semana del {Q.fechaDato}.</p>
+        <p><b>Solo cuentan los embalses peninsulares que recoge el boletín.</b> Faltan los embalses pequeños y todo lo que no es embalse: ramblas, barrancos y ríos sin presa. Los cálculos de comparación son propios, no oficiales. <a href="#metodo">Cómo lo calculamos</a>.</p>
+        <p>Si quieres saber más sobre lo ocurrido el 29 de octubre de 2024, empieza por el <a href="https://www.aemet.es/en/conocermas/recursos_en_linea/publicaciones_y_estudios/estudios/detalles/episodio_dana_oct_nov24">estudio de la AEMET</a>. Para ver si la reserva actual es preocupante, lee <a href="/explicadores/es-grave">¿Es grave la situación de los embalses?</a>. Y para ver las sequías con la misma lente, <a href="/explicadores/sequias">las grandes sequías vistas desde los embalses</a>.</p>
+      </div>
+    </article>
+  </div>
+
+  <section class="ex-fuentes" id="metodo" aria-labelledby="fu">
+    <h2 class="q h2" id="fu">Fuentes y método</h2>
+    <ul>
+      <li>Reserva de los embalses (todos los datos del Júcar y de los embalses): <a href="https://www.miteco.gob.es/es/agua/temas/evaluacion-de-los-recursos-hidricos/boletin-hidrologico.html">Boletín Hidrológico semanal, MITECO</a>. Datos provisionales. Comparaciones, medias y ranking: cálculo propio. Agregación «tal como se publicó» (ADR 0008).</li>
+      <li>Definición de DANA: <a href="https://aemetblog.es/2023/06/03/que-es-una-dana-y-como-se-formapor-que-es-mas-adecuado-usar-este-termino-que-gota-fria/">AEMET, blog «¿Qué es una dana y cómo se forma?»</a>, E. Fernández Barrera, 3 de junio de 2023.</li>
+      <li>Episodio del 29 de octubre de 2024 (DANA sobre el estrecho de Gibraltar; Valencia, Cuenca, Albacete y Murcia; Turís, 771 l/m² en 24 horas): <a href="https://www.miteco.gob.es/es/prensa/ultimas-noticias/2024/noviembre/octubre-de-2024-fue-el-mas-lluvioso-de-la-serie-historica.html">MITECO, nota de 8 de noviembre de 2024</a>.</li>
+      <li>Descripción del episodio y de sus impactos: <a href="https://www.aemet.es/en/conocermas/recursos_en_linea/publicaciones_y_estudios/estudios/detalles/episodio_dana_oct_nov24">AEMET, estudio sobre lluvias intensas entre el 28 de octubre y el 4 de noviembre de 2024</a>.</li>
+      <li>«Más de 200 personas fallecidas, la mayoría de ellas en la provincia de Valencia»: <a href="https://aemetblog.es/2024/12/03/informe-operativo-semanal-del-28-de-octubre-al-3-de-noviembre-de-2024/">AEMET, informe operativo semanal del 28 de octubre al 3 de noviembre de 2024</a> (blog, 3 de diciembre de 2024). Sin cifra exacta a propósito: varía según la fuente y la fecha.</li>
+      <li>Papel de las presas en la laminación de avenidas: <a href="https://www.miteco.gob.es/es/agua/temas/seguridad-de-presas-y-embalses/presas-y-seguridad-hidrica.html">MITECO, Presas y seguridad hídrica</a>. La explicación de laminación es nuestra.</li>
+      <li>Investigación judicial: <a href="https://www.poderjudicial.es/cgpj/es/Poder-Judicial/Tribunales-Superiores-de-Justicia/TSJ-Comunidad-Valenciana/Oficina-de-Comunicacion/Archivo-de-notas-de-prensa/La-juez-de-Catarroja-que-investiga-la-gestion-de-la-Dana-encarga-a-la-Guardia-Civil-la-confeccion-de-un-informe-sobre-la-cronologia-del-29-de-octubre">Poder Judicial (CGPJ), TSJ de la Comunidad Valenciana, nota de prensa del 27 de febrero de 2025</a>. Es el estado a esa fecha; se revisa antes de cada publicación.</li>
+    </ul>
+    <h3>Cómo lo calculamos</h3>
+    <ul class="peq">
+      <li>Semanas: martes publicados. «Antes» es la semana del {Q.fechaPre}; «después», la siguiente. Porcentajes de cuenca: volúmenes sumados entre capacidades sumadas de los embalses con dato esa semana, «tal como se publicó».</li>
+      <li>Semana equivalente de otros años: la publicada más cercana al mismo día del año (±3 días). Media y mínimo del Júcar: sobre toda la serie, sin las {Q.jBajasCobertura} semanas de cobertura baja.</li>
+      <li>«Casi no se movió»: el embalse subió menos del {f(umbralCambio)} % de su capacidad. Espacio libre: capacidad menos hm³ de la semana «antes».</li>
+      <li>Reparto de la subida nacional y capacidad del Júcar: suma de las {Q.nCuencas} demarcaciones, con la capacidad de cada una deducida de hm³ y %. Embalses reversibles incluidos.</li>
+    </ul>
+    <p class="peq">Este proyecto es independiente y no está respaldado por el MITECO ni por la AEMET.</p>
+  </section>
+
+  <script>
+    import '../../scripts/explicador';
+  </script>
+</main>
+<style>
+  /* tono sobrio: sin sello inclinado ni color de alarma */
+  .dana .ex-sello { rotate: 0deg; border-color: var(--tinta-2); color: var(--tinta-2); }
+  .dana .dato-clave th, .dana .dato-clave td { font-weight: var(--peso-negrita); }
+</style>
+</Base>

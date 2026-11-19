@@ -3,6 +3,7 @@ import Base from '../../layouts/Base.astro';
 import { f, fechaDatos } from '../../lib/datos';
 import { M } from '../../lib/explicadores/es-grave';
 import { Q } from '../../lib/explicadores/sequias';
+import { Q as D } from '../../lib/explicadores/dana-2024';
 ---
 <Base title="Explicadores: los embalses de España, contados paso a paso" description={`Historias cortas con los datos del MITECO para entender los embalses. La primera: ¿es grave la situación? Reserva peninsular al ${f(M.pct)} % (boletín del ${fechaDatos}).`} pag="explicadores">
 <main class="col ancha" id="main">
@@ -18,6 +19,10 @@ import { Q } from '../../lib/explicadores/sequias';
         <li>
           <h2><a href="/explicadores/sequias">Las grandes sequías vistas desde los embalses</a></h2>
           <p>Desde {Q.primerAnio}, {Q.nSequias} rachas en las que la reserva cayó por debajo del {f(Q.umbral)} %, y cuánto tardó en recuperarse cada vez.</p>
+        </li>
+        <li>
+          <h2><a href="/explicadores/dana-2024">Los embalses del Júcar durante la DANA de octubre de 2024</a></h2>
+          <p>Qué se ve, y qué no, en los datos semanales: el Júcar pasó del <b class="cifra">{f(D.jPctPre)} %</b> al <b class="cifra">{f(D.jPctPost)} %</b> en una semana.</p>
         </li>
       </ul>
     </div>

@@ -15,6 +15,7 @@ const paginas = [
   { nombre: 'explicadores', ruta: '/explicadores/' },
   { nombre: 'explicador es-grave', ruta: '/explicadores/es-grave/' },
   { nombre: 'explicador sequias', ruta: '/explicadores/sequias/' },
+  { nombre: 'explicador dana-2024', ruta: '/explicadores/dana-2024/' },
 ];
 
 for (const p of paginas) {
@@ -122,6 +123,21 @@ test('explicador sequias: sin undefined/NaN y el enlace a /tiempo abre en esa se
   expect(texto).not.toMatch(/undefined|NaN|object Object/);
   const enlace = page.locator('a[href^="/tiempo?semana="]').first();
   const href = (await enlace.getAttribute('href')) as string;
+  const iso = href.split('=')[1];
+  const largo = new Date(iso + 'T00:00:00Z').toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
+  await page.goto(href);
+  await expect(page.locator('#t-et')).toHaveText(largo);
+});
+
+test('explicador dana-2024: 8 pasos sin undefined/NaN, enlaces a fichas y a /tiempo', async ({ page }) => {
+  await page.goto('/explicadores/dana-2024/');
+  await expect(page.locator('.paso')).toHaveCount(8);
+  const texto = (await page.locator('.paso-t, .ex-intro, .ex-fuentes').allTextContents()).join(' ');
+  expect(texto).not.toMatch(/undefined|NaN|object Object/);
+  await expect(page.locator('a[href="/embalse/forata"]').first()).toBeAttached();
+  await expect(page.locator('a[href="/cuenca/jucar"]').first()).toBeAttached();
+  await expect(page.locator('#metodo')).toBeAttached();
+  const href = (await page.locator('a[href^="/tiempo?semana="]').first().getAttribute('href')) as string;
   const iso = href.split('=')[1];
   const largo = new Date(iso + 'T00:00:00Z').toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
   await page.goto(href);
