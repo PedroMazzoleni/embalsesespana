@@ -30,6 +30,9 @@ importers:
 
   packages/pipeline:
     dependencies:
+      hyparquet-writer:
+        specifier: 0.16.13
+        version: 0.16.13
       schema:
         specifier: workspace:*
         version: link:../schema
@@ -37,6 +40,9 @@ importers:
       '@types/node':
         specifier: ^24.0.0
         version: 24.19.2
+      hyparquet:
+        specifier: 1.32.0
+        version: 1.32.0
       vitest:
         specifier: ^3.2.0
         version: 3.2.7(@types/node@24.19.2)(lightningcss@1.33.0)(supports-color@7.2.0)(yaml@2.9.1)
@@ -2604,8 +2610,17 @@ packages:
   hyparquet-writer@0.14.0:
     resolution: {integrity: sha512-XRDZcw5pcoZoazLsKGnISGKzm8ql0dWwO9MamyU2sGOotypM8JW95J3oaLCroiCcO0sexfoI8naAK6KASFtNjg==}
 
+  hyparquet-writer@0.16.13:
+    resolution: {integrity: sha512-Stm309KdMGdBlIaDp4RuHuqh8X/YDTB7bXZTCezc1qmvax83RHVbwRoA4ft+BnsPIBQJkKoE86LlBsLQr1nQAw==}
+
   hyparquet@1.25.6:
     resolution: {integrity: sha512-Q9W5IjkVch3ZMnYd4qFv2q8suu5Jc36yt7J+zUNM9grwnP1S189icp0jdEQKM5HJvQkTVy8NMiQ8n/dM5QAt1A==}
+
+  hyparquet@1.31.5:
+    resolution: {integrity: sha512-KPVfaxW8xOiO2/4fjeiBfFNEXhGVw9tfcb9ha2iNZdJ3J/yBjEwIeAnTyyuhllFFTb9YO9wg0DfRAOnm6KCvBg==}
+
+  hyparquet@1.32.0:
+    resolution: {integrity: sha512-SpkvdfgQjcdCJA+MTzo0WSreLLy/aLRYs3xetk1SsuFvq8vF+J/97OaRnZhf+p5Nx3J27i9FhSC0bJ5eQZG/7Q==}
 
   hyparquet@1.33.0:
     resolution: {integrity: sha512-8EKLe73vRIMEKVEOe5y+kIzFxo6AvbLvd5ukd7P+yv3RvG0+TZM4qO8imbqxU6zds5pV+OeWRTMwy95mhHUheg==}
@@ -6805,7 +6820,15 @@ snapshots:
     dependencies:
       hyparquet: 1.25.6
 
+  hyparquet-writer@0.16.13:
+    dependencies:
+      hyparquet: 1.31.5
+
   hyparquet@1.25.6: {}
+
+  hyparquet@1.31.5: {}
+
+  hyparquet@1.32.0: {}
 
   hyparquet@1.33.0: {}
 

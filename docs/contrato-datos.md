@@ -1,6 +1,6 @@
 # Contrato de datos
 
-> Estado: **Fase 2**. La parte 1 describe la **fuente** (BD histórica del MITECO). La parte 2 (al final) es el **contrato de salida**, definido en `packages/schema` y generado por `packages/pipeline`.
+> Estado: **Fase 3 (bloque 1)**. La parte 1 describe la **fuente** (BD histórica del MITECO). La parte 2 (al final) es el **contrato de salida**, definido en `packages/schema` y generado por `packages/pipeline`.
 
 Todas las cifras de este documento salen de ejecutar:
 
@@ -195,7 +195,10 @@ Fuente de verdad: `packages/schema/src/index.ts` (Zod). Generación: `pnpm data`
 | `embalses.json` | `{datos_hasta, fuente, embalses[]}`; cada embalse: id, slug, nombre, demarcacion, demarcacion_codigo (ESxxx), provincia, lat, lon (null si no hay pareja en el inventario), capacidad_hm3 (la de la última fecha con dato), uso, foto (null por ahora), activo (tiene dato en la última semana), primera_fecha, ultima_fecha |
 | `series/{id}.json` | `{id, serie:[{fecha, volumen_hm3, pct}]}`, orden cronológico; pct = volumen / capacidad de esa fila, 1 decimal |
 | `resumen.json` | `datos_hasta, fuente, fecha, fecha_previa, fechas_media[10], anios[{fecha,pct}]`, `nacional` y `demarcaciones[]` (codigo, nombre) con: pct, hm3, capacidad, n_embalses, pct_previa, var_pts, media10, dif_media_pts |
-| `historico.parquet` | **Pendiente**: se hará cuando lo pidan la máquina del tiempo o el comparador (requiere DuckDB) |
+| `historico.parquet` | Una fila por embalse y semana desde 1988: fecha, id, slug, demarcacion_codigo, volumen_hm3, capacidad_hm3, pct (ADR 0008) |
+| `tiempo/demarcaciones.json` | Máquina del tiempo 2D: `{fechas[], series:{ES0xx o nacional: pct[]}, n_nacional[], baja_cobertura}`; pct = suma de volúmenes / suma de capacidades de los embalses con dato esa semana |
+| `tiempo/embalses.json` | Puntos en el tiempo: `{muestreo, fechas[], ids[], pct[i][j]}`, `null` = sin dato |
+| `series/cuenca-{slug}.json` | Serie agregada de cada demarcación, mismo formato que la de un embalse |
 
 Decisiones:
 
@@ -206,3 +209,14 @@ Decisiones:
 - **Medias**: criterio en ADR 0006. El MITECO publica volúmenes con precisión de 1 hm³; el pct puede superar 100 % (hasta 150 %).
 - **Demarcación** = la de la tabla maestra, no el "ámbito" del MITECO (Cantábrico Oriental incluye 2 embalses con ámbito "Cuencas Internas del País Vasco").
 - `resumen.json` no lleva geometría ni posición en el mapa (cx, cy, path): eso es de `data/geo`.
+
+### Tamaños (datos hasta 2026-11-17, 2 029 semanas, 402 embalses)
+
+| Fichero | Bruto | gzip |
+|---|---|---|
+| `historico.parquet` (ya comprimido, snappy) | 2,10 MB | 1,70 MB |
+| `tiempo/demarcaciones.json` | 190 KB | 51 KB |
+| `tiempo/embalses.json` (semanal) | 3,78 MB | 509 KB |
+| `series/cuenca-*.json` (15 ficheros) | 102–107 KB cada uno (1,59 MB en total) | ~16 KB cada uno |
+
+Con muestreo mensual `tiempo/embalses.json` baja a 0,88 MB brutos (181 KB gzip); se mantiene el semanal porque cabe en el presupuesto. Cobertura: solo 1 semana marcada como `baja_cobertura` (Guadiana, 1988-02-02).

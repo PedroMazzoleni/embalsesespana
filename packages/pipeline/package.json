@@ -7,6 +7,13 @@
     "start": "node src/run.ts",
     "test": "vitest run"
   },
-  "dependencies": { "schema": "workspace:*" },
-  "devDependencies": { "vitest": "^3.2.0", "@types/node": "^24.0.0" }
+  "dependencies": {
+    "hyparquet-writer": "0.16.13",
+    "schema": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "hyparquet": "1.32.0",
+    "vitest": "^3.2.0"
+  }
 }

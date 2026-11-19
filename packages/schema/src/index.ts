@@ -81,6 +81,58 @@ export const resumenSchema = z.object({
   ),
 });
 
+// ---------- historico.parquet (una fila por embalse y semana, desde 1988) ----------
+export const historicoFilaSchema = z.object({
+  fecha: fechaIso,
+  id: z.string().min(1),
+  slug: z.string().min(1),
+  demarcacion_codigo: codigoDemarcacion,
+  volumen_hm3: hm3,
+  capacidad_hm3: z.number().positive(),
+  pct,
+});
+
+// ---------- tiempo/demarcaciones.json (maquina del tiempo 2D) ----------
+/** Claves de `series`: las demarcaciones (ESxxx) y `nacional`. Un valor por fecha (null = sin embalses). */
+export const tiempoDemarcacionesSchema = z.object({
+  datos_hasta: fechaIso,
+  fuente: z.string(),
+  metodo: z.string(),
+  fechas: z.array(fechaIso).min(1),
+  series: z.record(z.string(), z.array(pct.nullable())),
+  /** n.o de embalses con dato cada semana en el total nacional */
+  n_nacional: z.array(z.number().int().nonnegative()),
+  /** indices de `fechas` con cobertura baja (caida puntual del n.o de embalses), por serie */
+  baja_cobertura: z.record(z.string(), z.array(z.number().int().nonnegative())),
+}).superRefine((t, ctx) => {
+  const n = t.fechas.length;
+  for (const [k, v] of Object.entries(t.series)) {
+    if (v.length !== n) ctx.addIssue({ code: "custom", path: ["series", k], message: `longitud ${v.length} distinta de ${n} fechas` });
+  }
+  if (t.n_nacional.length !== n) ctx.addIssue({ code: "custom", path: ["n_nacional"], message: "longitud distinta de fechas" });
+  if (!t.series.nacional) ctx.addIssue({ code: "custom", path: ["series"], message: "falta la serie nacional" });
+});
+
+// ---------- tiempo/embalses.json (puntos en el tiempo) ----------
+export const tiempoEmbalsesSchema = z.object({
+  datos_hasta: fechaIso,
+  fuente: z.string(),
+  /** 'semanal' o 'mensual' (primera semana publicada de cada mes) */
+  muestreo: z.enum(["semanal", "mensual"]),
+  fechas: z.array(fechaIso).min(1),
+  ids: z.array(z.string().min(1)),
+  /** pct[i][j]: embalse ids[i] en fechas[j]; null si no hay dato */
+  pct: z.array(z.array(pct.nullable())),
+}).superRefine((t, ctx) => {
+  if (t.pct.length !== t.ids.length) ctx.addIssue({ code: "custom", path: ["pct"], message: "n.o de filas distinto de ids" });
+  t.pct.forEach((row, i) => {
+    if (row.length !== t.fechas.length) ctx.addIssue({ code: "custom", path: ["pct", i], message: "longitud distinta de fechas" });
+  });
+});
+
+export type HistoricoFila = z.infer<typeof historicoFilaSchema>;
+export type TiempoDemarcaciones = z.infer<typeof tiempoDemarcacionesSchema>;
+export type TiempoEmbalses = z.infer<typeof tiempoEmbalsesSchema>;
 export type Embalse = z.infer<typeof embalseSchema>;
 export type Embalses = z.infer<typeof embalsesSchema>;
 export type PuntoSerie = z.infer<typeof puntoSerieSchema>;
