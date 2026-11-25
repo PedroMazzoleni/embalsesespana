@@ -1,8 +1,8 @@
 {
   "source_url": "https://www.miteco.gob.es/content/dam/miteco/es/agua/temas/evaluacion-de-los-recursos-hidricos/boletin-hidrologico/Historico-de-embalses/BD-Embalses.zip",
-  "downloaded_at": "2026-11-18T15:27:26.946Z",
-  "zip_bytes": 10373975,
-  "zip_sha256": "3c8f9824d8911c06e944345cf25c01fc75b825c829274afb2dafaee909018360",
+  "downloaded_at": "2026-11-25T01:35:45.312Z",
+  "zip_bytes": 10376484,
+  "zip_sha256": "270d254f63f34ca6033149dd688d246a2e17fca9818cc7f6f5c29f724e4b044c",
   "table_name": "T_Datos Embalses 1988-2026",
   "columns": [
     "AMBITO_NOMBRE",
@@ -12,8 +12,8 @@
     "AGUA_ACTUAL",
     "ELECTRICO_FLAG"
   ],
-  "rows": 725342,
-  "latest_date": "2026-11-17",
+  "rows": 725717,
+  "latest_date": "2026-11-24",
   "csv_sha256": {
     "embalses-1987.csv": "64d45e109af0640e26a1a68887a397ef90d5b827ed8b61e991886bafb9abb808",
     "embalses-1988.csv": "01ffb4415458e5afe73533f592fe592b0a897c2bd216c4a9c96f893378271337",
@@ -54,6 +54,6 @@
     "embalses-2023.csv": "d6283f23b72dd1b423cffbe0d7bec95f57b67adbebf500f6bde109cb97345882",
     "embalses-2024.csv": "ddbd45a35edbf0010f54660aee3b3f2e96c592787b2fe6fb3e21d3e4156ffe35",
     "embalses-2025.csv": "b4bf90dc84e3b99cbeb41fe14ddb88a102ce73fa46ecbd99a0cd46ad4fa5b82d",
-    "embalses-2026.csv": "faa2ae5bf4dda44bc900ec7f6060dea3664e38a5f89e165fc32210b2ac84b290"
+    "embalses-2026.csv": "b61d06bb9dff3f5a448bbc40cee2ff3361bb5c90d66a6669811aad71c49c1bea"
   }
 }
